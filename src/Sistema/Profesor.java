@@ -8,7 +8,7 @@ import Sistema.Enum.Nivel;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Profesor extends Persona implements I_Metodos<GestionAlumno> {
+public class Profesor extends Persona implements I_Metodos<Alumno> {
 
     public String password;
     public GestionAlumno alumnos;
@@ -30,13 +30,9 @@ public class Profesor extends Persona implements I_Metodos<GestionAlumno> {
         this.password = password;
     }
 
-    public void ingresarUnAlumno (String nombre, String apellido, String mail, Nivel nivel)
-    {
-        alumnos.agregar(new Alumno(nombre,apellido,mail,nivel));
-    }
-
-    @Override
-    public void agregar(GestionAlumno alumno) {
+     @Override
+    public void agregar(Alumno alumno) {
+        alumnos.agregar(alumno);
 
     }
 
@@ -52,7 +48,7 @@ public class Profesor extends Persona implements I_Metodos<GestionAlumno> {
     }
 
     @Override
-    public GestionAlumno buscar(int id) {
+    public Alumno buscar(int id) {
         try {
             alumnos.buscar(id);
         }catch (AlumnoNoEncontrado A)

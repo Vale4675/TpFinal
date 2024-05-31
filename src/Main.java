@@ -16,10 +16,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-
-
-
-
         int opcion;
         do {
             System.out.println(" 1 -> Iniciar sesion");
@@ -166,6 +162,9 @@ public class Main {
             System.out.println(usuarioIncorrecto.getMessage());
         }
     }
+
+
+
 // Gestion para alumnos
 
     private static void registrarAlumno() {
@@ -180,7 +179,6 @@ public class Main {
             String nivelString = scanner.next().toUpperCase();
             Nivel nivel = Nivel.valueOf(nivelString);
             gestionAlumno.registrarAlumno(nombre, apellido, mail, nivel);
-            ///Esta bien utilizado enum?
             System.out.println("alumno registrado con exito");
         } catch (UsuarioYaExiste e) {
             System.out.println(e.getMessage());
