@@ -1,6 +1,12 @@
 package Sistema;
 
-public class Nota {
+import Interfaz.I_Convertir_JsonObject;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+
+public class Nota implements Serializable, I_Convertir_JsonObject {
     private double nota;
     private String comentario;
 
@@ -31,6 +37,14 @@ public class Nota {
                 "nota=" + nota +
                 ", comentario='" + comentario + '\'' +
                 '}';
+    }
+
+    @Override
+    public JSONObject convertirJsonObject() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("Nota", nota);
+        jsonObject.put("Comentario",comentario);
+        return jsonObject;
     }
 }
 

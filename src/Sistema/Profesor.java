@@ -1,14 +1,20 @@
 package Sistema;
 
 import Excepciones.AlumnoNoEncontrado;
+import Interfaz.I_Convertir_JsonArray;
+import Interfaz.I_Convertir_JsonObject;
 import Interfaz.I_Metodos;
 import Sistema.Enum.Mes;
 import Sistema.Enum.Nivel;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Profesor extends Persona implements I_Metodos<Alumno> {
+public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable, I_Convertir_JsonObject {
 
     public String password;
     public GestionAlumno alumnos;
@@ -122,4 +128,19 @@ public class Profesor extends Persona implements I_Metodos<Alumno> {
                 ", avisosGenerales=" + avisosGenerales +
                 "} " + super.toString();
     }
+
+    @Override
+    public JSONObject convertirJsonObject() throws JSONException {
+        JSONObject jsonObject = super.convertirJsonObject();
+        jsonObject.put("Password",password);
+        jsonObject.put("Lista de Alumnos",alumnos.convertirJsonArray());
+        JSONArray jsonArrayAviso = new JSONArray();
+        for (Aviso a:avisosGenerales) {
+          jsonArrayAviso.put(a.convertirJsonObject());
+        }
+        jsonObject.put("Aviso Gneral",jsonArrayAviso);
+        return jsonObject;
+    }
+
+
 }

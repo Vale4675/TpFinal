@@ -1,12 +1,18 @@
 package Sistema;
 
+import Interfaz.I_Convertir_JsonArray;
 import Sistema.Enum.Mes;
 import Sistema.Enum.Nivel;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
-public class Alumno extends Persona implements Comparable<Alumno> {
+public class Alumno extends Persona implements Comparable<Alumno>, Serializable {
     private int id;
     private static int contadorComprobante = 1;
     private Nivel nivel;
@@ -121,4 +127,38 @@ public class Alumno extends Persona implements Comparable<Alumno> {
                 ", avisoPersoanlizado=" + avisoPersoanlizado +
                 "} " + super.toString();
     }
+
+    /**
+     *
+     * @return JsonObject
+     * @throws JSONException
+     */
+    @Override
+    public JSONObject convertirJsonObject() throws JSONException {
+        JSONObject jsonObject = super.convertirJsonObject();
+        jsonObject.put("Id", id);
+        jsonObject.put("Nivel",nivel);
+
+        //convierte ArrayList en JsonArray
+        JSONArray tareasArray= new JSONArray();
+        for (Tarea t : tareas) {
+            tareasArray.put(t.convertirJsonObject());
+        }
+        jsonObject.put("Tareas",tareasArray);
+
+        //convierte HashMap de cuotas en JsonArray
+        JSONArray cuotasArray = new JSONArray();
+        for(Map.Entry<Mes,Cuota> entry : cuotaHashMap.entrySet())
+        {
+            JSONObject c = new JSONObject();
+            c.put("mes",entry.getKey().toString());
+            c.put("Cuota",entry.getKey().toString());
+            cuotasArray.put(c);
+        }
+        jsonObject.put("Cuotas",cuotasArray);
+
+        return jsonObject;
+    }
+
+
 }

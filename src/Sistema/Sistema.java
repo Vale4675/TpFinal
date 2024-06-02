@@ -2,8 +2,13 @@ package Sistema;
 
 import Excepciones.PasswordIncorrecto;
 import Excepciones.UsuarioIncorrecto;
+import Interfaz.I_Convertir_JsonObject;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class Sistema {
+import java.io.Serializable;
+
+public class Sistema implements Serializable, I_Convertir_JsonObject {
 
     Profesor profesor;
 
@@ -76,5 +81,12 @@ public class Sistema {
         return "Sistema{" +
                 "profesor=" + profesor +
                 '}';
+    }
+
+    @Override
+    public JSONObject convertirJsonObject() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("Profesor", profesor);
+        return jsonObject;
     }
 }

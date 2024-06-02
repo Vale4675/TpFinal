@@ -1,8 +1,13 @@
 package Sistema;
 
+import Interfaz.I_Convertir_JsonObject;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class Asistencia {
+public class Asistencia implements Serializable, I_Convertir_JsonObject {
     private Date fecha;
     private boolean presente;
 
@@ -25,6 +30,14 @@ public class Asistencia {
                 "fecha=" + fecha +
                 ", presente=" + presente +
                 '}';
+    }
+
+    @Override
+    public JSONObject convertirJsonObject() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("Fecha", fecha);
+        jsonObject.put("Presente",presente);
+        return jsonObject;
     }
 }
 

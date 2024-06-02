@@ -1,6 +1,12 @@
 package Sistema;
 
-public abstract class Persona {
+import Interfaz.I_Convertir_JsonObject;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+
+public abstract class Persona implements Serializable, I_Convertir_JsonObject {
     private String nombre;
     private String apellido;
     private String mail;
@@ -47,6 +53,15 @@ public abstract class Persona {
             }
         }
         return esIgual;
+    }
+
+    @Override
+    public JSONObject convertirJsonObject() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("Nombre", nombre);
+        jsonObject.put("Apellido",apellido);
+        jsonObject.put("mail", mail);
+        return jsonObject;
     }
 
     @Override

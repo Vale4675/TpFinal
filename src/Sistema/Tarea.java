@@ -1,8 +1,13 @@
 package Sistema;
 
+import Interfaz.I_Convertir_JsonObject;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class Tarea {
+public class Tarea implements Serializable, I_Convertir_JsonObject {
     private int id;
     private String descripcion;
     private Date fechaEntrega;
@@ -10,7 +15,6 @@ public class Tarea {
 
     public Tarea(int id, String descripcion, Date fechaEntrega, boolean entregada) {
         this.id = id;
-        this.descripcion = descripcion;
         this.fechaEntrega = fechaEntrega;
         this.entregada = entregada;
     }
@@ -54,5 +58,16 @@ public class Tarea {
                 ", descripcion='" + descripcion + '\'' +
                 ", fechaEntrega=" + fechaEntrega +
                 '}';
+    }
+
+
+    @Override
+    public JSONObject convertirJsonObject() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("Id",id);
+        jsonObject.put("Descripcion Tarea",descripcion);
+        jsonObject.put("Fecha entrega", fechaEntrega);
+        jsonObject.put(" Entregada ", entregada);
+        return jsonObject;
     }
 }

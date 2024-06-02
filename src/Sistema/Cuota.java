@@ -1,6 +1,12 @@
 package Sistema;
 
-public class Cuota {
+import Interfaz.I_Convertir_JsonObject;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+
+public class Cuota implements Serializable, I_Convertir_JsonObject {
     private int comprobante;
     private static int contadorComprobante = 1;
     private double importe;
@@ -47,5 +53,15 @@ public class Cuota {
                 ", importe=" + importe +
                 ", pagado=" + pagado +
                 '}';
+    }
+
+
+    @Override
+    public JSONObject convertirJsonObject() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("Comprobante", comprobante);
+        jsonObject.put("Importe", importe);
+        jsonObject.put("Pagado", pagado);
+        return jsonObject;
     }
 }

@@ -1,8 +1,13 @@
 package Sistema;
 
+import Interfaz.I_Convertir_JsonObject;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class Aviso {
+public class Aviso implements Serializable, I_Convertir_JsonObject {
     private Date fecha;
     private String mensaje;
 
@@ -38,5 +43,13 @@ public class Aviso {
                 "fecha=" + fecha +
                 ", mensaje='" + mensaje + '\'' +
                 '}';
+    }
+
+    @Override
+    public JSONObject convertirJsonObject() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("Fecha",fecha);
+        jsonObject.put("Mensaje",mensaje);
+        return jsonObject;
     }
 }
