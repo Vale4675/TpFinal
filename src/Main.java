@@ -18,25 +18,28 @@ public class Main {
 
         int opcion;
         do {
+            System.out.println("-----BIENVENIDO-----");
+            System.out.println("------ELIGE UNA OPCION-------");
             System.out.println(" 1 -> Iniciar sesion");
             System.out.println(" 2 -> Registrarse");
             System.out.println(" 3 -> Recuperar contraseña");
             System.out.println(" 4 -> Ver mis datos");
             System.out.println(" 5 -> Eliminarse del sistema");
-            System.out.println(" 6 -> Elige una opcion");
+            System.out.println(" 6 -> Salir");
             opcion = scanner.nextInt();
             scanner.nextLine();
             switch (opcion) {
                 case 1:
                     iniciarSecion();
                     do {
+                        System.out.println("------ELIGE UNA OPCION-------");
                         System.out.println(" 1 -> Registrar Alumno");
                         System.out.println(" 2 -> Buscar Alumno");
                         System.out.println(" 3 -> Listar Alumnos");
                         System.out.println(" 4 -> Eliminar Alumno");
                         System.out.println(" 5 -> Tomar asistencia");
                         System.out.println(" 6 -> otra opcion");
-                        System.out.println(" 7 -> Elige una opcion");
+                        System.out.println(" 7 -> Menu anterior");
                         opcion = scanner.nextInt();
                         scanner.nextLine();
                         switch (opcion) {
@@ -47,8 +50,6 @@ public class Main {
                                 System.out.println(" ingrese el id del alumno");
                                 int id =scanner.nextInt();
                                 Alumno alumno = buscarAlumno(id);
-                                String string = alumno.toString();
-
                                 break;
                             case 3:
                                 System.out.println(listarAlumno().toString());
@@ -61,12 +62,15 @@ public class Main {
                             case 5:
                                 System.out.println(" saliendo del sistema");
                                 break;
+                            case 7:
+                                System.out.println("Volviendo al menu anterior");
+                                break;
+
                             default:
                                 System.out.println("Opcion invalida");
 
                         }
                     } while (opcion != 7);
-
 
                     break;
                 case 2:
@@ -84,6 +88,7 @@ public class Main {
                     break;
                 case 6:
                     System.out.println("saliendo del sistema");
+                    break;
                 default:
                     System.out.println(" Opcion invalida ");
             }
