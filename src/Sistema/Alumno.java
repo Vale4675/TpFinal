@@ -40,29 +40,60 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable 
         this.cuotaHashMap = new HashMap<>();
     }
 
-//metodos para recibir informacion
+    /** metodos para recibir informacion
+     * */
+
+    /**
+     * @param tarea
+     */
+
     public void recibirTarea(Tarea tarea)
     {
         tareas.add(tarea);
     }
+
+    /**
+     *
+      * @param aviso
+     */
     public void recibirAviso(Aviso aviso)
     {
         avisoPersoanlizado.add(aviso);
     }
+
+    /**
+     *
+     * @param mes
+     * @param cuota
+     */
     public void pagarCuota(Mes mes,Cuota cuota)
     {
         cuota.setComprobante(contadorComprobante++);
         cuotaHashMap.put(mes,cuota);
     }
+
+    /**
+     *
+     * @param asistencia
+     */
     public void registrarAsistencia(boolean asistencia)
     {
         asistencias.add(asistencia);
     }
 
+    /**
+     *
+     * @param nota
+     */
     public void recibirNota (Nota nota)
     {
         notas.add(nota);
     }
+
+    /**
+     *
+     * @param mes
+     */
     public void Comprobante(Mes mes)
     {
         Cuota cuota= cuotaHashMap.get(mes);
@@ -74,7 +105,7 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable 
     }
 
 
-    //getters y setters
+    //region Getters and Setters
     public int getId() {
         return id;
     }
@@ -90,7 +121,7 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable 
     public void setId(int id) {
         this.id = id;
     }
-
+//endregion
     @Override
     public int compareTo(Alumno o) {
         return Integer.compare(this.id, o.id);

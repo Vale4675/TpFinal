@@ -26,7 +26,7 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
         avisosGenerales = new ArrayList<>();
     }
 
-
+//region Getters and Setters
 
     public String getPassword() {
         return password;
@@ -35,7 +35,12 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
     public void setPassword(String password) {
         this.password = password;
     }
+// endregion
 
+    /**
+     * Metodos de la interfaz
+     * @param alumno
+     */
      @Override
     public void agregar(Alumno alumno) {
         alumnos.agregar(alumno);
@@ -70,6 +75,10 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
         return sb;
     }
 
+    /**
+     * Metodos para mandar informacion
+     * @param tarea
+     */
     public void mandarTarea (Tarea tarea)
     {
         for (Alumno alu: alumnos.alumnoHashSet) {

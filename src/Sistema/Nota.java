@@ -14,7 +14,7 @@ public class Nota implements Serializable, I_Convertir_JsonObject {
         this.nota = nota;
         this.comentario = comentario;
     }
-
+    //region Getters and Setters
     public double getNota() {
         return nota;
     }
@@ -30,6 +30,7 @@ public class Nota implements Serializable, I_Convertir_JsonObject {
     public void setComentario(String comentario) {
         this.comentario = comentario;
     }
+//endregion
 
     @Override
     public String toString() {

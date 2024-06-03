@@ -26,6 +26,14 @@ public class Sistema implements Serializable, I_Convertir_JsonObject {
         return profesor;
     }
 
+    /**
+     * registra un profesor
+     * @param nombre
+     * @param apellido
+     * @param mail
+     * @param password
+     * @throws UsuarioIncorrecto
+     */
     public void registrarProfesor(String nombre, String apellido, String mail, String password) throws UsuarioIncorrecto {
         if (this.profesor!=null) {
             throw new UsuarioIncorrecto("Ya hay un profesor registrado");
@@ -35,7 +43,14 @@ public class Sistema implements Serializable, I_Convertir_JsonObject {
 
     }
 
-
+    /**
+     * inicia sesion con mail y password
+     * @param email
+     * @param password
+     * @return
+     * @throws PasswordIncorrecto
+     * @throws UsuarioIncorrecto
+     */
     public Profesor iniciarSesion (String email, String password) throws PasswordIncorrecto, UsuarioIncorrecto {
         if (this.profesor == null) {
             throw new UsuarioIncorrecto("No hay ningún profesor registrado.");
@@ -50,6 +65,13 @@ public class Sistema implements Serializable, I_Convertir_JsonObject {
             throw new UsuarioIncorrecto("Persona incorrecto.");
         }
     }
+
+    /**
+     *recupera contraseña ingresando el mail y la nueva contraseña
+     * @param mail
+     * @param password
+     * @throws UsuarioIncorrecto
+     */
     public void recuperarContrasenia (String mail, String password) throws UsuarioIncorrecto {
         if (this.profesor==null)
         {
@@ -64,6 +86,13 @@ public class Sistema implements Serializable, I_Convertir_JsonObject {
         }
 
     }
+
+    /**
+     * si quiere borrar sus datos del sistema
+     * @param mail
+     * @param password
+     * @throws UsuarioIncorrecto
+     */
     public void eliminarDelSistema (String mail, String password) throws UsuarioIncorrecto {
         if(this.profesor.getMail().equals(mail))
         {

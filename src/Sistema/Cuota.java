@@ -17,6 +17,7 @@ public class Cuota implements Serializable, I_Convertir_JsonObject {
         this.importe = importe;
         this.pagado = pagado;
     }
+    //region Getters and Setters
 
     public int getComprobante() {
         return comprobante;
@@ -45,6 +46,8 @@ public class Cuota implements Serializable, I_Convertir_JsonObject {
     public static void setContadorComprobante(int contadorComprobante) {
         Cuota.contadorComprobante = contadorComprobante;
     }
+//endregion
+
 
     @Override
     public String toString() {
@@ -55,6 +58,11 @@ public class Cuota implements Serializable, I_Convertir_JsonObject {
                 '}';
     }
 
+    /**
+     *
+     * @return
+     * @throws JSONException
+     */
 
     @Override
     public JSONObject convertirJsonObject() throws JSONException {

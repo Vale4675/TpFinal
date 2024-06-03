@@ -20,7 +20,7 @@ public class Aviso implements Serializable, I_Convertir_JsonObject {
         this.mensaje = mensaje;
         this.fecha = new Date();
     }
-
+    //region Getters and Setters
     public Date getFecha() {
         return fecha;
     }
@@ -36,6 +36,7 @@ public class Aviso implements Serializable, I_Convertir_JsonObject {
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
     }
+//endregion
 
     @Override
     public String toString() {

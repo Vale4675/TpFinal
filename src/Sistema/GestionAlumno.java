@@ -24,6 +24,10 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
 
     }
 
+    /**
+     * Metodos de la interfaz
+     * @param alumno
+     */
     @Override
     public void agregar(Alumno alumno) {
         alumno.setId(contadorId++);
@@ -78,6 +82,14 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         return st;
     }
 
+    /**
+     * Registra un alumno y lo agrega a la lista
+     * @param nombre
+     * @param apellido
+     * @param mail
+     * @param nivel
+     * @throws UsuarioYaExiste
+     */
     public void registrarAlumno(String nombre, String apellido, String mail, Nivel nivel) throws UsuarioYaExiste {
         Iterator<Alumno> iterator = alumnoHashSet.iterator();
         while (iterator.hasNext()) {
@@ -98,6 +110,11 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
                 '}';
     }
 
+    /**
+     *
+     * @return
+     * @throws JSONException
+     */
     @Override
     public JSONArray convertirJsonArray() throws JSONException {
         JSONArray jsonArrayAlumnos= new JSONArray();

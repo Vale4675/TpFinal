@@ -15,7 +15,7 @@ public class Asistencia implements Serializable, I_Convertir_JsonObject {
         this.fecha = fecha;
         this.presente = presente;
     }
-
+    //region Getters and Setters
     public Date getFecha() {
         return fecha;
     }
@@ -23,7 +23,7 @@ public class Asistencia implements Serializable, I_Convertir_JsonObject {
     public boolean isPresente() {
         return presente;
     }
-
+//endregion
     @Override
     public String toString() {
         return "Asistencia{" +

@@ -17,7 +17,7 @@ public abstract class Persona implements Serializable, I_Convertir_JsonObject {
         this.apellido = apellido;
         this.mail = mail;
     }
-
+//region Getters and Setters
     public String getNombre() {
         return nombre;
     }
@@ -41,6 +41,8 @@ public abstract class Persona implements Serializable, I_Convertir_JsonObject {
     public void setMail(String mail) {
         this.mail = mail;
     }
+// endregion
+
 
     @Override
     public boolean equals(Object o) {

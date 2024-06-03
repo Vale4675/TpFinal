@@ -18,7 +18,7 @@ public class Tarea implements Serializable, I_Convertir_JsonObject {
         this.fechaEntrega = fechaEntrega;
         this.entregada = entregada;
     }
-
+//region Getters and Setters
     public boolean isEntregada() {
         return entregada;
     }
@@ -50,7 +50,7 @@ public class Tarea implements Serializable, I_Convertir_JsonObject {
     public Date getFechaEntrega() {
         return fechaEntrega;
     }
-
+// endregion
     @Override
     public String toString() {
         return "Tarea{" +
@@ -60,6 +60,11 @@ public class Tarea implements Serializable, I_Convertir_JsonObject {
                 '}';
     }
 
+    /**
+     *
+     * @return
+     * @throws JSONException
+     */
 
     @Override
     public JSONObject convertirJsonObject() throws JSONException {
