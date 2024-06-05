@@ -14,8 +14,10 @@ public class Main {
     private static Sistema sistema = new Sistema();
     private static GestionAlumno gestionAlumno = new GestionAlumno();
 
+
     public static void main(String[] args) {
 
+        System.out.println("Probando");
         int opcion;
         do {
             System.out.println("-----BIENVENIDO-----");
