@@ -17,6 +17,63 @@ public class Main {
 
     public static void main(String[] args) {
 
+        System.out.println("----- Manual de Usuario -----\n" +
+                "\n" +
+                "¡Bienvenido al sistema de gestión de alumnos! Este manual te guiará a través de las distintas  funcionalidades disponibles en esta aplicación.\n" +
+                "\n" +
+                "1. Iniciar Sesión\n" +
+                "\n" +
+                "Al abrir la aplicación, se te pedirá que elijas una opción. Para comenzar, selecciona la opción \"1 -> Iniciar sesión\". Luego, ingresa tu correo electrónico y contraseña cuando se te solicite.\n" +
+                "\n" +
+                "2. Registrarse\n" +
+                "\n" +
+                "Si aún no tienes una cuenta, puedes registrarte seleccionando la opción \"2 -> Registrarse\". Completa los campos solicitados, incluyendo tu nombre, apellido, correo electrónico y contraseña.\n" +
+                "\n" +
+                "3. Recuperar Contraseña\n" +
+                "\n" +
+                "En caso de olvidar tu contraseña, puedes recuperarla seleccionando la opción \"3 -> Recuperar contraseña\". Ingresa tu correo electrónico y la nueva contraseña que deseas utilizar.\n" +
+                "\n" +
+                "4. Ver Mis Datos\n" +
+                "\n" +
+                "Después de iniciar sesión, podrás ver tus datos personales seleccionando la opción \"4 -> Ver mis datos\". Aquí encontrarás información como tu nombre, apellido y correo electrónico.\n" +
+                "\n" +
+                "5. Eliminarse del Sistema\n" +
+                "\n" +
+                "Si deseas eliminar tu cuenta del sistema, selecciona la opción \"5 -> Eliminarse del sistema\". Se te pedirá que ingreses tu correo electrónico y contraseña para confirmar la eliminación de tu cuenta.\n" +
+                "\n" +
+                "6. Salir\n" +
+                "\n" +
+                "Para salir de la aplicación, selecciona la opción \"6 -> Salir\".\n" +
+                "\n" +
+                "Gestión de Alumnos\n" +
+                "\n" +
+                "Después de iniciar sesión, tendrás acceso a las siguientes opciones relacionadas con la gestión de alumnos:\n" +
+                "\n" +
+                "1. Registrar Alumno\n" +
+                "\n" +
+                "Registra un nuevo alumno en el sistema proporcionando su nombre, apellido, correo electrónico y nivel (INICIAL, INTERMEDIO o AVANZADO).\n" +
+                "2. Buscar Alumno\n" +
+                "\n" +
+                "Busca un alumno en el sistema ingresando su ID.\n" +
+                "3. Listar Alumnos\n" +
+                "\n" +
+                "Muestra la lista de todos los alumnos registrados en el sistema.\n" +
+                "4. Eliminar Alumno\n" +
+                "\n" +
+                "Elimina un alumno del sistema ingresando su ID.\n" +
+                "5. Tomar Asistencia\n" +
+                "\n" +
+                "Registra la asistencia de un alumno seleccionando esta opción.\n" +
+                "6. Otra Opción\n" +
+                "\n" +
+                "Si deseas realizar otra acción, selecciona esta opción para volver al menú anterior.\n" +
+                "7. Menú Anterior\n" +
+                "\n" +
+                "Regresa al menú anterior si deseas seleccionar otra opción.\n" +
+                "¡Ahora estás listo para utilizar todas las funciones de esta aplicación de gestión de alumnos! Si tienes alguna pregunta o necesitas ayuda adicional, no dudes en consultar este manual o ponerte en contacto con el soporte técnico. ¡Disfruta utilizando el sistema!" +
+                "\n");
+
+
         System.out.println("Probando");
         int opcion;
         do {
