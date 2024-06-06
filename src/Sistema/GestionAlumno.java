@@ -1,5 +1,6 @@
 package Sistema;
 
+import Archivo.JsonUtiles;
 import Excepciones.AlumnoNoEncontrado;
 import Excepciones.UsuarioYaExiste;
 import Interfaz.I_Convertir_JsonArray;
@@ -101,7 +102,8 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         //si no existe crea y agrega al nuevo alumno
         Alumno alumno = new Alumno(nombre, apellido, mail, nivel);
         agregar(alumno);
-    }
+
+        }
 
     @Override
     public String toString() {

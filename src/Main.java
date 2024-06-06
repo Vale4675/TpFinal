@@ -1,3 +1,4 @@
+import Archivo.ControladoraDeArchivo;
 import Excepciones.AlumnoNoEncontrado;
 import Excepciones.UsuarioYaExiste;
 import Sistema.*;
@@ -18,7 +19,7 @@ public class Main {
     private static GestionAlumno gestionAlumno = new GestionAlumno();
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws PasswordIncorrecto, AlumnoNoEncontrado, UsuarioIncorrecto {
 
         System.out.println("----- Manual de Usuario -----\n" +
                 "\n" +
@@ -98,7 +99,11 @@ public class Main {
                     Profesor p = iniciarSecion();
                     if(p!=null)
                     {
-                        menuProfe(p);
+                        try {
+                            menuProfe(p);
+                        } catch (UsuarioYaExiste e) {
+                            System.out.println(e.getMessage());;
+                        }
                     }
                     break;
                 case 3:
@@ -145,7 +150,7 @@ public class Main {
     }
 
 
-    public static Profesor iniciarSecion() {
+    public static Profesor iniciarSecion() throws PasswordIncorrecto, UsuarioIncorrecto, AlumnoNoEncontrado {
         System.out.println("introduce el mail");
         String mail = scanner.next();
         System.out.println("introduce la contraseña");
@@ -153,8 +158,10 @@ public class Main {
         Profesor profesor = null;
         try {
             profesor = sistema.iniciarSesion(mail, password);
-            mostrarInfoProfesor();
-        } catch (PasswordIncorrecto | UsuarioIncorrecto | AlumnoNoEncontrado e) {
+            ControladoraDeArchivo.grabar(sistema, "Sistema.dat");
+            System.out.println("Bienvenido " + profesor.getNombre());
+        }catch (PasswordIncorrecto|UsuarioIncorrecto e)
+        {
             System.out.println(e.getMessage());
         }
         return profesor;
@@ -168,6 +175,7 @@ public class Main {
         try {
             sistema.recuperarContrasenia(mail, password);
             System.out.println("contrasenia actualizada con exito");
+            ControladoraDeArchivo.grabar(sistema,"Sistema.dat");
         } catch (UsuarioIncorrecto e) {
             System.out.println(e.getMessage());
         }

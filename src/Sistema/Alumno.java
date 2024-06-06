@@ -159,7 +159,7 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable 
                 ", avisoPersoanlizado=" + avisoPersoanlizado +
                 "} " + super.toString();
     }
-    
+
     /**
      *
      * @return JsonObject

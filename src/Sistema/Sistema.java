@@ -1,5 +1,6 @@
 package Sistema;
 
+import Archivo.ControladoraDeArchivo;
 import Excepciones.PasswordIncorrecto;
 import Excepciones.UsuarioIncorrecto;
 import Interfaz.I_Convertir_JsonObject;
@@ -39,7 +40,8 @@ public class Sistema implements Serializable, I_Convertir_JsonObject {
             throw new UsuarioIncorrecto("Ya hay un profesor registrado");
         }
         this.profesor = new Profesor(nombre, apellido, mail, password);
-        System.out.println(" profesor registrado "+ this.profesor.getNombre());
+        ControladoraDeArchivo.grabar(profesor,"profesor.dat");
+        System.out.println(" profesor registrado ");
 
     }
 
