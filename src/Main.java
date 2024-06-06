@@ -4,6 +4,7 @@ import Excepciones.UsuarioYaExiste;
 import Sistema.*;
 import Excepciones.PasswordIncorrecto;
 import Excepciones.UsuarioIncorrecto;
+import Sistema.Enum.Mes;
 import Sistema.Enum.Nivel;
 
 import java.text.ParseException;
@@ -19,7 +20,7 @@ public class Main {
     private static GestionAlumno gestionAlumno = new GestionAlumno();
 
 
-    public static void main(String[] args) throws PasswordIncorrecto, AlumnoNoEncontrado, UsuarioIncorrecto {
+    public static void main(String[] args) throws PasswordIncorrecto, AlumnoNoEncontrado, UsuarioIncorrecto, UsuarioYaExiste {
 
         System.out.println("----- Manual de Usuario -----\n" +
                 "\n" +
@@ -78,7 +79,7 @@ public class Main {
                 "\n");
 
 
-        System.out.println("Probando");
+       /*
         int opcion;
         do {
             System.out.println("-----BIENVENIDO-----");
@@ -127,6 +128,8 @@ public class Main {
             }
 
         } while (opcion != 6);
+
+*/
 
 
     }
@@ -236,6 +239,7 @@ public class Main {
                     break;
                 case 3:
                     System.out.println( listarAlumno());
+                    //NO LISTA- MUESTRA SOLO 1
                     break;
                 case 4:
                     System.out.println("ingrese el id del alumno a eliminar");
@@ -334,6 +338,7 @@ public class Main {
             alumno.registrarAsistencia( fecha ,asistio);
             mostrarInfoAlumno(alumno);
         }
+
     }
 
     private static boolean asistencia() {

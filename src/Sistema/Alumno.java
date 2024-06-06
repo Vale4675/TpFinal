@@ -130,11 +130,11 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable 
 
     @Override
     public boolean equals(Object o) {
-        boolean esIgual= false;
-        if(o!=null)
+        boolean esIgual= super.equals(o);
+        if(esIgual)
         {
             Alumno alumno = (Alumno) o;
-            if(alumno.getApellido().equals(((Alumno) o).getApellido()))
+            if(this.id==alumno.id)
             {
                 esIgual= true;
             }
