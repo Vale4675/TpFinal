@@ -22,7 +22,7 @@ public class Main {
 
     public static void main(String[] args) throws PasswordIncorrecto, AlumnoNoEncontrado, UsuarioIncorrecto, UsuarioYaExiste {
 
-        System.out.println("----- Manual de Usuario -----\n" +
+        System.out.println("---- Usuario -----\n" +
                 "\n" +
                 "¡Bienvenido al sistema de gestión de alumnos! Este manual te guiará a través de las distintas  funcionalidades disponibles en esta aplicación.\n" +
                 "\n" +
