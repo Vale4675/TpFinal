@@ -1,9 +1,8 @@
 package Interfaz;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-public interface I_To_JsonObect<T> {
+public interface I_From_JsonObect {
 
-    T  toJsonObject (JSONObject jsonObject);
+   void fromJsonObject (JSONObject jsonObject);
 }

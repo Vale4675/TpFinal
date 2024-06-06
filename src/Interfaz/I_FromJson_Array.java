@@ -1,11 +1,10 @@
 package Interfaz;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
-public interface I_ToJson_Array<T> {
+public interface I_FromJson_Array {
 
-    T  toJsonArray (JSONArray jsonArray);
+  void  fromJsonArray (JSONArray jsonArray);
 
 
 

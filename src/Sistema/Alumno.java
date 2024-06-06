@@ -1,6 +1,7 @@
 package Sistema;
 
-import Interfaz.I_Convertir_JsonArray;
+import Interfaz.I_Convertir_JsonObject;
+import Interfaz.I_From_JsonObect;
 import Sistema.Enum.Mes;
 import Sistema.Enum.Nivel;
 import org.json.JSONArray;
@@ -13,7 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Alumno extends Persona implements Comparable<Alumno>, Serializable {
+public class Alumno extends Persona implements Comparable<Alumno>, Serializable, I_From_JsonObect,I_Convertir_JsonObject {
     private int id;
     private static int contadorComprobante = 1;
     private Nivel nivel;
@@ -147,24 +148,7 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable 
         return 1;
     }
 
-    @Override
-    public String toString() {
-        return "Alumno{" +
-                "id=" + id +
-                ", nivel=" + nivel +
-                ", tareas=" + tareas +
-                ", cuotaHashMap=" + cuotaHashMap +
-                ", asistencias=" + asistencias +
-                ", notas=" + notas +
-                ", avisoPersoanlizado=" + avisoPersoanlizado +
-                "} " + super.toString();
-    }
 
-    /**
-     *
-     * @return JsonObject
-     * @throws JSONException
-     */
     @Override
     public JSONObject convertirJsonObject() throws JSONException {
         JSONObject jsonObject = super.convertirJsonObject();
@@ -190,6 +174,92 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable 
         jsonObject.put("Cuotas",cuotasArray);
 
         return jsonObject;
+    }
+
+    @Override
+    public void fromJsonObject(JSONObject jsonObject) {
+
+        ///JsonObject to alumnot
+        try {
+        String nombre = jsonObject.getString("Nombre");
+        String apellido= jsonObject.getString("apellido");
+        String mail = jsonObject.getString("mail");
+        Nivel nivel = Nivel.valueOf(jsonObject.getString("Nivel"));
+        int id = jsonObject.getInt("Id");
+        Alumno alumno = new Alumno(nombre,apellido,mail,nivel);
+
+
+
+        //JsonArray to tareas
+        JSONArray tareasArray = jsonObject.getJSONArray("Tareas");
+
+        for(int i=0; i<tareasArray.length();i++)
+        {
+            Tarea tarea =  new Tarea();
+            tarea.fromJsonObject(tareasArray.getJSONObject(i));
+            tareas.add(tarea);
+        }
+
+
+            //JsonArray to asistencias
+         JSONArray asistArray = jsonObject.getJSONArray("asistencias");
+        this.asistencias = new ArrayList<>();
+        for(int i=0; i<asistArray.length();i++)
+        {
+            asistencias.add(asistArray.getBoolean(i));
+        }
+
+
+        //Jsonarray to notas
+            JSONArray notasArray = jsonObject.getJSONArray("notas");
+            this.notas = new ArrayList<>();
+            for (int i=0; i<notasArray.length();i++)
+            {
+                Nota nota = new Nota();
+                nota.fromJsonObject(notasArray.getJSONObject(i));
+                notas.add(nota);
+            }
+
+
+            //jsonarray to aviso
+            JSONArray jsonArrayAviso = jsonObject.getJSONArray("avisos");
+            this.avisoPersoanlizado =new ArrayList<>();
+            for(int i=0; i<jsonArrayAviso.length();i++)
+            {
+                Aviso aviso = new Aviso();
+                aviso.fromJsonObject(jsonArrayAviso.getJSONObject(i));
+                avisoPersoanlizado.add(aviso);
+            }
+
+            //jsonArray to cuotas
+            JSONArray jsonArrayCuotas = jsonObject.getJSONArray("cuotas");
+            for(int i=0; i<jsonArrayCuotas.length();i++)
+            {
+                JSONObject cuotaObject = jsonArrayCuotas.getJSONObject(i);
+                Mes mes = Mes.valueOf("Mes");
+                Cuota cuota = new Cuota();
+                cuota.fromJsonObject(cuotaObject.getJSONObject("cuotas"));
+                alumno.cuotaHashMap.put(mes,cuota);
+            }
+
+
+    } catch (JSONException e) {
+        throw new RuntimeException(e);
+    }
+    }
+
+
+    @Override
+    public String toString() {
+        return "Alumno{" +
+                "id=" + id +
+                ", nivel=" + nivel +
+                ", tareas=" + tareas +
+                ", cuotaHashMap=" + cuotaHashMap +
+                ", asistencias=" + asistencias +
+                ", notas=" + notas +
+                ", avisoPersoanlizado=" + avisoPersoanlizado +
+                "} " + super.toString();
     }
 
 

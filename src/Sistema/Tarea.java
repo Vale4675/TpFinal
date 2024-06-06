@@ -1,13 +1,14 @@
 package Sistema;
 
 import Interfaz.I_Convertir_JsonObject;
+import Interfaz.I_From_JsonObect;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class Tarea implements Serializable, I_Convertir_JsonObject {
+public class Tarea implements Serializable, I_Convertir_JsonObject, I_From_JsonObect{
     private int id;
     private String descripcion;
     private Date fechaEntrega;
@@ -18,7 +19,14 @@ public class Tarea implements Serializable, I_Convertir_JsonObject {
         this.fechaEntrega = fechaEntrega;
         this.entregada = entregada;
     }
-//region Getters and Setters
+
+    public Tarea() {
+        this.id = 0;
+        this.fechaEntrega = null;
+        this.entregada = false;
+    }
+
+    //region Getters and Setters
     public boolean isEntregada() {
         return entregada;
     }
@@ -78,5 +86,20 @@ public class Tarea implements Serializable, I_Convertir_JsonObject {
         jsonObject.put("Fecha entrega", fechaEntrega);
         jsonObject.put(" Entregada ", entregada);
         return jsonObject;
+    }
+
+
+    @Override
+    public void fromJsonObject(JSONObject jsonObject) {
+        try {
+            this.descripcion=jsonObject.getString("descripcion");
+            this.entregada=jsonObject.getBoolean("entregada");
+            this.id=jsonObject.getInt("id");
+        //falta date como convertirlo en string
+        }catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
     }
 }
