@@ -1,4 +1,5 @@
 import Archivo.ControladoraDeArchivo;
+import Archivo.JsonUtiles;
 import Excepciones.AlumnoNoEncontrado;
 import Excepciones.UsuarioYaExiste;
 import Sistema.*;
@@ -6,6 +7,9 @@ import Excepciones.PasswordIncorrecto;
 import Excepciones.UsuarioIncorrecto;
 import Sistema.Enum.Mes;
 import Sistema.Enum.Nivel;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,7 +25,7 @@ public class Main {
 
 
     public static void main(String[] args) throws PasswordIncorrecto, AlumnoNoEncontrado, UsuarioIncorrecto, UsuarioYaExiste {
-
+/*
         System.out.println("----- Manual de Usuario -----\n" +
                 "\n" +
                 "¡Bienvenido al sistema de gestión de alumnos! Este manual te guiará a través de las distintas  funcionalidades disponibles en esta aplicación.\n" +
@@ -128,6 +132,11 @@ public class Main {
             }
 
         } while (opcion != 6);
+
+
+*/
+        String fuente = JsonUtiles.leer("Alumnos.Json");
+        System.out.println(fuente);
 
 
 
@@ -240,6 +249,7 @@ public class Main {
                 case 3:
                     System.out.println( listarAlumno());
                     //NO LISTA- MUESTRA SOLO 1
+                    //arreglado error en el metodo equals
                     break;
                 case 4:
                     System.out.println("ingrese el id del alumno a eliminar");
@@ -265,7 +275,7 @@ public class Main {
                     System.out.println("Opcion invalida");
 
             }
-        } while (opcion != 7);
+        } while (opcion != 6);
 
     }
 
@@ -368,6 +378,9 @@ public class Main {
             throw new AlumnoNoEncontrado("Alumno no encontrado");
         }
     }
+
+
+
 //endregion
 
 }

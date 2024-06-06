@@ -31,6 +31,7 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable 
 
     }
 
+
     public Alumno(String nombre, String apellido, String mail, Nivel nivel) {
         super(nombre, apellido, mail);
         this.nivel = nivel;
@@ -39,6 +40,7 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable 
         this.notas = new ArrayList<>();
         this.avisoPersoanlizado = new ArrayList<>();
         this.cuotaHashMap = new HashMap<>();
+        this.id = contadorComprobante++;
     }
 
     /** metodos para recibir informacion
@@ -48,60 +50,48 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable 
      * @param tarea
      */
 
-    public void recibirTarea(Tarea tarea)
-    {
+    public void recibirTarea(Tarea tarea) {
         tareas.add(tarea);
     }
 
     /**
-     *
-      * @param aviso
+     * @param aviso
      */
-    public void recibirAviso(Aviso aviso)
-    {
+    public void recibirAviso(Aviso aviso) {
         avisoPersoanlizado.add(aviso);
     }
 
     /**
-     *
      * @param mes
      * @param cuota
      */
-    public void pagarCuota(Mes mes,Cuota cuota)
-    {
+    public void pagarCuota(Mes mes, Cuota cuota) {
         cuota.setComprobante(contadorComprobante++);
-        cuotaHashMap.put(mes,cuota);
+        cuotaHashMap.put(mes, cuota);
     }
 
     /**
-     *
      * @param asistencia
      */
-    public void registrarAsistencia(Date fecha, boolean asistencia)
-    {
+    public void registrarAsistencia(Date fecha, boolean asistencia) {
         asistencias.add(asistencia);
     }
 
     /**
-     *
      * @param nota
      */
-    public void recibirNota (Nota nota)
-    {
+    public void recibirNota(Nota nota) {
         notas.add(nota);
     }
 
     /**
-     *
      * @param mes
      */
-    public void Comprobante(Mes mes)
-    {
-        Cuota cuota= cuotaHashMap.get(mes);
-        if(cuota !=null)
-        {
-            System.out.println("Comprobante de pago "+ cuota.getComprobante());
-        }else
+    public void Comprobante(Mes mes) {
+        Cuota cuota = cuotaHashMap.get(mes);
+        if (cuota != null) {
+            System.out.println("Comprobante de pago " + cuota.getComprobante());
+        } else
             System.out.println(" No se encontro la cuota de ese mes");
     }
 
@@ -122,7 +112,8 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable 
     public void setId(int id) {
         this.id = id;
     }
-//endregion
+
+    //endregion
     @Override
     public int compareTo(Alumno o) {
         return Integer.compare(this.id, o.id);
@@ -130,16 +121,14 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable 
 
     @Override
     public boolean equals(Object o) {
-        boolean esIgual= super.equals(o);
-        if(esIgual)
-        {
+        boolean esIgual = super.equals(o);
+        if (esIgual) {
             Alumno alumno = (Alumno) o;
-            if(this.id==alumno.id)
-            {
-                esIgual= true;
+            if (this.id == alumno.id) {
+                esIgual = true;
             }
         }
-     return esIgual;
+        return esIgual;
     }
 
     @Override
@@ -161,7 +150,6 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable 
     }
 
     /**
-     *
      * @return JsonObject
      * @throws JSONException
      */
@@ -169,28 +157,51 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable 
     public JSONObject convertirJsonObject() throws JSONException {
         JSONObject jsonObject = super.convertirJsonObject();
         jsonObject.put("Id", id);
-        jsonObject.put("Nivel",nivel);
+        jsonObject.put("Nivel", nivel);
 
         //convierte ArrayList en JsonArray
-        JSONArray tareasArray= new JSONArray();
+        JSONArray tareasArray = new JSONArray();
         for (Tarea t : tareas) {
             tareasArray.put(t.convertirJsonObject());
         }
-        jsonObject.put("Tareas",tareasArray);
+        jsonObject.put("Tareas", tareasArray);
 
         //convierte HashMap de cuotas en JsonArray
         JSONArray cuotasArray = new JSONArray();
-        for(Map.Entry<Mes,Cuota> entry : cuotaHashMap.entrySet())
-        {
+        for (Map.Entry<Mes, Cuota> entry : cuotaHashMap.entrySet()) {
             JSONObject c = new JSONObject();
-            c.put("Mes",entry.getKey().toString());
-            c.put("Cuota",entry.getKey().toString());
+            c.put("Mes", entry.getKey().toString());
+            c.put("Cuota", entry.getKey().toString());
             cuotasArray.put(c);
         }
-        jsonObject.put("Cuotas",cuotasArray);
+        jsonObject.put("Cuotas", cuotasArray);
 
         return jsonObject;
     }
+
+
+    public Alumno convertirDesdeJson(JSONObject jsonObject) {
+        try {
+            String nombre = jsonObject.getString("Nombre");
+            String apellido = jsonObject.getString("Apellido");
+            String mail = jsonObject.getString("mail");
+            Nivel nivel = Nivel.valueOf(jsonObject.getString("Nivel"));
+            int id = jsonObject.getInt("id");
+            Alumno alumno = new Alumno(nombre, apellido, mail, nivel);
+            JSONArray tarearArray = jsonObject.getJSONArray("Tareas");
+            for (int i = 0; i < tarearArray.length(); i++) {
+                JSONObject tareasObject = tarearArray.getJSONObject(i);
+                Tarea tarea =
+
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 
 }
