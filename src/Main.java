@@ -79,7 +79,7 @@ public class Main {
                 "\n");
 
 
-       /*
+
         int opcion;
         do {
             System.out.println("-----BIENVENIDO-----");
@@ -129,7 +129,7 @@ public class Main {
 
         } while (opcion != 6);
 
-*/
+
 
 
     }
@@ -332,12 +332,18 @@ public class Main {
             System.out.println("formato no valido");
         }
         boolean asistio = asistencia();
-        if(asistio)
+        try {
+            if(asistio)
+            {
+                Alumno alumno= gestionAlumno.buscar(id);
+                alumno.registrarAsistencia( fecha ,asistio);
+                mostrarInfoAlumno(alumno);
+            }
+        }catch (AlumnoNoEncontrado e)
         {
-            Alumno alumno= gestionAlumno.buscar(id);
-            alumno.registrarAsistencia( fecha ,asistio);
-            mostrarInfoAlumno(alumno);
+            System.out.println("Alumno ausente");
         }
+      
 
     }
 
