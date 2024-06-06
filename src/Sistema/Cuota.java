@@ -51,7 +51,7 @@ public class Cuota implements Serializable, I_Convertir_JsonObject {
 
     @Override
     public String toString() {
-        return  "\nCuota\n" +
+        return  "\nCuota" +
                 "\n comprobante ='" + comprobante + '\'' +
                 "\n importe=" + importe +
                 "\n pagado=" + pagado ;

@@ -53,7 +53,7 @@ public class Tarea implements Serializable, I_Convertir_JsonObject {
 // endregion
     @Override
     public String toString() {
-        return  "\nTarea\n" +
+        return  "\nTarea" +
                 "\nid=" + id +
                 "\ndescripcion='" + descripcion + '\'' +
                 "\nfechaEntrega=" + fechaEntrega ;

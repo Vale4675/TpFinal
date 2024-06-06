@@ -40,7 +40,7 @@ public class Aviso implements Serializable, I_Convertir_JsonObject {
 
     @Override
     public String toString() {
-        return  "\nAviso\n" +
+        return  "\nAviso" +
                 "\nfecha=" + fecha +
                 "\n mensaje='" + mensaje ;
     }

@@ -131,7 +131,7 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
 
     @Override
     public String toString() {
-        return  "\n Profesor\n" + super.toString()+
+        return  "\n Profesor" + super.toString()+
                 "\n alumnos=" + alumnos +
                 "\n avisosGenerales=" + avisosGenerales ;
     }

@@ -199,7 +199,7 @@ public class Main {
         }
     }
 
-    public static void menuProfe(Profesor p) {
+    public static void menuProfe(Profesor p) throws UsuarioYaExiste {
         int opcion;
         do {
             System.out.println("------ELIGE UNA OPCION-------");

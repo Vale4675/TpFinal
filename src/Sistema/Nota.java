@@ -34,7 +34,7 @@ public class Nota implements Serializable, I_Convertir_JsonObject {
 
     @Override
     public String toString() {
-        return  "\nNota \n" +
+        return  "\nNota" +
                 "\nnota " + nota +
                 "\ncomentario " + comentario ;
     }
