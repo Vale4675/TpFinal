@@ -120,10 +120,10 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
         }else
             System.out.println(" No se encontro la cuota de ese mes");
     }
-    public void tomarAsistencia (int id) throws AlumnoNoEncontrado {
+    public void tomarAsistencia (int id,Date fecha,Boolean asist) throws AlumnoNoEncontrado {
         Alumno alumno = alumnos.buscar(id);
         if(alumno!=null) {
-                alumno.registrarAsistencia(true);
+                alumno.registrarAsistencia(fecha,asist);
 
         }else throw new AlumnoNoEncontrado("no se encontro el alumno");
 
@@ -131,11 +131,9 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
 
     @Override
     public String toString() {
-        return "Profesor{" +
-                "password='" + password + '\'' +
-                ", alumnos=" + alumnos +
-                ", avisosGenerales=" + avisosGenerales +
-                "} " + super.toString();
+        return  "\n Profesor\n" + super.toString()+
+                "\n alumnos=" + alumnos +
+                "\n avisosGenerales=" + avisosGenerales ;
     }
 
     @Override

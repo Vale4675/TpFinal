@@ -107,9 +107,8 @@ public class Sistema implements Serializable, I_Convertir_JsonObject {
 
     @Override
     public String toString() {
-        return "Sistema{" +
-                "profesor=" + profesor +
-                '}';
+        return  "\nSistema\n" +
+                "\n profesor =" + profesor;
     }
 
     @Override

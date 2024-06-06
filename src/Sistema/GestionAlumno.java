@@ -105,9 +105,8 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
 
     @Override
     public String toString() {
-        return "GestionAlumno{" +
-                "alumnoHashSet=" + alumnoHashSet +
-                '}';
+        return  "\nGestionAlumno\n " +
+                "\nalumnoHashSet = " + alumnoHashSet ;
     }
 
     /**

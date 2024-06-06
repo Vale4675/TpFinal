@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,7 +77,7 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable 
      *
      * @param asistencia
      */
-    public void registrarAsistencia(boolean asistencia)
+    public void registrarAsistencia(Date fecha, boolean asistencia)
     {
         asistencias.add(asistencia);
     }
@@ -148,15 +149,14 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable 
 
     @Override
     public String toString() {
-        return "Alumno{" +
-                "id=" + id +
-                ", nivel=" + nivel +
-                ", tareas=" + tareas +
-                ", cuotaHashMap=" + cuotaHashMap +
-                ", asistencias=" + asistencias +
-                ", notas=" + notas +
-                ", avisoPersoanlizado=" + avisoPersoanlizado +
-                "} " + super.toString();
+        return  "\nAlumno\n" + super.toString()+
+                "\nid=" + id +
+                "\nnivel=" + nivel +
+                "\n tareas=" + tareas +
+                "\ncuotaHashMap=" + cuotaHashMap +
+                "\n asistencias=" + asistencias +
+                "\n notas=" + notas +
+                "\n avisoPersoanlizado=" + avisoPersoanlizado;
     }
 
     /**
@@ -182,7 +182,7 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable 
         for(Map.Entry<Mes,Cuota> entry : cuotaHashMap.entrySet())
         {
             JSONObject c = new JSONObject();
-            c.put("mes",entry.getKey().toString());
+            c.put("Mes",entry.getKey().toString());
             c.put("Cuota",entry.getKey().toString());
             cuotasArray.put(c);
         }

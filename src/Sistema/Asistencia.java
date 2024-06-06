@@ -26,10 +26,9 @@ public class Asistencia implements Serializable, I_Convertir_JsonObject {
 //endregion
     @Override
     public String toString() {
-        return "Asistencia{" +
-                "fecha=" + fecha +
-                ", presente=" + presente +
-                '}';
+        return  "\nAsistencia \n" +
+                "\nfecha=" + fecha +
+                "\npresente " + presente ;
     }
 
     @Override
