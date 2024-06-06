@@ -149,16 +149,17 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable 
 
     @Override
     public String toString() {
-        return  "\nAlumno" + super.toString()+
-                "\nid=" + id +
-                "\nnivel=" + nivel +
-                "\n tareas=" + tareas +
-                "\ncuotaHashMap=" + cuotaHashMap +
-                "\n asistencias=" + asistencias +
-                "\n notas=" + notas +
-                "\n avisoPersoanlizado=" + avisoPersoanlizado;
+        return "Alumno{" +
+                "id=" + id +
+                ", nivel=" + nivel +
+                ", tareas=" + tareas +
+                ", cuotaHashMap=" + cuotaHashMap +
+                ", asistencias=" + asistencias +
+                ", notas=" + notas +
+                ", avisoPersoanlizado=" + avisoPersoanlizado +
+                "} " + super.toString();
     }
-
+    
     /**
      *
      * @return JsonObject

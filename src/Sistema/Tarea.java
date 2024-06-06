@@ -51,12 +51,17 @@ public class Tarea implements Serializable, I_Convertir_JsonObject {
         return fechaEntrega;
     }
 // endregion
+
+
     @Override
     public String toString() {
-        return  "\nTarea" +
-                "\nid=" + id +
+        return "Tarea{" +
+                "id=" + id +
                 "\ndescripcion='" + descripcion + '\'' +
-                "\nfechaEntrega=" + fechaEntrega ;
+                "\nfechaEntrega=" + fechaEntrega +
+                "\nentregada=" + entregada +
+                "\n------------------------------";
+
     }
 
     /**

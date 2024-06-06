@@ -68,9 +68,10 @@ public abstract class Persona implements Serializable, I_Convertir_JsonObject {
 
     @Override
     public String toString() {
-        return  "\nPersona" +
-                "\nnombre=" + nombre  +
-                "\napellido=" + apellido  +
-                "\nmail=" + mail ;
+        return "Persona{" +
+                "nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", mail='" + mail + '\'' +
+                '}';
     }
 }
