@@ -24,6 +24,9 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
     private ArrayList<Nota> notas;
     private ArrayList<Aviso> avisoPersoanlizado;
 
+    public HashMap<Mes, Cuota> getCuotaHashMap() {
+        return cuotaHashMap;
+    }
 
     public Alumno(int id, String nombre, String apellido, String mail, Nivel nivel) {
         super(nombre, apellido, mail);
