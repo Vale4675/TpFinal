@@ -45,6 +45,9 @@ public abstract class Persona implements Serializable, I_Convertir_JsonObject {
 // endregion
 
 
+    public Persona() {
+    }
+
     @Override
     public boolean equals(Object o) {
         boolean esIgual = false;

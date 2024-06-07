@@ -6,6 +6,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Tarea implements Serializable, I_Convertir_JsonObject, I_From_JsonObect{
@@ -21,9 +23,7 @@ public class Tarea implements Serializable, I_Convertir_JsonObject, I_From_JsonO
     }
 
     public Tarea() {
-        this.id = 0;
-        this.fechaEntrega = null;
-        this.entregada = false;
+
     }
 
     //region Getters and Setters
@@ -92,10 +92,18 @@ public class Tarea implements Serializable, I_Convertir_JsonObject, I_From_JsonO
     @Override
     public void fromJsonObject(JSONObject jsonObject) {
         try {
-            this.descripcion=jsonObject.getString("descripcion");
-            this.entregada=jsonObject.getBoolean("entregada");
-            this.id=jsonObject.getInt("id");
-        //falta date como convertirlo en string
+            this.descripcion=jsonObject.getString("Descripcion Tarea");
+            this.entregada=jsonObject.getBoolean("Fecha entrega");
+            this.id=jsonObject.getInt("Id");
+            String  fecha = jsonObject.getString("Fecha entrega");
+            SimpleDateFormat Dfecha = new SimpleDateFormat("dd/MM,yyyy");
+            Date fechaDate = null;
+            try {
+                fechaDate = Dfecha.parse(fecha);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+            this.fechaEntrega = fechaDate;
         }catch (JSONException e)
         {
             e.printStackTrace();

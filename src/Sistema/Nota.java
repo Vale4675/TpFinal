@@ -58,8 +58,8 @@ public class Nota implements Serializable, I_Convertir_JsonObject, I_From_JsonOb
     @Override
     public void fromJsonObject(JSONObject jsonObject) {
         try {
-            this.nota = jsonObject.getDouble("nota");
-            this.comentario = jsonObject.getString("comentario");
+            this.nota = jsonObject.getDouble("Nota");
+            this.comentario = jsonObject.getString("Comentario");
         } catch (JSONException e) {
             e.printStackTrace();
         }

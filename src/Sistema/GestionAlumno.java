@@ -12,6 +12,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -97,6 +99,7 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         while (iterator.hasNext()) {
             Alumno alumno = iterator.next();
             st.append(alumno.toString()).append("\n");
+            System.out.println("estoy en listar gestion alumno");
         }
         return st;
     }
@@ -134,7 +137,7 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         try {
             JSONArray jsonArray = convertirJsonArray();
             JsonUtiles.grabar(jsonArray,"Alumnos");
-
+            System.out.println(" estoy en grabar alumnos");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -150,12 +153,15 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
             JSONArray jsonArray = new JSONArray(fuente);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Alumno al = new Alumno();
+                al.fromJsonObject(jsonObject);
+                alumnoHashSet.add(al);
+                System.out.println(" estoy en leer alumnos");
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
     }
 
 

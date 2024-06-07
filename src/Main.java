@@ -11,6 +11,7 @@ import Sistema.Enum.Nivel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class Main {
@@ -82,6 +83,8 @@ public class Main {
 
         sistema= ControladoraDeArchivo.leer("Sistema.dat");
         gestionAlumno.leerAlumnos();
+        gestionAlumno.listar();
+        System.out.println(listarAlumnos());
         int opcion;
         do {
             System.out.println("-----BIENVENIDO-----");
@@ -318,6 +321,7 @@ public class Main {
      */
 
     private static StringBuilder listarAlumnos() {
+        System.out.println("estoy en listar alumno main");
         StringBuilder sb= gestionAlumno.listar();
         return sb;
     }

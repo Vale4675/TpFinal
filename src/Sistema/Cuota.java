@@ -81,9 +81,9 @@ public class Cuota implements Serializable, I_Convertir_JsonObject, I_From_JsonO
     @Override
     public void fromJsonObject(JSONObject jsonObject) {
         try {
-            this.comprobante= jsonObject.getInt("comprobante");
-            this.importe= jsonObject.getDouble("importe");
-            this.pagado= jsonObject.getBoolean("pagado");
+            this.comprobante= jsonObject.getInt("Comprobante");
+            this.importe= jsonObject.getDouble("Importe");
+            this.pagado= jsonObject.getBoolean("Pagado");
         } catch (JSONException e) {
            e.printStackTrace();
         }

@@ -35,6 +35,11 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
 
     }
 
+    public Alumno() {
+        super();
+
+    }
+
     public Alumno(String nombre, String apellido, String mail, Nivel nivel) {
         super(nombre, apellido, mail);
         this.nivel = nivel;
@@ -201,63 +206,68 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
         ///JsonObject to alumnot
         try {
         String nombre = jsonObject.getString("Nombre");
-        String apellido= jsonObject.getString("apellido");
+        String apellido= jsonObject.getString("Apellido");
         String mail = jsonObject.getString("mail");
         Nivel nivel = Nivel.valueOf(jsonObject.getString("Nivel"));
         int id = jsonObject.getInt("Id");
         Alumno alumno = new Alumno(nombre,apellido,mail,nivel);
-
-
+            System.out.println(" estoy en fromJson alumnos ");
 
         //JsonArray to tareas
-        JSONArray tareasArray = jsonObject.getJSONArray("Tareas");
-
+        JSONArray tareasArray = jsonObject.getJSONArray("Tarea");
+        this.tareas = new ArrayList<>();
         for(int i=0; i<tareasArray.length();i++)
         {
+            System.out.println(" estoy en fromJson tareas ");
             Tarea tarea =  new Tarea();
-            tarea.fromJsonObject(tareasArray.getJSONObject(i));
-            tareas.add(tarea);
+           tarea.fromJsonObject(tareasArray.getJSONObject(i));
+          // tareas.add(tareasArray.getJSONObject(i));
         }
 
 
             //JsonArray to asistencias
-         JSONArray asistArray = jsonObject.getJSONArray("asistencias");
+         JSONArray asistArray = jsonObject.getJSONArray("Asistencia");
         this.asistencias = new ArrayList<>();
         for(int i=0; i<asistArray.length();i++)
         {
+            System.out.println(" estoy en fromJson asistencia ");
             asistencias.add(asistArray.getBoolean(i));
+            //asistencias.add();
         }
 
 
         //Jsonarray to notas
-            JSONArray notasArray = jsonObject.getJSONArray("notas");
+            JSONArray notasArray = jsonObject.getJSONArray("Nota");
             this.notas = new ArrayList<>();
             for (int i=0; i<notasArray.length();i++)
             {
                 Nota nota = new Nota();
+                System.out.println(" estoy en fromJson notas ");
                 nota.fromJsonObject(notasArray.getJSONObject(i));
                 notas.add(nota);
             }
 
 
             //jsonarray to aviso
-            JSONArray jsonArrayAviso = jsonObject.getJSONArray("avisos");
+            JSONArray jsonArrayAviso = jsonObject.getJSONArray("Aviso");
             this.avisoPersoanlizado =new ArrayList<>();
             for(int i=0; i<jsonArrayAviso.length();i++)
             {
                 Aviso aviso = new Aviso();
+                System.out.println(" estoy en fromJson avisos ");
                 aviso.fromJsonObject(jsonArrayAviso.getJSONObject(i));
                 avisoPersoanlizado.add(aviso);
             }
 
             //jsonArray to cuotas
-            JSONArray jsonArrayCuotas = jsonObject.getJSONArray("cuotas");
+            JSONArray jsonArrayCuotas = jsonObject.getJSONArray("Cuota");
             for(int i=0; i<jsonArrayCuotas.length();i++)
             {
+                System.out.println(" estoy en fromJson cuotas ");
                 JSONObject cuotaObject = jsonArrayCuotas.getJSONObject(i);
                 Mes mes = Mes.valueOf("Mes");
                 Cuota cuota = new Cuota();
-                cuota.fromJsonObject(cuotaObject.getJSONObject("cuotas"));
+                cuota.fromJsonObject(cuotaObject.getJSONObject("Cuota"));
                 alumno.cuotaHashMap.put(mes,cuota);
             }
 

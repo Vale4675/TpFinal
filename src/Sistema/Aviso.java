@@ -6,6 +6,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Aviso implements Serializable, I_Convertir_JsonObject, I_From_JsonObect {
@@ -62,10 +64,12 @@ public class Aviso implements Serializable, I_Convertir_JsonObject, I_From_JsonO
     public void fromJsonObject(JSONObject jsonObject) {
 
         try {
-            //this.fecha=jsonObject.getJSONObject("fecha");
-            this.mensaje=jsonObject.getString("mensaje");
-
-        } catch (JSONException e) {
+            String  fecha = jsonObject.getString("Fecha");
+            SimpleDateFormat Dfecha = new SimpleDateFormat("dd/MM,yyyy");
+            Date fechaDate = null;
+            fechaDate = Dfecha.parse(fecha);
+            this.fecha = fechaDate;
+        } catch (JSONException | ParseException e) {
             e.printStackTrace();
         }
 
