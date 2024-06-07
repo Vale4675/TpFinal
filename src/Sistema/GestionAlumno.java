@@ -102,7 +102,7 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
     }
 
     /**
-     * Registra un alumno lo agrega a la lista y lo graba
+     * Registra un alumno y lo agrega a la lista
      *
      * @param nombre
      * @param apellido
@@ -121,8 +121,6 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         //si no existe crea y agrega al nuevo alumno
         Alumno alumno = new Alumno(nombre, apellido, mail, nivel);
         agregar(alumno);
-        grabarAlumnos();
-
     }
 
 
@@ -135,7 +133,8 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
     public void grabarAlumnos() {
         try {
             JSONArray jsonArray = convertirJsonArray();
-            JsonUtiles.grabar(jsonArray, "Alumnos.Json");
+            JsonUtiles.grabar(jsonArray,"Alumnos");
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -145,13 +144,12 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
      * leer en json
      */
     public void leerAlumnos() {
-        String fuente = JsonUtiles.leer("Alumnos.Json");
+        String fuente = JsonUtiles.leer("Alumnos");
         System.out.println(fuente);
         try {
             JSONArray jsonArray = new JSONArray(fuente);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                System.out.println(jsonObject.getString("Nombre"));
             }
         } catch (JSONException e) {
             e.printStackTrace();

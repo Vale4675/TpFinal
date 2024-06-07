@@ -42,8 +42,6 @@ public class Sistema implements Serializable, I_Convertir_JsonObject {
             throw new UsuarioIncorrecto("Ya hay un profesor registrado");
         }
         this.profesor = new Profesor(nombre, apellido, mail, password);
-     //   ControladoraDeArchivo.grabar(profesor,"profesor.dat");
-        ControladoraDeArchivo.grabar(profesor,"Sistema.dat");
         System.out.println(" profesor registrado ");
 
     }
@@ -89,7 +87,6 @@ public class Sistema implements Serializable, I_Convertir_JsonObject {
         if(this.profesor.getMail().equals(mail))
         {
             this.profesor.setPassword(password);
-            ControladoraDeArchivo.grabar(this.profesor,"Sistema.dat");
         }
         else {
             throw new UsuarioIncorrecto("Persona Incorrecto");
@@ -100,7 +97,7 @@ public class Sistema implements Serializable, I_Convertir_JsonObject {
 
 
     /**
-     * si quiere borrar sus datos del sistema
+     * si quiere borrar sus datos
      * @param mail
      * @param password
      * @throws UsuarioIncorrecto
@@ -111,7 +108,6 @@ public class Sistema implements Serializable, I_Convertir_JsonObject {
             if(this.profesor.getPassword().equals(password))
             {
                 this.profesor=null;
-                ControladoraDeArchivo.grabar(this.profesor,"Sistema.dat");
             }
         }
         else throw new UsuarioIncorrecto("No existe el usuario");
