@@ -79,7 +79,11 @@ public class Main {
                 "¡Ahora estás listo para utilizar todas las funciones de esta aplicación de gestión de alumnos! Si tienes alguna pregunta o necesitas ayuda adicional, no dudes en consultar este manual o ponerte en contacto con el soporte técnico. ¡Disfruta utilizando el sistema!" +
                 "\n");
 
-        gestionAlumno.leerAlumnos();
+       // gestionAlumno.leerAlumnos();
+     //7 String fuente = ControladoraDeArchivo.leer("Sistema.dat");
+    //  String fuente2 = ControladoraDeArchivo.leer("profesor.dat");
+
+
         int opcion;
         do {
             System.out.println("-----BIENVENIDO-----");
@@ -111,11 +115,7 @@ public class Main {
                     recuperarContrasenia();
                     break;
                 case 4:
-                    try {
-                        mostrarInfoProfesor();
-                    } catch (AlumnoNoEncontrado e) {
-                        System.out.println(e.getMessage());;
-                    }
+                    mostrarInfoProfesor();
                     break;
                 case 5:
                     eliminarDatos();
@@ -237,7 +237,7 @@ public class Main {
                     buscarAlumno();
                     break;
                 case 3:
-                    listarAlumno();
+                    System.out.println(listarAlumnos());
                     break;
                 case 4:
                     eliminarAlumno();
@@ -308,8 +308,9 @@ public class Main {
 
     }
 
-    private static void listarAlumno() {
-           gestionAlumno.listar();
+    private static StringBuilder listarAlumnos() {
+        StringBuilder sb= gestionAlumno.listar();
+        return sb;
     }
 
     private static void eliminarAlumno() {

@@ -40,7 +40,7 @@ public class Sistema implements Serializable, I_Convertir_JsonObject {
             throw new UsuarioIncorrecto("Ya hay un profesor registrado");
         }
         this.profesor = new Profesor(nombre, apellido, mail, password);
-        ControladoraDeArchivo.grabar(profesor,"profesor.dat");
+     //   ControladoraDeArchivo.grabar(profesor,"profesor.dat");
         ControladoraDeArchivo.grabar(profesor,"Sistema.dat");
         System.out.println(" profesor registrado ");
 
