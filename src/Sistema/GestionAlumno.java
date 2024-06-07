@@ -85,7 +85,7 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
     }
 
     /**
-     * Registra un alumno y lo agrega a la lista
+     * Registra un alumno lo agrega a la lista y lo graba
      *
      * @param nombre
      * @param apellido

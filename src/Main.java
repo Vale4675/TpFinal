@@ -79,8 +79,8 @@ public class Main {
                 "¡Ahora estás listo para utilizar todas las funciones de esta aplicación de gestión de alumnos! Si tienes alguna pregunta o necesitas ayuda adicional, no dudes en consultar este manual o ponerte en contacto con el soporte técnico. ¡Disfruta utilizando el sistema!" +
                 "\n");
 
-       // gestionAlumno.leerAlumnos();
-     //7 String fuente = ControladoraDeArchivo.leer("Sistema.dat");
+       gestionAlumno.leerAlumnos();
+      //String fuente = ControladoraDeArchivo.leer("Sistema.dat");
     //  String fuente2 = ControladoraDeArchivo.leer("profesor.dat");
 
 
@@ -224,7 +224,7 @@ public class Main {
             System.out.println(" 5 -> Tomar asistencia");
             System.out.println(" 6 -> Mandar aviso");
             System.out.println(" 7 -> Mandar Tarea");
-            System.out.println(" 8 -> Cobrar cuota");
+            System.out.println(" 8 -> Mandar nota" );
             System.out.println(" 9 -> Cobrar cuota ");
             System.out.println(" 10 -> Menu anterior");
             opcion = scanner.nextInt();
@@ -253,7 +253,7 @@ public class Main {
                     mandarTarea();
                     break;
                 case 8:
-                    cobrarCuota();
+                    mandarNota();
                     break;
                 case 9:
                     cobrarCuota();
@@ -275,6 +275,9 @@ public class Main {
 
 //region   Gestion para alumnos
 
+    /**
+     * funciona
+     */
     private static void registrandoAlumno() {
         try {
             System.out.println("Nombre del alumno");
@@ -287,13 +290,17 @@ public class Main {
             String nivelString = scanner.next().toUpperCase();
             Nivel nivel = Nivel.valueOf(nivelString);
             gestionAlumno.registrarAlumno(nombre, apellido, mail, nivel);
-            System.out.println("alumno registrado con exito");
+            System.out.println("El alumno "+ nombre+ "ha sido registrado con exito");
         } catch (UsuarioYaExiste e) {
             System.out.println(e.getMessage());
         } catch (IllegalArgumentException e) {
             System.out.println("Nivel no valido");
         }
     }
+
+    /**
+     * funciona
+     */
 
     private static void buscarAlumno() {
         System.out.println("ingrese el id del alumno");
@@ -308,11 +315,19 @@ public class Main {
 
     }
 
+    /**
+     * funciona
+     * @return
+     */
+
     private static StringBuilder listarAlumnos() {
         StringBuilder sb= gestionAlumno.listar();
         return sb;
     }
 
+    /**
+     * funciona
+     */
     private static void eliminarAlumno() {
         System.out.println("ingrese el id");
         int id= scanner.nextInt();
@@ -339,14 +354,15 @@ public class Main {
             System.out.println("formato no valido");
         }
         boolean asistio = asistencia();
+        Alumno alumno =null;
         try {
             if(asistio)
             {
-                Alumno alumno= gestionAlumno.buscar(id);
+                alumno= gestionAlumno.buscar(id);
                 alumno.registrarAsistencia( fecha ,asistio);
                 mostrarInfoAlumno(alumno);
-                gestionAlumno.grabarAlumnos();
             }
+            gestionAlumno.grabarAlumnos();
         }catch (AlumnoNoEncontrado e)
         {
             System.out.println("Alumno ausente");
@@ -382,13 +398,16 @@ public class Main {
         System.out.println("ingrese el id del alumno");
         int id= scanner.nextInt();
         System.out.println("ingrese el aviso");
-        String aviso = scanner.nextLine();
+        String aviso = scanner.next();
         System.out.println("Ingrese la fecha");
-        String date = scanner.nextLine();
-        Date fecha = null;
+        String date = scanner.next();
+
         try {
+            Date fecha = null;
             fecha = new SimpleDateFormat("dd,MM,yyyy").parse(date);
-            sistema.getProfesor().avisosPersonalisados(id, fecha, aviso);
+            Aviso avisito = new Aviso(fecha,aviso);
+            Alumno alumno = gestionAlumno.buscar(id);
+            alumno.recibirAviso(avisito);
             gestionAlumno.grabarAlumnos();
         } catch (ParseException | AlumnoNoEncontrado e) {
             System.out.println("formato no valido");
@@ -400,19 +419,24 @@ public class Main {
         System.out.println("ingrese el id del alumno");
         int id= scanner.nextInt();
         System.out.println("ingrese la descripcion de la tarea");
-        String tareita = scanner.nextLine();
+        String tareita = scanner.next();
         System.out.println("Ingrese la fecha");
-        String date = scanner.nextLine();
-        System.out.println("Fue entregada?");
+        String date = scanner.next();
+        System.out.println("Fue entregada ? ");
         boolean entreg= scanner.nextBoolean();
-        Date fecha = null;
+
         try {
+            Date fecha = null;
             fecha = new SimpleDateFormat("dd,MM,yyyy").parse(date);
             Tarea tarea= new Tarea(id,tareita,fecha,entreg);
-              sistema.getProfesor().mandarTarea(tarea);
+              Alumno alumno = gestionAlumno.buscar(id);
+              alumno.recibirTarea(tarea);
+            System.out.println("Tarea enviada al alumno "+alumno.getNombre());
                gestionAlumno.grabarAlumnos();
         } catch (ParseException e) {
             System.out.println("formato no valido");
+        } catch (AlumnoNoEncontrado e) {
+            System.out.println(e.getMessage());;
         }
 
     }
@@ -438,7 +462,8 @@ public class Main {
         System.out.println("Monto " + monto);
 
         try {
-            sistema.getProfesor().cobrarCuota(id,m,cuota);
+            Alumno alumno = gestionAlumno.buscar(id);
+            alumno.pagarCuota(m,cuota);
             gestionAlumno.grabarAlumnos();
         } catch (AlumnoNoEncontrado e) {
             System.out.println(e.getMessage());
@@ -446,8 +471,28 @@ public class Main {
     }
 
 
+   private static  void mandarNota()
+   {
+       System.out.println("escribe el id del alumno");
+       int id= scanner.nextInt();
+       System.out.println("Escribe la calificacion");
+       double nota = scanner.nextInt();
+       System.out.println("Escribe comentario");
+       String comentario = scanner.next();
+       try {
+           Alumno alumno = gestionAlumno.buscar(id);
+           Nota notita = new Nota(nota,comentario);
+           alumno.recibirNota(notita);
+           gestionAlumno.grabarAlumnos();
+           System.out.println("nota enviada al alumno ");
+       } catch (AlumnoNoEncontrado e) {
+           System.out.println(e.getMessage());;
+       }
 
 
-//endregion
+   }
+
+
+    //endregion
 
 }
