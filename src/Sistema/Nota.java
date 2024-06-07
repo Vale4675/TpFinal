@@ -17,9 +17,8 @@ public class Nota implements Serializable, I_Convertir_JsonObject, I_From_JsonOb
     }
 
     public Nota() {
-
-
     }
+
 
     //region Getters and Setters
     public double getNota() {

@@ -37,6 +37,11 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         System.out.println(alumno);
     }
 
+    /**
+     *
+     * @param id
+     * @throws AlumnoNoEncontrado
+     */
     @Override
     public void eliminar(int id) throws AlumnoNoEncontrado {
         Iterator<Alumno> iterator = alumnoHashSet.iterator();
@@ -54,6 +59,12 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
 
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     * @throws AlumnoNoEncontrado
+     */
     @Override
     public Alumno buscar(int id) throws AlumnoNoEncontrado {
         boolean encontrado = false;
@@ -73,6 +84,12 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         return null;
     }
 
+
+
+    /**
+     *
+     * @return
+     */
     @Override
     public StringBuilder listar() {
         StringBuilder st = new StringBuilder();
@@ -109,6 +126,12 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
     }
 
 
+
+
+    /**
+     * grabar en json
+     */
+
     public void grabarAlumnos() {
         try {
             JSONArray jsonArray = convertirJsonArray();
@@ -118,7 +141,9 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         }
     }
 
-
+    /**
+     * leer en json
+     */
     public void leerAlumnos() {
         String fuente = JsonUtiles.leer("Alumnos.Json");
         System.out.println(fuente);
@@ -135,6 +160,12 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
 
     }
 
+
+
+    /**
+     *
+     * @return
+     */
 
     @Override
     public String toString() {

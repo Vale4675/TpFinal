@@ -27,6 +27,8 @@ public class Sistema implements Serializable, I_Convertir_JsonObject {
         return profesor;
     }
 
+
+
     /**
      * registra un profesor y lo graba al archivo
      * @param nombre
@@ -45,6 +47,8 @@ public class Sistema implements Serializable, I_Convertir_JsonObject {
         System.out.println(" profesor registrado ");
 
     }
+
+
 
     /**
      * inicia sesion con mail y password
@@ -69,6 +73,8 @@ public class Sistema implements Serializable, I_Convertir_JsonObject {
         }
     }
 
+
+
     /**
      *recupera contraseña ingresando el mail y la nueva contraseña
      * @param mail
@@ -91,6 +97,8 @@ public class Sistema implements Serializable, I_Convertir_JsonObject {
 
     }
 
+
+
     /**
      * si quiere borrar sus datos del sistema
      * @param mail
@@ -109,6 +117,8 @@ public class Sistema implements Serializable, I_Convertir_JsonObject {
         else throw new UsuarioIncorrecto("No existe el usuario");
 
     }
+
+
 
     @Override
     public String toString() {

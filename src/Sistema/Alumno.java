@@ -132,6 +132,11 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
         return Integer.compare(this.id, o.id);
     }
 
+    /**
+     *
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         boolean esIgual= super.equals(o);
@@ -151,6 +156,13 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
         return 1;
     }
 
+
+
+    /**
+     * Convierte a JsonObject y Array
+     * @return
+     * @throws JSONException
+     */
 
     @Override
     public JSONObject convertirJsonObject() throws JSONException {
@@ -179,6 +191,10 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
         return jsonObject;
     }
 
+    /**
+     * de Json a java
+     * @param jsonObject
+     */
     @Override
     public void fromJsonObject(JSONObject jsonObject) {
 
@@ -252,6 +268,10 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
     }
 
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "Alumno{" +
