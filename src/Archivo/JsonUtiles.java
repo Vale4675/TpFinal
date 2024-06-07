@@ -1,7 +1,7 @@
 package Archivo;
 
 import org.json.JSONObject;
-
+import org.json.JSONArray;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,7 +20,17 @@ public class JsonUtiles {
             e.printStackTrace();
         }
     }
+    public static void grabar(JSONArray array, String archivo) {
+        try {
+            FileWriter file = new FileWriter(archivo+".json");
+            file.write(array.toString());
+            file.flush();
+            file.close();
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public static String leer(String archivo)
     {
         String contenido = "";

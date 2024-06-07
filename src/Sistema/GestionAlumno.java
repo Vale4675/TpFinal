@@ -27,6 +27,7 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
 
     /**
      * Metodos de la interfaz
+     *
      * @param alumno
      */
     @Override
@@ -85,6 +86,7 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
 
     /**
      * Registra un alumno y lo agrega a la lista
+     *
      * @param nombre
      * @param apellido
      * @param mail
@@ -102,7 +104,37 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         //si no existe crea y agrega al nuevo alumno
         Alumno alumno = new Alumno(nombre, apellido, mail, nivel);
         agregar(alumno);
+        grabarAlumnos();
+
+    }
+
+
+    public void grabarAlumnos() {
+        try {
+            JSONArray jsonArray = convertirJsonArray();
+            JsonUtiles.grabar(jsonArray, "Alumnos.Json");
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+    }
+
+
+    public void leerAlumnos() {
+        String fuente = JsonUtiles.leer("Alumnos.Json");
+        System.out.println(fuente);
+        try {
+            JSONArray jsonArray = new JSONArray(fuente);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                System.out.println(jsonObject.getString("Nombre"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 
     @Override
     public String toString() {
@@ -112,17 +144,16 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
     }
 
     /**
-     *
      * @return
      * @throws JSONException
      */
     @Override
     public JSONArray convertirJsonArray() throws JSONException {
-        JSONArray jsonArrayAlumnos= new JSONArray();
-        for (Alumno a: alumnoHashSet) {
+        JSONArray jsonArrayAlumnos = new JSONArray();
+        for (Alumno a : alumnoHashSet) {
             jsonArrayAlumnos.put(a.convertirJsonObject());
         }
-        return jsonArrayAlumnos ;
+        return jsonArrayAlumnos;
     }
 
 }

@@ -110,7 +110,7 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
             buscado.pagarCuota(mes,cuota);
         }
     }
-    public void ComprobantePago(int id, Mes mes)throws AlumnoNoEncontrado
+    public void generarComprobantePago(int id, Mes mes)throws AlumnoNoEncontrado
     {
         Alumno alumno = alumnos.buscar(id);
 
