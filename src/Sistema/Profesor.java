@@ -16,9 +16,10 @@ import java.util.Date;
 
 public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable, I_Convertir_JsonObject {
 
-    public String password;
-    public GestionAlumno alumnos;
+    private String password;
+    private GestionAlumno alumnos;
     private ArrayList<Aviso> avisosGenerales;
+
     public Profesor(String nombre, String apellido, String mail, String password) {
         super( nombre, apellido, mail);
         this.password = password;

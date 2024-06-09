@@ -12,8 +12,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -29,7 +27,6 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
 
     /**
      * Metodos de la interfaz
-     *
      * @param alumno
      */
     @Override
@@ -39,11 +36,6 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         System.out.println(alumno);
     }
 
-    /**
-     *
-     * @param id
-     * @throws AlumnoNoEncontrado
-     */
     @Override
     public void eliminar(int id) throws AlumnoNoEncontrado {
         Iterator<Alumno> iterator = alumnoHashSet.iterator();
@@ -61,12 +53,6 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
 
     }
 
-    /**
-     *
-     * @param id
-     * @return
-     * @throws AlumnoNoEncontrado
-     */
     @Override
     public Alumno buscar(int id) throws AlumnoNoEncontrado {
         boolean encontrado = false;
@@ -86,12 +72,6 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         return null;
     }
 
-
-
-    /**
-     *
-     * @return
-     */
     @Override
     public StringBuilder listar() {
         StringBuilder st = new StringBuilder();
@@ -99,14 +79,12 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         while (iterator.hasNext()) {
             Alumno alumno = iterator.next();
             st.append(alumno.toString()).append("\n");
-            System.out.println("estoy en listar gestion alumno");
         }
         return st;
     }
 
     /**
-     * Registra un alumno y lo agrega a la lista
-     *
+     * Registra un alumno  lo agrega a la lista y lo guarda en un Json
      * @param nombre
      * @param apellido
      * @param mail
@@ -124,71 +102,55 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         //si no existe crea y agrega al nuevo alumno
         Alumno alumno = new Alumno(nombre, apellido, mail, nivel);
         agregar(alumno);
-    }
-
-
-
-
-    /**
-     * grabar en json
-     */
-
-    public void grabarAlumnos() {
-        try {
-            JSONArray jsonArray = convertirJsonArray();
-            JsonUtiles.grabar(jsonArray,"Alumnos");
-            System.out.println(" estoy en grabar alumnos");
-        } catch (JSONException e) {
-            e.printStackTrace();
+        grabarAlumnos();
         }
-    }
-
-    /**
-     * leer en json
-     */
-    public void leerAlumnos() {
+        public void grabarAlumnos()
+        {
+            try {
+                JSONArray jsonArray=convertirJsonArray();
+                JsonUtiles.grabar(jsonArray,"Alumnos");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    public void leerAlumnos()
+    {
         String fuente = JsonUtiles.leer("Alumnos");
         System.out.println(fuente);
         try {
             JSONArray jsonArray = new JSONArray(fuente);
-            for (int i = 0; i < jsonArray.length(); i++) {
+            for(int i=0; i<jsonArray.length();i++)
+            {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                Alumno al = new Alumno();
-                al.fromJsonObject(jsonObject);
-                alumnoHashSet.add(al);
-                System.out.println(" estoy en leer alumnos");
+                System.out.println(jsonObject.getString("Nombre"));
+
 
             }
-        } catch (JSONException e) {
+
+        }catch (JSONException e)
+        {
             e.printStackTrace();
         }
     }
-
 
 
     /**
      *
      * @return
+     * @throws JSONException
      */
-
+    @Override
+    public JSONArray convertirJsonArray() throws JSONException {
+        JSONArray jsonArrayAlumnos= new JSONArray();
+        for (Alumno a: alumnoHashSet) {
+            jsonArrayAlumnos.put(a.convertirJsonObject());
+        }
+        return jsonArrayAlumnos ;
+    }
     @Override
     public String toString() {
         return "GestionAlumno{" +
                 "alumnoHashSet=" + alumnoHashSet +
                 '}';
     }
-
-    /**
-     * @return
-     * @throws JSONException
-     */
-    @Override
-    public JSONArray convertirJsonArray() throws JSONException {
-        JSONArray jsonArrayAlumnos = new JSONArray();
-        for (Alumno a : alumnoHashSet) {
-            jsonArrayAlumnos.put(a.convertirJsonObject());
-        }
-        return jsonArrayAlumnos;
-    }
-
 }

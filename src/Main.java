@@ -82,8 +82,8 @@ public class Main {
                 "\n");
 
         sistema= ControladoraDeArchivo.leer("Sistema.dat");
-        gestionAlumno.leerAlumnos();
-        gestionAlumno.listar();
+        // gestionAlumno.leerAlumnos();
+        // estionAlumno.listar();
         System.out.println(listarAlumnos());
         int opcion;
         do {
