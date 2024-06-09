@@ -1,12 +1,13 @@
 package Sistema;
 
 import Interfaz.I_Convertir_JsonObject;
+import Interfaz.I_From_JsonObect;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 
-public class Nota implements Serializable, I_Convertir_JsonObject {
+public class Nota implements Serializable, I_Convertir_JsonObject, I_From_JsonObect {
     private double nota;
     private String comentario;
 
@@ -14,6 +15,11 @@ public class Nota implements Serializable, I_Convertir_JsonObject {
         this.nota = nota;
         this.comentario = comentario;
     }
+
+    public Nota() {
+    }
+
+
     //region Getters and Setters
     public double getNota() {
         return nota;
@@ -46,6 +52,17 @@ public class Nota implements Serializable, I_Convertir_JsonObject {
         jsonObject.put("Nota", nota);
         jsonObject.put("Comentario",comentario);
         return jsonObject;
+    }
+
+
+    @Override
+    public void fromJsonObject(JSONObject jsonObject) {
+        try {
+            this.nota = jsonObject.getDouble("Nota");
+            this.comentario = jsonObject.getString("Comentario");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
 

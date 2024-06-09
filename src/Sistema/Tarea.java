@@ -1,13 +1,16 @@
 package Sistema;
 
 import Interfaz.I_Convertir_JsonObject;
+import Interfaz.I_From_JsonObect;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Tarea implements Serializable, I_Convertir_JsonObject {
+public class Tarea implements Serializable, I_Convertir_JsonObject, I_From_JsonObect{
     private int id;
     private String descripcion;
     private Date fechaEntrega;
@@ -18,7 +21,12 @@ public class Tarea implements Serializable, I_Convertir_JsonObject {
         this.fechaEntrega = fechaEntrega;
         this.entregada = entregada;
     }
-//region Getters and Setters
+
+    public Tarea() {
+
+    }
+
+    //region Getters and Setters
     public boolean isEntregada() {
         return entregada;
     }
@@ -78,5 +86,28 @@ public class Tarea implements Serializable, I_Convertir_JsonObject {
         jsonObject.put("Fecha entrega", fechaEntrega);
         jsonObject.put(" Entregada ", entregada);
         return jsonObject;
+    }
+
+
+    @Override
+    public void fromJsonObject(JSONObject jsonObject) {
+        try {
+            this.descripcion=jsonObject.getString("Descripcion Tarea");
+            this.entregada=jsonObject.getBoolean("Fecha entrega");
+            this.id=jsonObject.getInt("Id");
+            String  fecha = jsonObject.getString("Fecha entrega");
+            SimpleDateFormat Dfecha = new SimpleDateFormat("dd/MM,yyyy");
+            Date fechaDate = null;
+            try {
+                fechaDate = Dfecha.parse(fecha);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+            this.fechaEntrega = fechaDate;
+        }catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
     }
 }

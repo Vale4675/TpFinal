@@ -104,7 +104,7 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         agregar(alumno);
         grabarAlumnos();
         }
-        private void grabarAlumnos()
+        public void grabarAlumnos()
         {
             try {
                 JSONArray jsonArray=convertirJsonArray();

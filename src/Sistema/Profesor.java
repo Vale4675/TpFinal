@@ -80,12 +80,26 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
      * Metodos para mandar informacion
      * @param tarea
      */
+
+
+    /**
+     *
+     * @param tarea
+     */
     public void mandarTarea (Tarea tarea)
     {
         for (Alumno alu: alumnos.alumnoHashSet) {
             alu.recibirTarea(tarea);
         }
     }
+
+
+
+    /**
+     *
+     * @param fecha
+     * @param mensaje
+     */
     public void mandarAvisoGenerales (Date fecha,String mensaje)
     {
         Aviso aviso = new Aviso(fecha,mensaje);// creo el aviso
@@ -94,6 +108,15 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
             alu.recibirAviso(aviso);
         }
     }
+
+
+    /**
+     *
+     * @param id
+     * @param fecha
+     * @param mensaje
+     * @throws AlumnoNoEncontrado
+     */
     public void avisosPersonalisados(int id,Date fecha, String mensaje)throws AlumnoNoEncontrado
     {
         Alumno buscado = alumnos.buscar(id);
@@ -103,6 +126,8 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
             buscado.recibirAviso(aviso);
         }
     }
+
+
     public void cobrarCuota (int id, Mes mes, Cuota cuota)throws AlumnoNoEncontrado
     {
         Alumno buscado = alumnos.buscar(id);
@@ -111,7 +136,16 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
             buscado.pagarCuota(mes,cuota);
         }
     }
-    public void ComprobantePago(int id, Mes mes)throws AlumnoNoEncontrado
+
+
+
+    /**
+     *
+     * @param id
+     * @param mes
+     * @throws AlumnoNoEncontrado
+     */
+    public void generarComprobantePago(int id, Mes mes)throws AlumnoNoEncontrado
     {
         Alumno alumno = alumnos.buscar(id);
 
@@ -121,7 +155,10 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
         }else
             System.out.println(" No se encontro la cuota de ese mes");
     }
-    public void tomarAsistencia (int id,Date fecha,Boolean asist) throws AlumnoNoEncontrado {
+
+
+    public void tomarAsistencia (int id,Date fecha,Boolean asist) throws AlumnoNoEncontrado
+    {
         Alumno alumno = alumnos.buscar(id);
         if(alumno!=null) {
                 alumno.registrarAsistencia(fecha,asist);
@@ -130,6 +167,12 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
 
     }
 
+
+
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "Profesor{" +
@@ -139,6 +182,12 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
                 "} " + super.toString();
     }
 
+
+    /**
+     *
+     * @return
+     * @throws JSONException
+     */
     @Override
     public JSONObject convertirJsonObject() throws JSONException {
         JSONObject jsonObject = super.convertirJsonObject();

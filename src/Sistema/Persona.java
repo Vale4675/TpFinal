@@ -1,6 +1,7 @@
 package Sistema;
 
 import Interfaz.I_Convertir_JsonObject;
+import Interfaz.I_From_JsonObect;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,6 +44,9 @@ public abstract class Persona implements Serializable, I_Convertir_JsonObject {
     }
 // endregion
 
+
+    public Persona() {
+    }
 
     @Override
     public boolean equals(Object o) {

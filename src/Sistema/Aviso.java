@@ -1,19 +1,25 @@
 package Sistema;
 
 import Interfaz.I_Convertir_JsonObject;
+import Interfaz.I_From_JsonObect;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Aviso implements Serializable, I_Convertir_JsonObject {
+public class Aviso implements Serializable, I_Convertir_JsonObject, I_From_JsonObect {
     private Date fecha;
     private String mensaje;
 
     public Aviso(Date fecha, String mensaje) {
         this.fecha = fecha;
         this.mensaje = mensaje;
+    }
+
+    public Aviso() {
     }
 
     public Aviso(String mensaje) {
@@ -52,5 +58,21 @@ public class Aviso implements Serializable, I_Convertir_JsonObject {
         jsonObject.put("Fecha",fecha);
         jsonObject.put("Mensaje",mensaje);
         return jsonObject;
+    }
+
+    @Override
+    public void fromJsonObject(JSONObject jsonObject) {
+
+        try {
+            String  fecha = jsonObject.getString("Fecha");
+            SimpleDateFormat Dfecha = new SimpleDateFormat("dd/MM,yyyy");
+            Date fechaDate = null;
+            fechaDate = Dfecha.parse(fecha);
+            this.fecha = fechaDate;
+        } catch (JSONException | ParseException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }

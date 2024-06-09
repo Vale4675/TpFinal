@@ -31,8 +31,6 @@ public class JsonUtiles {
             e.printStackTrace();
         }
     }
-
-
     public static String leer(String archivo)
     {
         String contenido = "";
