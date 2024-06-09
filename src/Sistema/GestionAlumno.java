@@ -108,14 +108,14 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         {
             try {
                 JSONArray jsonArray=convertirJsonArray();
-                JsonUtiles.grabar(jsonArray,"Alumnos.Json");
+                JsonUtiles.grabar(jsonArray,"Alumnos");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     public void leerAlumnos()
     {
-        String fuente = JsonUtiles.leer("Alumnos.Json");
+        String fuente = JsonUtiles.leer("Alumnos");
         System.out.println(fuente);
         try {
             JSONArray jsonArray = new JSONArray(fuente);
