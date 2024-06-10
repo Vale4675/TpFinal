@@ -56,20 +56,15 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
     @Override
     public Alumno buscar(int id) throws AlumnoNoEncontrado {
         boolean encontrado = false;
+        Alumno alumno =null;
         Iterator<Alumno> iterator = alumnoHashSet.iterator();
         while (iterator.hasNext() && !encontrado) {
-            Alumno alumno = iterator.next();
+                 alumno = iterator.next();
             if (alumno.getId() == id) {
                 encontrado = true;
-                return alumno;
             }
         }
-        if (encontrado) {
-            throw new AlumnoNoEncontrado("Alumno no encontrado");
-        }
-
-
-        return null;
+        return alumno;
     }
 
     @Override
@@ -79,6 +74,7 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         while (iterator.hasNext()) {
             Alumno alumno = iterator.next();
             st.append(alumno.toString()).append("\n");
+            System.out.println( "estoy en listar gestion alumnos");
         }
         return st;
     }
