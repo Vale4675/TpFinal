@@ -60,15 +60,10 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
     }
 
     @Override
-    public Alumno buscar(int id) {
-        try {
-            alumnos.buscar(id);
-        }catch (AlumnoNoEncontrado A)
-        {
-            System.out.println(A.getMessage());
-        }
-        return null;
-    }
+    public Alumno buscar(int id) throws AlumnoNoEncontrado {
+
+        return alumnos.buscar(id);
+     }
 
     @Override
     public StringBuilder listar() {
