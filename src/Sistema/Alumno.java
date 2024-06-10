@@ -180,7 +180,7 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
         for (Tarea t : tareas) {
             tareasArray.put(t.convertirJsonObject());
         }
-        jsonObject.put("Tareas",tareasArray);
+        jsonObject.put("Tarea",tareasArray);
 
         //convierte HashMap de cuotas en JsonArray
         JSONArray cuotasArray = new JSONArray();
@@ -191,7 +191,7 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
             c.put("Cuota",entry.getKey().toString());
             cuotasArray.put(c);
         }
-        jsonObject.put("Cuotas",cuotasArray);
+        jsonObject.put("Cuota",cuotasArray);
 
         return jsonObject;
     }
