@@ -30,7 +30,7 @@ public class Sistema implements Serializable, I_Convertir_JsonObject {
 
 
     /**
-     * registra un profesor y lo graba al archivo
+     * registra un profesor
      * @param nombre
      * @param apellido
      * @param mail

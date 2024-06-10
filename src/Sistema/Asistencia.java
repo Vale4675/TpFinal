@@ -51,11 +51,11 @@ public class Asistencia implements Serializable, I_Convertir_JsonObject, I_From_
     @Override
     public void fromJsonObject(JSONObject jsonObject) {
 
-        String fecha = null;
-        SimpleDateFormat sdf=new SimpleDateFormat("dd/MM,yyyy");
         try {
+            String fecha = jsonObject.getString("Fecha") ;
+            SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
             Date fechaDate =sdf.parse(fecha);
-            fecha = jsonObject.getString("Fecha");
+            this.fecha = fechaDate;
 
         } catch (JSONException | ParseException e) {
             throw new RuntimeException(e);

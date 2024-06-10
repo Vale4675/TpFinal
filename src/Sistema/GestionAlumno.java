@@ -102,7 +102,6 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         //si no existe crea y agrega al nuevo alumno
         Alumno alumno = new Alumno(nombre, apellido, mail, nivel);
         agregar(alumno);
-        grabarAlumnos();
         }
         public void grabarAlumnos()
         {
