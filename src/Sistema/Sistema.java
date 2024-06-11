@@ -4,12 +4,13 @@ import Archivo.ControladoraDeArchivo;
 import Excepciones.PasswordIncorrecto;
 import Excepciones.UsuarioIncorrecto;
 import Interfaz.I_Convertir_JsonObject;
+import Interfaz.I_From_JsonObect;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 
-public class Sistema implements Serializable, I_Convertir_JsonObject {
+public class Sistema implements Serializable, I_Convertir_JsonObject, I_From_JsonObect {
 
     Profesor profesor;
 
@@ -20,7 +21,6 @@ public class Sistema implements Serializable, I_Convertir_JsonObject {
     }
 
     public Sistema() {
-        this.profesor = null;
     }
 
     public Profesor getProfesor() {
@@ -129,4 +129,26 @@ public class Sistema implements Serializable, I_Convertir_JsonObject {
         jsonObject.put("Profesor", profesor);
         return jsonObject;
     }
+
+
+    @Override
+    public void fromJsonObject(JSONObject jsonObject) {
+        try {
+            JSONObject jsonObjectProfe = jsonObject.getJSONObject("Profesor");
+            if(!jsonObjectProfe.equals(JSONObject.NULL))
+            {
+                Profesor profesor = new Profesor();
+                profesor.fromJsonObject(jsonObjectProfe);
+                this.profesor=profesor;
+            }
+
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+
+
 }

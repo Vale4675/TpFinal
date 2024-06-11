@@ -37,6 +37,12 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
 
     public Alumno() {
         super();
+        this.nivel = nivel;
+        this.tareas = new ArrayList<>();
+        this.asistencias = new ArrayList<Boolean>();
+        this.notas = new ArrayList<>();
+        this.avisoPersoanlizado = new ArrayList<>();
+        this.cuotaHashMap = new HashMap<>();
 
     }
 
@@ -173,16 +179,14 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
     public JSONObject convertirJsonObject() throws JSONException {
         JSONObject jsonObject = super.convertirJsonObject();
         jsonObject.put("Id", id);
-        jsonObject.put("Nivel",nivel);
+        jsonObject.put("Nivel",nivel.toString());
 
-        //convierte ArrayList en JsonArray
         JSONArray tareasArray= new JSONArray();
         for (Tarea t : tareas) {
             tareasArray.put(t.convertirJsonObject());
         }
         jsonObject.put("Tarea",tareasArray);
 
-        //convierte HashMap de cuotas en JsonArray
         JSONArray cuotasArray = new JSONArray();
         for(Map.Entry<Mes,Cuota> entry : cuotaHashMap.entrySet())
         {
@@ -192,6 +196,24 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
             cuotasArray.put(c);
         }
         jsonObject.put("Cuota",cuotasArray);
+
+        JSONArray jsonArrayAsistencia = new JSONArray();
+        for (Boolean asistencia : asistencias)
+        {
+         jsonArrayAsistencia.put(asistencia);
+        }
+        jsonObject.put("Asistencia",jsonArrayAsistencia);
+        JSONArray jsonArrayAviso= new JSONArray();
+        for (Aviso aviso :avisoPersoanlizado ) {
+            jsonArrayAviso.put(aviso.convertirJsonObject());
+        }
+        jsonObject.put("Aviso",jsonArrayAviso);
+
+        JSONArray jsonArrayNota= new JSONArray();
+        for (Nota n:notas) {
+            jsonArrayNota.put(n.convertirJsonObject());
+        }
+        jsonObject.put("Nota",jsonArrayNota);
 
         return jsonObject;
     }
@@ -282,9 +304,10 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
      *
      * @return
      */
+
     @Override
     public String toString() {
-        return "Alumno{" +
+        return "Alumno{" + super.toString()+
                 "id=" + id +
                 ", nivel=" + nivel +
                 ", tareas=" + tareas +
@@ -292,8 +315,6 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
                 ", asistencias=" + asistencias +
                 ", notas=" + notas +
                 ", avisoPersoanlizado=" + avisoPersoanlizado +
-                "} " + super.toString();
+                "} " ;
     }
-
-
 }

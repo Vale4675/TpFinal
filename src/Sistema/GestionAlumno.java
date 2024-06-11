@@ -25,6 +25,10 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
 
     }
 
+    public HashSet<Alumno> getAlumnoHashSet() {
+        return alumnoHashSet;
+    }
+
     /**
      * Metodos de la interfaz
      * @param alumno
@@ -33,7 +37,6 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
     public void agregar(Alumno alumno) {
         alumno.setId(contadorId++);
         alumnoHashSet.add(alumno);
-        System.out.println(alumno);
     }
 
     @Override
