@@ -67,8 +67,7 @@ public class Tarea implements Serializable, I_Convertir_JsonObject, I_From_JsonO
                 "id=" + id +
                 "\ndescripcion='" + descripcion + '\'' +
                 "\nfechaEntrega=" + fechaEntrega +
-                "\nentregada=" + entregada +
-                "\n------------------------------";
+                "\nentregada=" + entregada ;
 
     }
 

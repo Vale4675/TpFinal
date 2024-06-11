@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
-public abstract class Persona implements Serializable, I_Convertir_JsonObject {
+public abstract class Persona implements Serializable, I_Convertir_JsonObject,I_From_JsonObect {
     private String nombre;
     private String apellido;
     private String mail;
@@ -68,6 +68,21 @@ public abstract class Persona implements Serializable, I_Convertir_JsonObject {
         jsonObject.put("Apellido",apellido);
         jsonObject.put("mail", mail);
         return jsonObject;
+    }
+
+    @Override
+    public void fromJsonObject(JSONObject jsonObject) {
+        try {
+            String nombre = jsonObject.getString("Nombre");
+            String apellido = jsonObject.getString("Apellido");
+            String mail = jsonObject.getString("mail");
+            this.setNombre(nombre);
+            this.setApellido(apellido);
+            this.setMail(mail);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

@@ -24,67 +24,16 @@ public class Main {
 
     public static void main(String[] args) throws PasswordIncorrecto, AlumnoNoEncontrado, UsuarioIncorrecto, UsuarioYaExiste {
 
+        try {
+            //sistema = ControladoraDeArchivo.leer("Sistema.dat");
+          //  Alumno alumno = ControladoraDeArchivo.leer("Alumno.dat");
+            //gestionAlumno.leerAlumnos();
 
-        System.out.println("---- Usuario -----\n" +
-                "\n" +
-                "¡Bienvenido al sistema de gestión de alumnos! Este manual te guiará a través de las distintas  funcionalidades disponibles en esta aplicación.\n" +
-                "\n" +
-                "1. Iniciar Sesión\n" +
-                "\n" +
-                "Al abrir la aplicación, se te pedirá que elijas una opción. Para comenzar, selecciona la opción \"1 -> Iniciar sesión\". Luego, ingresa tu correo electrónico y contraseña cuando se te solicite.\n" +
-                "\n" +
-                "2. Registrarse\n" +
-                "\n" +
-                "Si aún no tienes una cuenta, puedes registrarte seleccionando la opción \"2 -> Registrarse\". Completa los campos solicitados, incluyendo tu nombre, apellido, correo electrónico y contraseña.\n" +
-                "\n" +
-                "3. Recuperar Contraseña\n" +
-                "\n" +
-                "En caso de olvidar tu contraseña, puedes recuperarla seleccionando la opción \"3 -> Recuperar contraseña\". Ingresa tu correo electrónico y la nueva contraseña que deseas utilizar.\n" +
-                "\n" +
-                "4. Ver Mis Datos\n" +
-                "\n" +
-                "Después de iniciar sesión, podrás ver tus datos personales seleccionando la opción \"4 -> Ver mis datos\". Aquí encontrarás información como tu nombre, apellido y correo electrónico.\n" +
-                "\n" +
-                "5. Eliminarse del Sistema\n" +
-                "\n" +
-                "Si deseas eliminar tu cuenta del sistema, selecciona la opción \"5 -> Eliminarse del sistema\". Se te pedirá que ingreses tu correo electrónico y contraseña para confirmar la eliminación de tu cuenta.\n" +
-                "\n" +
-                "6. Salir\n" +
-                "\n" +
-                "Para salir de la aplicación, selecciona la opción \"6 -> Salir\".\n" +
-                "\n" +
-                "Gestión de Alumnos\n" +
-                "\n" +
-                "Después de iniciar sesión, tendrás acceso a las siguientes opciones relacionadas con la gestión de alumnos:\n" +
-                "\n" +
-                "1. Registrar Alumno\n" +
-                "\n" +
-                "Registra un nuevo alumno en el sistema proporcionando su nombre, apellido, correo electrónico y nivel (INICIAL, INTERMEDIO o AVANZADO).\n" +
-                "2. Buscar Alumno\n" +
-                "\n" +
-                "Busca un alumno en el sistema ingresando su ID.\n" +
-                "3. Listar Alumnos\n" +
-                "\n" +
-                "Muestra la lista de todos los alumnos registrados en el sistema.\n" +
-                "4. Eliminar Alumno\n" +
-                "\n" +
-                "Elimina un alumno del sistema ingresando su ID.\n" +
-                "5. Tomar Asistencia\n" +
-                "\n" +
-                "Registra la asistencia de un alumno seleccionando esta opción.\n" +
-                "6. Otra Opción\n" +
-                "\n" +
-                "Si deseas realizar otra acción, selecciona esta opción para volver al menú anterior.\n" +
-                "7. Menú Anterior\n" +
-                "\n" +
-                "Regresa al menú anterior si deseas seleccionar otra opción.\n" +
-                "¡Ahora estás listo para utilizar todas las funciones de esta aplicación de gestión de alumnos! Si tienes alguna pregunta o necesitas ayuda adicional, no dudes en consultar este manual o ponerte en contacto con el soporte técnico. ¡Disfruta utilizando el sistema!" +
-                "\n");
+        } catch (Exception e) {
+            System.out.println("Error al leer archivos " + e.getMessage());
+        }
 
-        sistema= ControladoraDeArchivo.leer("Sistema.dat");
-        // gestionAlumno.leerAlumnos();
-            gestionAlumno.listar();
-        System.out.println(listarAlumnos());
+
         int opcion;
         do {
             System.out.println("-----BIENVENIDO-----");
@@ -102,13 +51,13 @@ public class Main {
                     registrarUsuario();
                     break;
                 case 2:
-                    Profesor p = iniciarSecion();
-                    if(p!=null)
-                    {
+                    Profesor p = iniciarSesion();
+                    if (p != null) {
                         try {
                             menuProfe(p);
                         } catch (UsuarioYaExiste e) {
-                            System.out.println(e.getMessage());;
+                            System.out.println(e.getMessage());
+                            ;
                         }
                     }
                     break;
@@ -130,9 +79,14 @@ public class Main {
 
         } while (opcion != 6);
 
-        ControladoraDeArchivo.grabar(sistema,"Sistema.dat");
+        try {
+            ControladoraDeArchivo.grabar(sistema, "Sistema.dat");
+            ControladoraDeArchivo.grabar(gestionAlumno, "Alumno.dat");
+            // gestionAlumno.grabarAlumnos();
+        } catch (Exception e) {
+            System.out.println("Error al grabar archivo" + e.getMessage());
+        }
 
-        gestionAlumno.grabarAlumnos();
 
     }
 
@@ -155,20 +109,20 @@ public class Main {
     }
 
 
-    public static Profesor iniciarSecion() throws PasswordIncorrecto, UsuarioIncorrecto, AlumnoNoEncontrado {
+    public static Profesor iniciarSesion() throws PasswordIncorrecto, UsuarioIncorrecto, AlumnoNoEncontrado {
         System.out.println("introduce el mail");
         String mail = scanner.next();
         System.out.println("introduce la contraseña");
         String password = scanner.next();
-        Profesor profesor = null;
         try {
-            profesor = sistema.iniciarSesion(mail, password);
+            Profesor profesor = sistema.iniciarSesion(mail, password);
             System.out.println("Bienvenido " + profesor.getNombre());
-        }catch (PasswordIncorrecto|UsuarioIncorrecto e)
-        {
+            return profesor;
+        } catch (PasswordIncorrecto | UsuarioIncorrecto e) {
             System.out.println(e.getMessage());
+            return null;
         }
-        return profesor;
+
     }
 
     public static void recuperarContrasenia() {
@@ -185,8 +139,7 @@ public class Main {
 
     }
 
-    public static void mostrarInfoProfesor() throws AlumnoNoEncontrado
-    {
+    public static void mostrarInfoProfesor() throws AlumnoNoEncontrado {
         Profesor profesor = sistema.getProfesor();
         if (profesor != null) {
             System.out.println(profesor.toString());
@@ -204,7 +157,7 @@ public class Main {
             String contrasenia = scanner.next();
             sistema.eliminarDelSistema(mail, contrasenia);
 
-            System.out.println("El profesor ha sido eliminado con exito " + sistema.getProfesor());
+            System.out.println("El profesor "+sistema.getProfesor()+"  ha sido eliminado con exito") ;
 
         } catch (UsuarioIncorrecto usuarioIncorrecto) {
             System.out.println(usuarioIncorrecto.getMessage());
@@ -222,11 +175,12 @@ public class Main {
             System.out.println(" 3 -> Listar Alumnos");
             System.out.println(" 4 -> Eliminar Alumno");
             System.out.println(" 5 -> Tomar asistencia");
-            System.out.println(" 6 -> Mandar aviso");
-            System.out.println(" 7 -> Mandar Tarea");
-            System.out.println(" 8 -> Mandar nota" );
-            System.out.println(" 9 -> Cobrar cuota ");
-            System.out.println(" 10 -> Menu anterior");
+            System.out.println(" 6 -> Mandar aviso personalisado");
+            System.out.println(" 7 -> Mandar aviso general");
+            System.out.println(" 8 -> Mandar Tarea");
+            System.out.println(" 9 -> Mandar nota");
+            System.out.println(" 10 -> Cobrar cuota ");
+            System.out.println(" 11 -> Menu anterior");
             opcion = scanner.nextInt();
             scanner.nextLine();
             switch (opcion) {
@@ -237,7 +191,7 @@ public class Main {
                     buscarAlumno();
                     break;
                 case 3:
-                    System.out.println(listarAlumnos());
+                    listarAlumnos();
                     break;
                 case 4:
                     eliminarAlumno();
@@ -247,17 +201,18 @@ public class Main {
                     break;
                 case 6:
                     mandarAviso();
-                    break;
-                case 7:
-                    mandarTarea();
+                case 7: mandarAvisoGeneral();
                     break;
                 case 8:
-                    mandarNota();
+                    mandarTarea();
                     break;
                 case 9:
-                    cobrarCuota();
+                    mandarNota();
                     break;
                 case 10:
+                    cobrarCuota();
+                    break;
+                case 11:
                     System.out.println("Volviendo al menu anterior");
                     break;
 
@@ -265,7 +220,7 @@ public class Main {
                     System.out.println("Opcion invalida");
 
             }
-        } while (opcion != 10);
+        } while (opcion != 11);
 
     }
 
@@ -290,7 +245,8 @@ public class Main {
             String nivelString = scanner.next().toUpperCase();
             Nivel nivel = Nivel.valueOf(nivelString);
             gestionAlumno.registrarAlumno(nombre, apellido, mail, nivel);
-            System.out.println("El alumno "+ nombre+ "ha sido registrado con exito");
+            System.out.println("El alumno " + nombre + " ha sido registrado con exito\n");
+            sistema.getProfesor().agregar(new Alumno(nombre,apellido,mail,nivel));
         } catch (UsuarioYaExiste e) {
             System.out.println(e.getMessage());
         } catch (IllegalArgumentException e) {
@@ -304,10 +260,10 @@ public class Main {
 
     private static void buscarAlumno() {
         System.out.println("ingrese el id del alumno");
-        int id=scanner.nextInt();
-        Alumno alumno = null;
+        int id = scanner.nextInt();
+
         try {
-            alumno = gestionAlumno.buscar(id);
+           Alumno alumno = gestionAlumno.buscar(id);
             mostrarInfoAlumno(alumno);
         } catch (AlumnoNoEncontrado e) {
             System.out.println(e.getMessage());
@@ -317,13 +273,14 @@ public class Main {
 
     /**
      * funciona
+     *
      * @return
      */
 
-    private static StringBuilder listarAlumnos() {
+    private static void listarAlumnos() {
         System.out.println("estoy en listar alumno main");
-        StringBuilder sb= gestionAlumno.listar();
-        return sb;
+        StringBuilder sb = gestionAlumno.listar();
+        System.out.println(sb);
     }
 
     /**
@@ -331,17 +288,18 @@ public class Main {
      */
     private static void eliminarAlumno() {
         System.out.println("ingrese el id");
-        int id= scanner.nextInt();
+        int id = scanner.nextInt();
         try {
             gestionAlumno.eliminar(id);
-            System.out.println("El alumno con el id "+ id+" ha sido eliminado");
+            System.out.println("El alumno con el id " + id + " ha sido eliminado\n");
+            sistema.getProfesor().eliminar(id);
         } catch (AlumnoNoEncontrado e) {
             System.out.println(e.getMessage());
         }
 
     }
 
-    private static void registrarAsistencia()  {
+    private static void registrarAsistencia() {
 
         System.out.println("ingrese id del alumno");
         int id = scanner.nextInt();
@@ -354,19 +312,18 @@ public class Main {
             System.out.println("formato no valido");
         }
         boolean asistio = asistencia();
-        Alumno alumno =null;
+        Alumno alumno = null;
         try {
-            if(asistio)
-            {
-                alumno= gestionAlumno.buscar(id);
-                alumno.registrarAsistencia( fecha ,asistio);
-                mostrarInfoAlumno(alumno);
+            if (asistio) {
+                alumno = gestionAlumno.buscar(id);
+                alumno.registrarAsistencia(fecha, asistio);
+                sistema.getProfesor().tomarAsistencia(id,fecha,asistio);
+                System.out.println("Alumno "+ alumno.getNombre()+ "presente");
             }
-        }catch (AlumnoNoEncontrado e)
-        {
+        } catch (AlumnoNoEncontrado e) {
             System.out.println("Alumno ausente");
         }
-      
+
 
     }
 
@@ -381,21 +338,14 @@ public class Main {
 
     }
 
-    private static void mostrarInfoAlumno(Alumno a) throws AlumnoNoEncontrado
-    {
-        if(a!=null)
-        {
+    private static void mostrarInfoAlumno(Alumno a) throws AlumnoNoEncontrado {
+        if (a != null) {
             System.out.println(a.toString());
-        }
-        else {
+        } else {
             throw new AlumnoNoEncontrado("Alumno no encontrado");
         }
     }
-
-    private static void mandarAviso()
-    {
-        System.out.println("ingrese el id del alumno");
-        int id= scanner.nextInt();
+    private static void mandarAvisoGeneral() {
         System.out.println("ingrese el aviso");
         String aviso = scanner.next();
         try {
@@ -403,88 +353,126 @@ public class Main {
             String date = scanner.next();
             Date fecha = null;
             fecha = new SimpleDateFormat("dd,MM,yyyy").parse(date);
-            Aviso avisito = new Aviso(fecha,aviso);
-            Alumno alumno = gestionAlumno.buscar(id);
-            alumno.recibirAviso(avisito);
-        } catch (ParseException | AlumnoNoEncontrado e) {
+            Aviso avisito = new Aviso(fecha, aviso);
+            for (Alumno a: gestionAlumno.getAlumnoHashSet()) {
+                a.recibirAviso(avisito);
+            }
+            sistema.getProfesor().mandarAvisoGenerales(fecha,aviso);
+
+        } catch (ParseException e) {
             System.out.println("formato no valido");
         }
     }
 
-    private  static void mandarTarea()
-    {
+    private static void mandarAviso() {
         System.out.println("ingrese el id del alumno");
-        int id= scanner.nextInt();
-        System.out.println("ingrese la descripcion de la tarea");
-        String tareita = scanner.next();
-        System.out.println("Fue entregada ? ");
-        boolean entreg= scanner.nextBoolean();
-
+        int id = scanner.nextInt();
+        System.out.println("ingrese el aviso");
+        String aviso = scanner.next();
         try {
             System.out.println("Ingrese la fecha");
             String date = scanner.next();
             Date fecha = null;
             fecha = new SimpleDateFormat("dd,MM,yyyy").parse(date);
-            Tarea tarea= new Tarea(id,tareita,fecha,entreg);
-              Alumno alumno = gestionAlumno.buscar(id);
-              alumno.recibirTarea(tarea);
-            System.out.println("Tarea enviada al alumno "+alumno.getNombre());
+            Aviso avisito = new Aviso(fecha, aviso);
+            Alumno alumno = gestionAlumno.buscar(id);
+            alumno.recibirAviso(avisito);
+            sistema.getProfesor().avisosPersonalisados(id,fecha,aviso);
+        } catch (ParseException | AlumnoNoEncontrado e) {
+            System.out.println("formato no valido");
+        }
+    }
+
+    private static void mandarTarea() {
+        System.out.println("ingrese el id del alumno");
+        int id = scanner.nextInt();
+        System.out.println("ingrese la descripcion de la tarea");
+        String tareita = scanner.next();
+        /* System.out.println("1 = Fue entregada  ");
+        System.out.println("2 = No fue entregada  ");
+        int n = scanner.nextInt();
+        boolean entrega = false;
+        if(n == 1)
+        {
+            System.out.println("Tarea entregada");
+            entrega = true;
+        }
+        else
+        {
+            System.out.println("La tarea no se entrego");
+        }
+         */
+        try {
+            System.out.println("Ingrese la fecha");
+            String date = scanner.next();
+            Date fecha = null;
+            fecha = new SimpleDateFormat("dd,MM,yyyy").parse(date);
+            Tarea tarea = new Tarea(id, tareita, fecha, false);
+            Alumno alumno = gestionAlumno.buscar(id);
+            alumno.recibirTarea(tarea);//el alumno recibe la tarea
+            sistema.getProfesor().mandarTarea(tarea); // se guarda la tarea en el profesor
+            System.out.println("Tarea enviada al alumno " + alumno.getNombre());
         } catch (ParseException e) {
             System.out.println("formato no valido");
         } catch (AlumnoNoEncontrado e) {
-            System.out.println(e.getMessage());;
+            System.out.println(e.getMessage());
+            ;
         }
 
     }
 
-    private static void cobrarCuota()
-    {
+    private static void cobrarCuota() {
         System.out.println("ingrese el id del alumno");
-        int id= scanner.nextInt();
+        int id = scanner.nextInt();
         System.out.println("Numero de comprobante");
         int c = scanner.nextInt();
-        System.out.println("Ingrese el mes de la cuota");
-        String mes= scanner.next();
-        Mes m =Mes.valueOf(mes);
+        System.out.println("Ingrese el mes de la cuota Ej ENERO,FEBRERO...");
+        String mes = scanner.next();
+        Mes m = Mes.valueOf(mes);
         System.out.println("ingrese el monto");
         double monto = scanner.nextDouble();
-        System.out.println("Pagado t/f");
-        boolean pagado = scanner.nextBoolean();
-        Cuota cuota = new Cuota(c,monto,pagado);
-
-        System.out.println("Comprobante de pago Clases de ingles ");
-        System.out.println("Comprobante n°  "+c );
-        System.out.println("Mes " +  mes);
-        System.out.println("Monto " + monto);
-
+        System.out.println("1= Pagado ");
+        System.out.println("2= No Pagado ");
+        int n = scanner.nextInt();
+        boolean pagado = false;
         try {
+        if(n==1) {
+            pagado= true;
+            Cuota cuota = new Cuota(c, monto, pagado);
+            System.out.println("Comprobante de pago Clases de ingles ");
+            System.out.println("Comprobante n°  " + c);
+            System.out.println("Mes " + mes);
+            System.out.println("Monto " + monto);
             Alumno alumno = gestionAlumno.buscar(id);
-            alumno.pagarCuota(m,cuota);
+            sistema.getProfesor().cobrarCuota(id,m,cuota);
+            sistema.getProfesor().generarComprobantePago(id,m);
+            alumno.pagarCuota(m, cuota);
+        }
         } catch (AlumnoNoEncontrado e) {
             System.out.println(e.getMessage());
         }
     }
 
 
-   private static  void mandarNota()
-   {
-       System.out.println("escribe el id del alumno");
-       int id= scanner.nextInt();
-       System.out.println("Escribe la calificacion");
-       double nota = scanner.nextInt();
-       System.out.println("Escribe comentario");
-       String comentario = scanner.next();
-       try {
-           Alumno alumno = gestionAlumno.buscar(id);
-           Nota notita = new Nota(nota,comentario);
-           alumno.recibirNota(notita);
-           System.out.println("nota enviada al alumno ");
-       } catch (AlumnoNoEncontrado e) {
-           System.out.println(e.getMessage());;
-       }
+    private static void mandarNota() {
+        System.out.println("escribe el id del alumno");
+        int id = scanner.nextInt();
+        System.out.println("Escribe la calificacion");
+        double nota = scanner.nextInt();
+        System.out.println("Escribe comentario");
+        String comentario = scanner.next();
+        try {
+            Alumno alumno = gestionAlumno.buscar(id);
+            Nota notita = new Nota(nota, comentario);
+            alumno.recibirNota(notita);
+            System.out.println("nota enviada al alumno ");
+        } catch (AlumnoNoEncontrado e) {
+            System.out.println(e.getMessage());
+            ;
+        }
 
 
-   }
+    }
 
 
     //endregion
