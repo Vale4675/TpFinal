@@ -147,11 +147,21 @@ public class Main {
         System.out.println("Ingrese su contraseña ");
         String password = scanner.next();
         try {
+            if (sistema == null) { // Línea agregada
+                sistema = new Sistema(); // Línea agregada
+            } // Línea agregada
             sistema.registrarProfesor(nombre, apellido, mail, password);
             mostrarInfoProfesor();
         } catch (UsuarioIncorrecto | AlumnoNoEncontrado e) {
             System.out.println(e.getMessage());
         }
+        /*
+        try {
+            sistema.registrarProfesor(nombre, apellido, mail, password);
+            mostrarInfoProfesor();
+        } catch (UsuarioIncorrecto | AlumnoNoEncontrado e) {
+            System.out.println(e.getMessage());
+        }*/
     }
 
 
