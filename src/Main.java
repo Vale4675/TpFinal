@@ -300,7 +300,7 @@ public class Main {
                 int anio = Integer.parseInt(fechaC[2]);
                 String[] horaC = horaStr.split(",");
                 int hora = Integer.parseInt(horaC[0]);
-                int minuto = Integer.parseInt([1]);
+                int minuto = Integer.parseInt(fechaC[1]);
                 fecha.set(anio, mes, dia, hora, minuto);
 
             } catch (Exception e) {
@@ -378,8 +378,7 @@ public class Main {
         Recordatorio recordatorio = sistema.getProfesor().buscarRecordatorio(fecha, tipo);
         System.out.println(recordatorio);
     }
-
-}
+    
 //region   Gestion para alumnos
 
 
