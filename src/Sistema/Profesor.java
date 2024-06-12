@@ -13,31 +13,31 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable, I_Convertir_JsonObject, I_From_JsonObect {
 
     private String password;
     private GestionAlumno alumnos;
     private ArrayList<Aviso> avisosGenerales;
-    private Calendario calendario;
+    private List<Recordatorio> recordatorioList;
+
 
     public Profesor(String nombre, String apellido, String mail, String password) {
         super( nombre, apellido, mail);
         this.password = password;
         this.alumnos = new GestionAlumno();
         this.avisosGenerales = new ArrayList<>();
-        this.calendario = new Calendario();
+        this.recordatorioList = new ArrayList<>();
+
     }
-
-
     public Profesor() {
     }
+
 //region Getters and Setters
 
-    public Calendario getCalendario() {
-        return calendario;
-    }
 
     public String getPassword() {
         return password;
@@ -46,7 +46,47 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
     public void setPassword(String password) {
         this.password = password;
     }
-// endregion
+    // endregion
+
+
+
+    public void agregarRecordatorio(Calendar fecha,String tipo,String detalle, int id)
+    {
+        recordatorioList.add(new Recordatorio(fecha,tipo,detalle,id));
+    }
+
+    public void eliminarRecordatorio(Calendar fecha,String tipo, int id )
+    {
+        for (Recordatorio r:recordatorioList) {
+            if(r.getFecha().equals(fecha)&& r.getTipo().equals(tipo))
+            {
+                recordatorioList.remove(r);
+                System.out.println("Recordadorio eliminado " + r);
+            }
+            else {
+                System.out.println("recordatorio no encontrado");
+            }
+        }
+    }
+
+    public Recordatorio buscarRecordatorio(Calendar fecha,String tipo, int id )
+    {
+        for (Recordatorio r:recordatorioList) {
+            if(r.getFecha().equals(fecha)&& r.getTipo().equals(tipo)) {
+                return r;
+            }
+
+        }
+       return null;
+    }
+public void listarRecordatorios()
+{
+    for (Recordatorio r:recordatorioList) {
+        System.out.println(r);
+    }
+
+}
+
 
     /**
      * Metodos de la interfaz
@@ -171,13 +211,6 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
         }else throw new AlumnoNoEncontrado("no se encontro el alumno");
 
     }
-
-    public void agregarEventoCalendario(String descip,Date fecha, Alumno alumno)
-    {
-        Evento evento = new Evento(descip,fecha,alumno);
-        calendario.agregar(evento);
-    }
-
 
 
     /**
