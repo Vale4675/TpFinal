@@ -25,8 +25,10 @@ public class Main {
     public static void main(String[] args) throws PasswordIncorrecto, AlumnoNoEncontrado, UsuarioIncorrecto, UsuarioYaExiste {
 
         try {
-          sistema= ControladoraDeArchivo.leer("Sistema.dat");
-          gestionAlumno= ControladoraDeArchivo.leer("Alumno.dat");
+           sistema= ControladoraDeArchivo.leer("Sistema.dat");
+            System.out.println(sistema);
+            gestionAlumno= ControladoraDeArchivo.leer("Alumno.dat");
+            System.out.println(gestionAlumno);
          //   gestionAlumno.leerAlumnos();
 
         } catch (Exception e) {

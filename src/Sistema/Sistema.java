@@ -21,6 +21,7 @@ public class Sistema implements Serializable, I_Convertir_JsonObject, I_From_Jso
     }
 
     public Sistema() {
+        
     }
 
     public Profesor getProfesor() {
@@ -119,7 +120,7 @@ public class Sistema implements Serializable, I_Convertir_JsonObject, I_From_Jso
     @Override
     public String toString() {
         return "Sistema{" +
-                "profesor=" + profesor +
+                "\nprofesor=" + profesor +
                 '}';
     }
 
