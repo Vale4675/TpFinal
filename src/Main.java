@@ -309,6 +309,7 @@ public class Main {
         }
     }
 
+
     private static void agregarRecordatorioManual() {
         Calendar fecha = Calendar.getInstance();
         System.out.println("Ingrese la fecha  (dd,MM,yyyy):");
@@ -332,10 +333,11 @@ public class Main {
             String detalle = scanner.next();
             System.out.println("El recordatorio es para un alumno en particular s/n");
             String rta = scanner.next().toLowerCase();
+            Recordatorio recordatorio = null;
             if (rta.equals("s")) {
                 System.out.println("Ingrese el id del alumno");
                 int id = scanner.nextInt();
-                Recordatorio recordatorio = new Recordatorio(fecha, tp, detalle, id);
+                 recordatorio = new Recordatorio(fecha, tp, detalle, id);
                 Alumno alumno = gestionAlumno.buscar(id);
                 alumno.recibirRecordatorio(recordatorio);
                 sistema.getProfesor().agregarRecordatorio(fecha, tp, detalle, id);
@@ -348,8 +350,9 @@ public class Main {
     }
 
 
+
     private static void eliminarRecordatorioMain() {
-        System.out.println("Tipo de recordatorio ->  EXAMEN, PAGO_CUOTA, REUNION_PADRE, TAREA, FECHA_LIMITE ");
+        System.out.println("Tipo de recordatorio ->  EXAMEN , PAGO_CUOTA, REUNION_PADRE, TAREA, FECHA_LIMITE ");
         String tipo = scanner.next().toUpperCase();
         TipoRecordatorio tp = TipoRecordatorio.valueOf(tipo);
         try {
@@ -369,7 +372,7 @@ public class Main {
         TipoRecordatorio tp = TipoRecordatorio.valueOf(tipo);
         try {
             Recordatorio recordatorio = sistema.getProfesor().buscarRecordatorio(tp);
-            System.out.println("El recordatorio es " + recordatorio.toString());
+            System.out.println("El recordatorio es " + recordatorio);
         } catch (RecordatorioNoEncontrado e) {
             System.out.println("Recordatorio no encontrado");
         }

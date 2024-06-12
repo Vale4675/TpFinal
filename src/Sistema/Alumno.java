@@ -25,9 +25,6 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
     private ArrayList<Aviso> avisoPersoanlizado;
     private ArrayList<Recordatorio> recordatorioArrayList;
 
-    public HashMap<Mes, Cuota> getCuotaHashMap() {
-        return cuotaHashMap;
-    }
 
     public Alumno(int id, String nombre, String apellido, String mail, Nivel nivel) {
         super(nombre, apellido, mail);
@@ -56,6 +53,7 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
         this.notas = new ArrayList<>();
         this.avisoPersoanlizado = new ArrayList<>();
         this.cuotaHashMap = new HashMap<>();
+        this.recordatorioArrayList = new ArrayList<>();
     }
 
     /** metodos para recibir informacion
