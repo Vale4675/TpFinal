@@ -20,17 +20,24 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
     private String password;
     private GestionAlumno alumnos;
     private ArrayList<Aviso> avisosGenerales;
+    private Calendario calendario;
 
     public Profesor(String nombre, String apellido, String mail, String password) {
         super( nombre, apellido, mail);
         this.password = password;
         this.alumnos = new GestionAlumno();
         this.avisosGenerales = new ArrayList<>();
+        this.calendario = new Calendario();
     }
+
 
     public Profesor() {
     }
 //region Getters and Setters
+
+    public Calendario getCalendario() {
+        return calendario;
+    }
 
     public String getPassword() {
         return password;
@@ -50,6 +57,7 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
         alumnos.agregar(alumno);
 
     }
+
 
     @Override
     public void eliminar(int id) {
@@ -162,6 +170,13 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
 
         }else throw new AlumnoNoEncontrado("no se encontro el alumno");
 
+    }
+
+    public void agregarEventoCalendario(String descip,Date fecha, Alumno alumno)
+    {
+        Evento evento = new Evento(descip,fecha,alumno);
+        calendario.agregar(evento);
+        agregarEvento();
     }
 
 

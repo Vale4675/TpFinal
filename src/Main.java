@@ -25,9 +25,9 @@ public class Main {
     public static void main(String[] args) throws PasswordIncorrecto, AlumnoNoEncontrado, UsuarioIncorrecto, UsuarioYaExiste {
 
         try {
-            //sistema = ControladoraDeArchivo.leer("Sistema.dat");
-          //  Alumno alumno = ControladoraDeArchivo.leer("Alumno.dat");
-            //gestionAlumno.leerAlumnos();
+          sistema= ControladoraDeArchivo.leer("Sistema.dat");
+          gestionAlumno= ControladoraDeArchivo.leer("Alumno.dat");
+         //   gestionAlumno.leerAlumnos();
 
         } catch (Exception e) {
             System.out.println("Error al leer archivos " + e.getMessage());
