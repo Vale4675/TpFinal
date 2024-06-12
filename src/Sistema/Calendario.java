@@ -1,3 +1,5 @@
+package Sistema;
+
 import Excepciones.AlumnoNoEncontrado;
 import Interfaz.I_Metodos;
 import Sistema.Alumno;
@@ -8,7 +10,7 @@ public class Calendario implements I_Metodos<Evento> {
     private ArrayList<Evento> eventos;
 
     public Calendario() {
-       eventos= new ArrayList<>();
+        eventos = new ArrayList<>();
     }
 
 
@@ -20,14 +22,12 @@ public class Calendario implements I_Metodos<Evento> {
 
     @Override
     public void eliminar(int id) {
-        for (Evento e:eventos) {
-            if(e.getAlumno().getId() == id)
-            {
+        for (Evento e : eventos) {
+            if (e.getAlumno().getId() == id) {
                 eventos.remove(e);
-                System.out.println("El evento del alumno "+ id+ "ha sido eliminado\n");
-            }
-            else {
-                System.out.println("evento no encontrado");
+                System.out.println("El evento del alumno " + id + " ha sido eliminado\n");
+            } else {
+                System.out.println(" evento no encontrado");
             }
         }
 
@@ -36,19 +36,26 @@ public class Calendario implements I_Metodos<Evento> {
 
     @Override
     public Evento buscar(int id) {
-        boolean esta=false;
-        for (Evento e:eventos) {
-            if(e.getAlumno().getId()==id)
-            {
-
+        boolean encontrado = false;
+        Evento evento = null;
+        for (Evento e : eventos) {
+            if (e.getAlumno().getId() == id) {
+                encontrado = true;
             }
-
         }
-        return null;
+        return evento;
     }
 
+    public ArrayList<Evento> listarEventos()
+    {
+        return new ArrayList<>(eventos);
+    }
     @Override
     public StringBuilder listar() {
-        return null;
+        StringBuilder st = new StringBuilder();
+        for (Evento e : eventos) {
+            st.append(e.toString()).append("\n");
+        }
+        return st;
     }
 }

@@ -122,7 +122,6 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 System.out.println(jsonObject.getString("Nombre"));
 
-
             }
 
         }catch (JSONException e)
