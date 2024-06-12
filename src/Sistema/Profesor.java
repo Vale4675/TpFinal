@@ -176,7 +176,6 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
     {
         Evento evento = new Evento(descip,fecha,alumno);
         calendario.agregar(evento);
-        agregarEvento();
     }
 
 
@@ -188,9 +187,9 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
     @Override
     public String toString() {
         return "Profesor{" + super.toString()+
-                "password='" + password + '\'' +
-                ", alumnos=" + alumnos +
-                ", avisosGenerales=" + avisosGenerales +
+                "\npassword='" + password + '\'' +
+                "\nalumnos=" + alumnos +
+                "\navisosGenerales=" + avisosGenerales +
                 "} ";
     }
 

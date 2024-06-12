@@ -64,7 +64,7 @@ public class Tarea implements Serializable, I_Convertir_JsonObject, I_From_JsonO
     @Override
     public String toString() {
         return "Tarea{" +
-                "id=" + id +
+                "\nid=" + id +
                 "\ndescripcion='" + descripcion + '\'' +
                 "\nfechaEntrega=" + fechaEntrega +
                 "\nentregada=" + entregada ;
