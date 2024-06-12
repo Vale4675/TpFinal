@@ -1,12 +1,14 @@
 package Sistema;
 
 import Excepciones.AlumnoNoEncontrado;
+import Excepciones.RecordatorioNoEncontrado;
 import Interfaz.I_Convertir_JsonArray;
 import Interfaz.I_Convertir_JsonObject;
 import Interfaz.I_From_JsonObect;
 import Interfaz.I_Metodos;
 import Sistema.Enum.Mes;
 import Sistema.Enum.Nivel;
+import Sistema.Enum.TipoRecordatorio;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,7 +24,7 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
     private String password;
     private GestionAlumno alumnos;
     private ArrayList<Aviso> avisosGenerales;
-    private List<Recordatorio> recordatorioList;
+    private ArrayList<Recordatorio> recordatorioList;
 
 
     public Profesor(String nombre, String apellido, String mail, String password) {
@@ -50,15 +52,16 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
 
 
 
-    public void agregarRecordatorio(Calendar fecha,String tipo,String detalle, int id)
+    public void agregarRecordatorio(Calendar fecha, TipoRecordatorio tipo, String detalle, int id)
     {
-        recordatorioList.add(new Recordatorio(fecha,tipo,detalle,id));
+        Recordatorio recordatorio = new Recordatorio(fecha,tipo,detalle,id);
+        recordatorioList.add(recordatorio);
     }
 
-    public void eliminarRecordatorio(Calendar fecha,String tipo)
+    public void eliminarRecordatorio(TipoRecordatorio tipo)throws RecordatorioNoEncontrado
     {
         for (Recordatorio r:recordatorioList) {
-            if(r.getFecha().equals(fecha)&& r.getTipo().equals(tipo))
+            if( r.getTipo().equals(tipo))
             {
                 recordatorioList.remove(r);
                 System.out.println("Recordadorio eliminado " + r);
@@ -67,19 +70,20 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
                 System.out.println("recordatorio no encontrado");
             }
         }
+        throw new RecordatorioNoEncontrado("No se encontro un recordatorio del tipo especificado");
     }
 
-    public Recordatorio buscarRecordatorio(Calendar fecha,String tipo )
+    public Recordatorio buscarRecordatorio(TipoRecordatorio tipo )throws RecordatorioNoEncontrado
     {
-        for (Recordatorio r:recordatorioList) {
-            if(r.getFecha().equals(fecha)&& r.getTipo().equals(tipo)) {
+        for (Recordatorio r :recordatorioList) {
+            if(r.getTipo().equals(tipo))
+            {
                 return r;
             }
-
         }
-       return null;
+        throw new RecordatorioNoEncontrado("No se encontro un recordatorio del tipo especificado");
     }
-public void listarRecordatorios()
+public void listarRecordatorios()throws RecordatorioNoEncontrado
 {
     for (Recordatorio r:recordatorioList) {
         System.out.println(r);

@@ -23,6 +23,7 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
     private ArrayList<Boolean> asistencias;
     private ArrayList<Nota> notas;
     private ArrayList<Aviso> avisoPersoanlizado;
+    private ArrayList<Recordatorio> recordatorioArrayList;
 
     public HashMap<Mes, Cuota> getCuotaHashMap() {
         return cuotaHashMap;
@@ -43,6 +44,7 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
         this.notas = new ArrayList<>();
         this.avisoPersoanlizado = new ArrayList<>();
         this.cuotaHashMap = new HashMap<>();
+        this.recordatorioArrayList = new ArrayList<>();
 
     }
 
@@ -88,6 +90,10 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
         cuotaHashMap.put(mes,cuota);
     }
 
+    public void recibirRecordatorio(Recordatorio r)
+    {
+        recordatorioArrayList.add(r);
+    }
     /**
      *
      * @param asistencia
@@ -215,6 +221,12 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
         }
         jsonObject.put("Nota",jsonArrayNota);
 
+        JSONArray jsonArrayRec = new JSONArray();
+        for (Recordatorio r:recordatorioArrayList) {
+            jsonArrayRec.put(r.convertirJsonObject());
+        }
+        jsonObject.put("Recordatorio",recordatorioArrayList);
+
         return jsonObject;
     }
 
@@ -292,7 +304,15 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
                 cuota.fromJsonObject(cuotaObject.getJSONObject("Cuota"));
                 alumno.cuotaHashMap.put(mes,cuota);
             }
-
+            //JsonArray to Recordatorio
+            JSONArray jsonArray = jsonObject.getJSONArray("Recordatorio");
+            for(int i=0; i<jsonArray.length();i++)
+            {
+                JSONObject recorJson = jsonArray.getJSONObject(i);
+                Recordatorio recordatorio = new Recordatorio();
+                recordatorio.fromJsonObject(recorJson.getJSONObject("Recordatorio"));
+                alumno.recordatorioArrayList.add(recordatorio);
+            }
 
     } catch (JSONException e) {
         throw new RuntimeException(e);
@@ -315,6 +335,7 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
                 "\nasistencias=" + asistencias +
                 "\nnotas=" + notas +
                 "\navisoPersoanlizado=" + avisoPersoanlizado +
-                "} " ;
+                "\nrecordatorio="+ recordatorioArrayList +
+                 "} " ;
     }
 }
