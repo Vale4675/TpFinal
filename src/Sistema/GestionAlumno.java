@@ -25,6 +25,10 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
 
     }
 
+    public HashSet<Alumno> getAlumnoHashSet() {
+        return alumnoHashSet;
+    }
+
     /**
      * Metodos de la interfaz
      * @param alumno
@@ -33,7 +37,6 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
     public void agregar(Alumno alumno) {
         alumno.setId(contadorId++);
         alumnoHashSet.add(alumno);
-        System.out.println(alumno);
     }
 
     @Override
@@ -56,20 +59,15 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
     @Override
     public Alumno buscar(int id) throws AlumnoNoEncontrado {
         boolean encontrado = false;
+        Alumno alumno =null;
         Iterator<Alumno> iterator = alumnoHashSet.iterator();
         while (iterator.hasNext() && !encontrado) {
-            Alumno alumno = iterator.next();
+                 alumno = iterator.next();
             if (alumno.getId() == id) {
                 encontrado = true;
-                return alumno;
             }
         }
-        if (encontrado) {
-            throw new AlumnoNoEncontrado("Alumno no encontrado");
-        }
-
-
-        return null;
+        return alumno;
     }
 
     @Override
@@ -79,6 +77,7 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         while (iterator.hasNext()) {
             Alumno alumno = iterator.next();
             st.append(alumno.toString()).append("\n");
+            System.out.println( "estoy en listar gestion alumnos");
         }
         return st;
     }
@@ -102,7 +101,6 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         //si no existe crea y agrega al nuevo alumno
         Alumno alumno = new Alumno(nombre, apellido, mail, nivel);
         agregar(alumno);
-        grabarAlumnos();
         }
         public void grabarAlumnos()
         {
@@ -123,7 +121,6 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
             {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 System.out.println(jsonObject.getString("Nombre"));
-
 
             }
 

@@ -11,7 +11,9 @@ public class ControladoraDeArchivo {
             fileOutputStream = new FileOutputStream(nombreaArchivo);
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(objeto);
+            System.out.println("estoy en grabadora de archivo");
         } catch (IOException e) {
+
             System.out.println(e.getMessage());
         } finally {
             try {
@@ -34,6 +36,7 @@ public class ControladoraDeArchivo {
             fileInputStream = new FileInputStream(nombreArchivo);
             objectInputStream = new ObjectInputStream(fileInputStream);
             objeto = (T) objectInputStream.readObject();
+            System.out.println("estoy en leer archivos");
         } catch (IOException e) {
             System.out.println("Fin archivo");
         } catch (ClassNotFoundException e) {

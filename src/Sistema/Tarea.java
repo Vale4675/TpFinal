@@ -64,11 +64,10 @@ public class Tarea implements Serializable, I_Convertir_JsonObject, I_From_JsonO
     @Override
     public String toString() {
         return "Tarea{" +
-                "id=" + id +
+                "\nid=" + id +
                 "\ndescripcion='" + descripcion + '\'' +
                 "\nfechaEntrega=" + fechaEntrega +
-                "\nentregada=" + entregada +
-                "\n------------------------------";
+                "\nentregada=" + entregada ;
 
     }
 
@@ -96,7 +95,7 @@ public class Tarea implements Serializable, I_Convertir_JsonObject, I_From_JsonO
             this.entregada=jsonObject.getBoolean("Fecha entrega");
             this.id=jsonObject.getInt("Id");
             String  fecha = jsonObject.getString("Fecha entrega");
-            SimpleDateFormat Dfecha = new SimpleDateFormat("dd/MM,yyyy");
+            SimpleDateFormat Dfecha = new SimpleDateFormat("dd/MM/yyyy");
             Date fechaDate = null;
             try {
                 fechaDate = Dfecha.parse(fecha);

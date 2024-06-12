@@ -65,7 +65,7 @@ public class Aviso implements Serializable, I_Convertir_JsonObject, I_From_JsonO
 
         try {
             String  fecha = jsonObject.getString("Fecha");
-            SimpleDateFormat Dfecha = new SimpleDateFormat("dd/MM,yyyy");
+            SimpleDateFormat Dfecha = new SimpleDateFormat("dd/MM/yyyy");
             Date fechaDate = null;
             fechaDate = Dfecha.parse(fecha);
             this.fecha = fechaDate;

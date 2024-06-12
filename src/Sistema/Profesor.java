@@ -3,6 +3,7 @@ package Sistema;
 import Excepciones.AlumnoNoEncontrado;
 import Interfaz.I_Convertir_JsonArray;
 import Interfaz.I_Convertir_JsonObject;
+import Interfaz.I_From_JsonObect;
 import Interfaz.I_Metodos;
 import Sistema.Enum.Mes;
 import Sistema.Enum.Nivel;
@@ -14,20 +15,29 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable, I_Convertir_JsonObject {
+public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable, I_Convertir_JsonObject, I_From_JsonObect {
 
     private String password;
     private GestionAlumno alumnos;
     private ArrayList<Aviso> avisosGenerales;
+    private Calendario calendario;
 
     public Profesor(String nombre, String apellido, String mail, String password) {
         super( nombre, apellido, mail);
         this.password = password;
         this.alumnos = new GestionAlumno();
-        avisosGenerales = new ArrayList<>();
+        this.avisosGenerales = new ArrayList<>();
+        this.calendario = new Calendario();
     }
 
+
+    public Profesor() {
+    }
 //region Getters and Setters
+
+    public Calendario getCalendario() {
+        return calendario;
+    }
 
     public String getPassword() {
         return password;
@@ -48,6 +58,7 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
 
     }
 
+
     @Override
     public void eliminar(int id) {
         try {
@@ -60,14 +71,8 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
     }
 
     @Override
-    public Alumno buscar(int id) {
-        try {
-            alumnos.buscar(id);
-        }catch (AlumnoNoEncontrado A)
-        {
-            System.out.println(A.getMessage());
-        }
-        return null;
+    public Alumno buscar(int id) throws AlumnoNoEncontrado {
+      return alumnos.buscar(id);
     }
 
     @Override
@@ -167,6 +172,12 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
 
     }
 
+    public void agregarEventoCalendario(String descip,Date fecha, Alumno alumno)
+    {
+        Evento evento = new Evento(descip,fecha,alumno);
+        calendario.agregar(evento);
+    }
+
 
 
     /**
@@ -175,11 +186,11 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
      */
     @Override
     public String toString() {
-        return "Profesor{" +
-                "password='" + password + '\'' +
-                ", alumnos=" + alumnos +
-                ", avisosGenerales=" + avisosGenerales +
-                "} " + super.toString();
+        return "Profesor{" + super.toString()+
+                "\npassword='" + password + '\'' +
+                "\nalumnos=" + alumnos +
+                "\navisosGenerales=" + avisosGenerales +
+                "} ";
     }
 
 
@@ -192,14 +203,40 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
     public JSONObject convertirJsonObject() throws JSONException {
         JSONObject jsonObject = super.convertirJsonObject();
         jsonObject.put("Password",password);
-        jsonObject.put("Lista de Alumnos",alumnos.convertirJsonArray());
+        jsonObject.put("ListaDeAlumnos",alumnos.convertirJsonArray());
         JSONArray jsonArrayAviso = new JSONArray();
         for (Aviso a:avisosGenerales) {
           jsonArrayAviso.put(a.convertirJsonObject());
         }
-        jsonObject.put("Aviso Gneral",jsonArrayAviso);
+        jsonObject.put("AvisosGenerales",jsonArrayAviso);
         return jsonObject;
     }
 
+    @Override
+    public void fromJsonObject(JSONObject jsonObject) {
+        super.fromJsonObject(jsonObject);
+        try {
+            this.password = jsonObject.getString("Password");
+            JSONArray jsonArrayAlu = jsonObject.getJSONArray("ListaDeAlumnos");
+            for (int i=0; i<jsonArrayAlu.length();i++)
+                {
+                    JSONObject jsonAlumno =jsonArrayAlu.getJSONObject(i);
+                    Alumno alumno = new Alumno();
+                    alumno.fromJsonObject(jsonAlumno);
+                    this.alumnos.agregar(alumno);
+                }
+            JSONArray jsonArrayAvisos = jsonObject.getJSONArray("AvisosGenerales");
+            for (int i=0; i<jsonArrayAvisos.length();i++)
+            {
+                JSONObject jsonObjectAvisos = jsonArrayAvisos.getJSONObject(i);
+                Aviso aviso = new Aviso();
+                aviso.fromJsonObject(jsonObjectAvisos);
+                this.avisosGenerales.add(aviso);
+            }
 
+
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
