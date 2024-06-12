@@ -276,31 +276,6 @@ public class Main {
     }
 
 
-    private static void agregarRecordatorioAutomaticoMenu() {
-
-        Calendar fecha = Calendar.getInstance();
-        TipoRecordatorio tp = obtenerTipoRecordatorio();
-        String detalle = obtenerDetalle();
-        System.out.println("El recordatorio es para un alumno en particular s/n");
-        String rta = scanner.next().toUpperCase();
-        if (rta.equals("s")) {
-            int id = obtenerIdAlumno();
-            try {
-                Alumno alumno = gestionAlumno.buscar(id);
-                Recordatorio recordatorio = new Recordatorio(fecha, tp, detalle, id);
-                alumno.recibirRecordatorio(recordatorio);
-                sistema.getProfesor().agregarRecordatorio(fecha, tp, detalle, id);
-                System.out.println(" El recordatorio ha sido agregado al alumno con el id " + alumno.getNombre());
-            } catch (AlumnoNoEncontrado e) {
-                System.out.println(e.getMessage());
-            }
-        } else {
-            sistema.getProfesor().agregarRecordatorio(fecha, tp, detalle, -1);
-            System.out.println("  El recordatorio General ah sido realizado");
-        }
-
-    }
-
 
     private static void agregarRecordatorio() {
         System.out.println("Quiere usar fecha automatica s/n");
