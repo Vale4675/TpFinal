@@ -155,11 +155,28 @@ public class Main {
     }
 
 
-    public static Profesor iniciarSecion() throws PasswordIncorrecto, UsuarioIncorrecto, AlumnoNoEncontrado {
+    public static Profesor iniciarSecion() throws PasswordIncorrecto, UsuarioIncorrecto, AlumnoNoEncontrado
+    {
         System.out.println("introduce el mail");
         String mail = scanner.next();
         System.out.println("introduce la contraseña");
         String password = scanner.next();
+        try {
+            Profesor profesor = sistema.iniciarSesion(mail, password);
+            if (profesor != null) {
+                System.out.println("Bienvenido " + profesor.getNombre());
+                return profesor;
+            } else {
+                System.out.println("Correo electrónico o contraseña incorrectos.");
+            }
+        } catch (UsuarioIncorrecto e) {
+            System.out.println(e.getMessage());
+        } catch (PasswordIncorrecto e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+        /*
         Profesor profesor = null;
         try {
             profesor = sistema.iniciarSesion(mail, password);
@@ -169,7 +186,7 @@ public class Main {
             System.out.println(e.getMessage());
         }
         return profesor;
-    }
+    }*/
 
     public static void recuperarContrasenia() {
         System.out.println("introduce el mail");
