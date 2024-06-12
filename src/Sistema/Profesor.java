@@ -55,7 +55,7 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
         recordatorioList.add(new Recordatorio(fecha,tipo,detalle,id));
     }
 
-    public void eliminarRecordatorio(Calendar fecha,String tipo, int id )
+    public void eliminarRecordatorio(Calendar fecha,String tipo)
     {
         for (Recordatorio r:recordatorioList) {
             if(r.getFecha().equals(fecha)&& r.getTipo().equals(tipo))
@@ -69,7 +69,7 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
         }
     }
 
-    public Recordatorio buscarRecordatorio(Calendar fecha,String tipo, int id )
+    public Recordatorio buscarRecordatorio(Calendar fecha,String tipo )
     {
         for (Recordatorio r:recordatorioList) {
             if(r.getFecha().equals(fecha)&& r.getTipo().equals(tipo)) {
