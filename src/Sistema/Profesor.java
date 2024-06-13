@@ -51,6 +51,9 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
     // endregion
 
 
+    public ArrayList<Recordatorio> getRecordatorioList() {
+        return recordatorioList;
+    }
 
     public void agregarRecordatorio(Calendar fecha, TipoRecordatorio tipo, String detalle)
     {

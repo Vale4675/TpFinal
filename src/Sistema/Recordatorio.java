@@ -39,6 +39,17 @@ public class Recordatorio implements Serializable, I_Convertir_JsonObject, I_Fro
         return detalle;
     }
 
+    public void setFecha(Calendar fecha) {
+        this.fecha = fecha;
+    }
+
+    public void setTipo(TipoRecordatorio tipo) {
+        this.tipo = tipo;
+    }
+
+    public void setDetalle(String detalle) {
+        this.detalle = detalle;
+    }
 
     @Override
     public String toString() {
@@ -55,7 +66,7 @@ public class Recordatorio implements Serializable, I_Convertir_JsonObject, I_Fro
     public JSONObject convertirJsonObject() throws JSONException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("Tipo", tipo);
+        jsonObject.put("Tipo", tipo.toString());
         jsonObject.put("Detalle", detalle);
         jsonObject.put("fecha", sdf.format(fecha.getTime()));
 
@@ -67,7 +78,7 @@ public class Recordatorio implements Serializable, I_Convertir_JsonObject, I_Fro
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             this.fecha = Calendar.getInstance();
-            fecha.setTime(sdf.parse(jsonObject.getString("Fecha")));
+            this.fecha.setTime(sdf.parse(jsonObject.getString("Fecha")));
             this.detalle = jsonObject.getString("Detalle");
             this.tipo = TipoRecordatorio.valueOf(jsonObject.getString("Tipo"));
         } catch (JSONException | ParseException e) {
