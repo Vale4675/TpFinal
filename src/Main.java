@@ -8,10 +8,7 @@ import Sistema.Enum.TipoRecordatorio;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
@@ -24,9 +21,9 @@ public class Main {
     public static void main(String[] args) throws PasswordIncorrecto, AlumnoNoEncontrado, UsuarioIncorrecto, UsuarioYaExiste {
 
         try {
-            // sistema = ControladoraDeArchivo.leer("Sistema.dat");
+             sistema = ControladoraDeArchivo.leer("Sistema.dat");
 
-            // gestionAlumno = ControladoraDeArchivo.leer("Alumno.dat");
+             gestionAlumno = ControladoraDeArchivo.leer("Alumno.dat");
 
 
         } catch (Exception e) {
@@ -245,10 +242,7 @@ public class Main {
             opcion = scanner.nextInt();
             switch (opcion) {
                 case 1:
-                    System.out.println("Desea utilizar fecha y hora actuales 1=SI   2=NO ");
-                    int rta = scanner.nextInt();
-                    if (rta == 1) agregarRecordatorioAutomaticoMenu();
-                    if (rta == 2) agregarRecordatorioManual();
+                    agregarRecordatorioMenu();
                     break;
                 case 2:
                     listarRecordatorioMenu();
@@ -268,88 +262,106 @@ public class Main {
         } while (opcion != 5);
     }
 
-    private static void listarRecordatorioMenu()  {
+    private static void listarRecordatorioMenu() {
         try {
             Profesor profesor = sistema.getProfesor();
             if (profesor != null) {
                 profesor.listarRecordatorios();
             }
-        }catch (RecordatorioNoEncontrado e)
-        {
+        } catch (RecordatorioNoEncontrado e) {
             System.out.println("Recordatorio no encontrado");
         }
 
 
     }
 
-    private static void agregarRecordatorioAutomaticoMenu() {
 
-        Calendar fecha = Calendar.getInstance();
-        System.out.println("Fecha y hora actuales " + fecha.getTime());
-        System.out.println(" ingrese el tipo de recordatorio");
-        String tipo = scanner.next().toUpperCase();
-        TipoRecordatorio tp = TipoRecordatorio.valueOf(tipo);
-        System.out.println("Ingrese la descripcion");
-        String detalle = scanner.next();
+    private static void agregarRecordatorioMenu() {
+        Calendar fecha= agregarRecordatorio();
+        TipoRecordatorio tp = obtenerTipoRecordatorio();
+        String detalle = obtenerDetalle();
         System.out.println("El recordatorio es para un alumno en particular s/n");
-        String rta = scanner.next().toLowerCase();
-        if (rta.equals("s")) {
-            System.out.println("Ingrese el id del alumno");
-            int id = scanner.nextInt();
-            Recordatorio recordatorio = new Recordatorio(fecha, tp, detalle, id);
+        String rta = scanner.next().toUpperCase();
+        if (rta.equalsIgnoreCase("s")) {
+            int id = obtenerIdAlumno();
             try {
                 Alumno alumno = gestionAlumno.buscar(id);
+                Recordatorio recordatorio = new Recordatorio(fecha, tp, detalle, id);
                 alumno.recibirRecordatorio(recordatorio);
                 sistema.getProfesor().agregarRecordatorio(fecha, tp, detalle, id);
                 System.out.println(" El recordatorio ha sido agregado al alumno con el id " + alumno.getNombre());
             } catch (AlumnoNoEncontrado e) {
                 System.out.println(e.getMessage());
             }
-
+        } else {
+            sistema.getProfesor().agregarRecordatorio(fecha, tp, detalle, -1);
+            System.out.println("  El recordatorio General ah sido realizado");
         }
+
     }
 
 
-    private static void agregarRecordatorioManual() {
-        Calendar fecha = Calendar.getInstance();
-        System.out.println("Ingrese la fecha  (dd,MM,yyyy):");
-        String fechaStr = scanner.next();
-        System.out.println("Ingrese la hora");
-        String horaStr = scanner.next();
+    private static Calendar agregarRecordatorio() {
+        System.out.println("Quiere usar fecha automatica s/n");
+        String rta = scanner.next().toUpperCase();
+        boolean usarFecha = false;
+        if(rta.equalsIgnoreCase("s")) {
+          usarFecha= true;
+        }
+        Calendar fecha = obtenerFechaYHora(usarFecha);
+        System.out.println(" usar fecha "+ usarFecha);
+        return fecha;
+    }
+
+    private static TipoRecordatorio obtenerTipoRecordatorio() {
         try {
-            //divide la cadena de texto separadas po coma
-            String[] fechaC = fechaStr.split(",");
-            int dia = Integer.parseInt(fechaC[0]);
-            int mes = Integer.parseInt(fechaC[1]);
-            int anio = Integer.parseInt(fechaC[2]);
-            String[] horaC = horaStr.split(",");
-            int hora = Integer.parseInt(horaC[0]);
-            int minuto = Integer.parseInt(fechaC[1]);
-            fecha.set(anio, mes, dia, hora, minuto);
             System.out.println(" Tipo de recordatorio ->  EXAMEN, PAGO_CUOTA, REUNION_PADRE, TAREA, FECHA_LIMITE ");
             String tipo = scanner.next().toUpperCase();
-            TipoRecordatorio tp = TipoRecordatorio.valueOf(tipo);
-            System.out.println("Ingrese la descripcion");
-            String detalle = scanner.next();
-            System.out.println("El recordatorio es para un alumno en particular s/n");
-            String rta = scanner.next().toLowerCase();
-            Recordatorio recordatorio = null;
-            if (rta.equals("s")) {
-                System.out.println("Ingrese el id del alumno");
-                int id = scanner.nextInt();
-                 recordatorio = new Recordatorio(fecha, tp, detalle, id);
-                Alumno alumno = gestionAlumno.buscar(id);
-                alumno.recibirRecordatorio(recordatorio);
-                sistema.getProfesor().agregarRecordatorio(fecha, tp, detalle, id);
-                System.out.println(" El recordatorio ha sido agregado al alumno  " + alumno.getNombre());
-            }
-
-        } catch (AlumnoNoEncontrado E) {
-            System.out.println(E.getMessage());
+            return TipoRecordatorio.valueOf(tipo);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
         }
+        return null;
+    }
+
+    private static int obtenerIdAlumno() {
+        System.out.println("Ingrese el id del alumno");
+        return scanner.nextInt();
+    }
+
+    private static String obtenerDetalle() {
+        System.out.println("Ingrese la descripcion");
+        return scanner.next();
     }
 
 
+    private static Calendar obtenerFechaYHora(Boolean usarFecha) {
+        Calendar fecha = null;
+        if (!usarFecha) {
+            System.out.println("Ingrese la fecha  (dd,MM,yyyy):");
+            String fechaStr = scanner.next();
+            System.out.println("Ingrese la hora");
+            String horaStr = scanner.next();
+            try {
+                //divide la cadena de texto separadas po coma
+                String[] fechaC = fechaStr.split(",");
+                int dia = Integer.parseInt(fechaC[0]);
+                int mes = Integer.parseInt(fechaC[1]);
+                int anio = Integer.parseInt(fechaC[2]);
+                String[] horaC = horaStr.split(",");
+                int hora = Integer.parseInt(horaC[0]);
+                int minuto = Integer.parseInt(fechaC[1]);
+                fecha.set(anio, mes, dia, hora, minuto);
+            } catch (Exception e) {
+                System.out.println("Formato no valido" + e.getMessage());
+            }
+        } else {
+            fecha = Calendar.getInstance();
+            System.out.println(" Fecha y hora actuales " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(fecha.getTime()));
+        }
+
+        return fecha;
+    }
 
     private static void eliminarRecordatorioMain() {
         System.out.println("Tipo de recordatorio ->  EXAMEN , PAGO_CUOTA, REUNION_PADRE, TAREA, FECHA_LIMITE ");

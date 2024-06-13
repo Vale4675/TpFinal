@@ -47,8 +47,10 @@ public class Recordatorio implements Serializable, I_Convertir_JsonObject, I_Fro
 
     @Override
     public String toString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String fechaStr = sdf.format(fecha.getTime());
         return "Recordatorio{" +
-                "fecha=" + fecha +
+                "fecha=" + fechaStr +
                 ", tipo='" + tipo + '\'' +
                 ", detalle='" + detalle + '\'' +
                 ", id=" + idAlumno +
