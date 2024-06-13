@@ -21,9 +21,9 @@ public class Main {
     public static void main(String[] args) throws PasswordIncorrecto, AlumnoNoEncontrado, UsuarioIncorrecto, UsuarioYaExiste {
 
         try {
-            // sistema = ControladoraDeArchivo.leer("Sistema.dat");
+             sistema = ControladoraDeArchivo.leer("Sistema.dat");
 
-            // gestionAlumno = ControladoraDeArchivo.leer("Alumno.dat");
+             gestionAlumno = ControladoraDeArchivo.leer("Alumno.dat");
 
 
         } catch (Exception e) {
@@ -242,7 +242,7 @@ public class Main {
             opcion = scanner.nextInt();
             switch (opcion) {
                 case 1:
-                    agregarRecordatorio();
+                    agregarRecordatorioMenu();
                     break;
                 case 2:
                     listarRecordatorioMenu();
@@ -274,9 +274,34 @@ public class Main {
 
 
     }
-    
 
-    private static void agregarRecordatorio() {
+
+    private static void agregarRecordatorioMenu() {
+        Calendar fecha= agregarRecordatorio();
+        TipoRecordatorio tp = obtenerTipoRecordatorio();
+        String detalle = obtenerDetalle();
+        System.out.println("El recordatorio es para un alumno en particular s/n");
+        String rta = scanner.next().toUpperCase();
+        if (rta.equalsIgnoreCase("s")) {
+            int id = obtenerIdAlumno();
+            try {
+                Alumno alumno = gestionAlumno.buscar(id);
+                Recordatorio recordatorio = new Recordatorio(fecha, tp, detalle, id);
+                alumno.recibirRecordatorio(recordatorio);
+                sistema.getProfesor().agregarRecordatorio(fecha, tp, detalle, id);
+                System.out.println(" El recordatorio ha sido agregado al alumno con el id " + alumno.getNombre());
+            } catch (AlumnoNoEncontrado e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            sistema.getProfesor().agregarRecordatorio(fecha, tp, detalle, -1);
+            System.out.println("  El recordatorio General ah sido realizado");
+        }
+
+    }
+
+
+    private static Calendar agregarRecordatorio() {
         System.out.println("Quiere usar fecha automatica s/n");
         String rta = scanner.next().toUpperCase();
         boolean usarFecha = false;
@@ -284,10 +309,8 @@ public class Main {
           usarFecha= true;
         }
         Calendar fecha = obtenerFechaYHora(usarFecha);
-        TipoRecordatorio tp = obtenerTipoRecordatorio();
-        String detalle = obtenerDetalle();
-
-
+        System.out.println(" usar fecha "+ usarFecha);
+        return fecha;
     }
 
     private static TipoRecordatorio obtenerTipoRecordatorio() {
