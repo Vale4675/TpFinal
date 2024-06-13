@@ -21,15 +21,14 @@ public class Main {
     public static void main(String[] args) throws PasswordIncorrecto, AlumnoNoEncontrado, UsuarioIncorrecto, UsuarioYaExiste {
 
         try {
-             sistema = ControladoraDeArchivo.leer("Sistema.dat");
-
-             gestionAlumno = ControladoraDeArchivo.leer("Alumno.dat");
-
-
+            sistema = ControladoraDeArchivo.leer("Sistema.dat");
+            System.out.println("Soy sistema" + sistema);
+            gestionAlumno = ControladoraDeArchivo.leer("Alumno.dat");
+            System.out.println("Soy Gestion"+ gestionAlumno);
+            gestionAlumno.leerAlumnos();
         } catch (Exception e) {
             System.out.println("Error al leer archivos " + e.getMessage());
         }
-
 
         int opcion;
         do {
@@ -54,7 +53,6 @@ public class Main {
                             menuProfe(p);
                         } catch (UsuarioYaExiste e) {
                             System.out.println(e.getMessage());
-                            ;
                         }
                     }
                     break;
@@ -79,7 +77,8 @@ public class Main {
         try {
             ControladoraDeArchivo.grabar(sistema, "Sistema.dat");
             ControladoraDeArchivo.grabar(gestionAlumno, "Alumno.dat");
-            // gestionAlumno.grabarAlumnos();
+             gestionAlumno.grabarAlumnos();
+
         } catch (Exception e) {
             System.out.println("Error al grabar archivo" + e.getMessage());
         }
@@ -111,15 +110,15 @@ public class Main {
         String mail = scanner.next();
         System.out.println("introduce la contraseña");
         String password = scanner.next();
+        Profesor profesor= null;
         try {
-            Profesor profesor = sistema.iniciarSesion(mail, password);
+            profesor = sistema.iniciarSesion(mail, password);
             System.out.println("Bienvenido " + profesor.getNombre());
-            return profesor;
+
         } catch (PasswordIncorrecto | UsuarioIncorrecto e) {
             System.out.println(e.getMessage());
-            return null;
         }
-
+        return profesor;
     }
 
     public static void recuperarContrasenia() {
@@ -277,7 +276,7 @@ public class Main {
 
 
     private static void agregarRecordatorioMenu() {
-        Calendar fecha= agregarRecordatorio();
+        Calendar fecha = agregarRecordatorio();
         TipoRecordatorio tp = obtenerTipoRecordatorio();
         String detalle = obtenerDetalle();
         System.out.println("El recordatorio es para un alumno en particular s/n");
@@ -286,15 +285,15 @@ public class Main {
             int id = obtenerIdAlumno();
             try {
                 Alumno alumno = gestionAlumno.buscar(id);
-                Recordatorio recordatorio = new Recordatorio(fecha, tp, detalle, id);
+                Recordatorio recordatorio = new Recordatorio(fecha, tp, detalle);
                 alumno.recibirRecordatorio(recordatorio);
-                sistema.getProfesor().agregarRecordatorio(fecha, tp, detalle, id);
-                System.out.println(" El recordatorio ha sido agregado al alumno con el id " + alumno.getNombre());
+                sistema.getProfesor().agregarRecordatorio(fecha, tp, detalle);
+                System.out.println(" El recordatorio ha sido agregado al alumno  " + alumno.getNombre());
             } catch (AlumnoNoEncontrado e) {
                 System.out.println(e.getMessage());
             }
         } else {
-            sistema.getProfesor().agregarRecordatorio(fecha, tp, detalle, -1);
+            sistema.getProfesor().agregarRecordatorio(fecha, tp, detalle);
             System.out.println("  El recordatorio General ah sido realizado");
         }
 
@@ -305,11 +304,11 @@ public class Main {
         System.out.println("Quiere usar fecha automatica s/n");
         String rta = scanner.next().toUpperCase();
         boolean usarFecha = false;
-        if(rta.equalsIgnoreCase("s")) {
-          usarFecha= true;
+        if (rta.equalsIgnoreCase("s")) {
+            usarFecha = true;
         }
         Calendar fecha = obtenerFechaYHora(usarFecha);
-        System.out.println(" usar fecha "+ usarFecha);
+        System.out.println(" usar fecha " + usarFecha);
         return fecha;
     }
 
