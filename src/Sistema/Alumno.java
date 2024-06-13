@@ -325,15 +325,36 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
 
     @Override
     public String toString() {
-        return "Alumno{" + super.toString()+
-                "\nid=" + id +
-                "\nnivel=" + nivel +
-                "\ntareas=" + tareas +
-                "\ncuotaHashMap=" + cuotaHashMap +
-                "\nasistencias=" + asistencias +
-                "\nnotas=" + notas +
-                "\navisoPersoanlizado=" + avisoPersoanlizado +
-                "\nrecordatorio="+ recordatorioArrayList +
-                 "} " ;
+        StringBuilder sb = new StringBuilder();
+        sb.append("ID: ").append(id).append("\n");
+        sb.append("Nombre: ").append(getNombre()).append("\n");
+        sb.append("Apellido: ").append(getApellido()).append("\n");
+        sb.append("Mail: ").append(getMail()).append("\n");
+        sb.append("Nivel: ").append(nivel).append("\n");
+        sb.append("Tareas:\n");
+        for (Tarea tarea : tareas) {
+            sb.append("\t").append(tarea.toString()).append("\n");
+        }
+        sb.append("Cuotas:\n");
+        for (Map.Entry<Mes, Cuota> entry : cuotaHashMap.entrySet()) {
+            sb.append("\t").append(entry.getKey()).append(": ").append(entry.getValue().toString()).append("\n");
+        }
+        sb.append("Asistencias:\n");
+        for (Boolean asistencia : asistencias) {
+            sb.append("\t").append(asistencia ? "Presente" : "Ausente").append("\n");
+        }
+        sb.append("Notas:\n");
+        for (Nota nota : notas) {
+            sb.append("\t").append(nota.toString()).append("\n");
+        }
+        sb.append("Avisos Personalizados:\n");
+        for (Aviso aviso : avisoPersoanlizado) {
+            sb.append("\t").append(aviso.toString()).append("\n");
+        }
+        sb.append("Recordatorios:");
+        for (Recordatorio recordatorio : recordatorioArrayList) {
+            sb.append(recordatorio.toString()).append("\n");
+        }
+        return sb.toString();
     }
 }

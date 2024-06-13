@@ -87,10 +87,10 @@ public abstract class Persona implements Serializable, I_Convertir_JsonObject,I_
 
     @Override
     public String toString() {
-        return "Persona{" +
-                "nombre='" + nombre + '\'' +
-                ", apellido='" + apellido + '\'' +
-                ", mail='" + mail + '\'' +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Nombre: ").append(nombre).append("\n");
+        sb.append("Apellido: ").append(apellido).append("\n");
+        sb.append("Mail: ").append(mail).append("\n");
+        return sb.toString();
     }
 }

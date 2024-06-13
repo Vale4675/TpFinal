@@ -226,6 +226,7 @@ public void listarRecordatorios()throws RecordatorioNoEncontrado
      */
     @Override
     public String toString() {
+        StringBuilder sb = new StringBuilder();
         return "Profesor{" + super.toString() +
                 "password='" + password + '\'' +
                 ", alumnos=" + alumnos +
