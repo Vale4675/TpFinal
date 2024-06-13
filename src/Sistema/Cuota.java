@@ -59,16 +59,16 @@ public class Cuota implements Serializable, I_Convertir_JsonObject, I_From_JsonO
     public Cuota() {
     }
 
+    /**
+     *Verifica si esta vencida
+     * @return
+     */
+
     public boolean estaVencida()
     {
         Calendar hoy= Calendar.getInstance();
         return !pagado && hoy.after(fechaVencimiento);
     }
-
-    public void pagar() {
-        this.pagado = true;
-    }
-
     @Override
     public String toString() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");

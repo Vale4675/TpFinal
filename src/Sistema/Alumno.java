@@ -78,7 +78,7 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
     }
 
     /**
-     *
+     *se agrega la cuota pagada del alumno
      * @param mes
      * @param cuota
      */
@@ -123,6 +123,13 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
         }else
             System.out.println(" No se encontro la cuota de ese mes");
     }
+
+    /**
+     * contiene una lista de cuotas,
+     * metodo para verificar si esta vencida y si es asi, genera un nuevo aviso
+     * @return
+     */
+
     public ArrayList<Aviso> verificarCuotas() {
         ArrayList<Aviso> avisos = new ArrayList<>();
         for (Map.Entry<Mes, Cuota> entry : cuotaHashMap.entrySet()) {

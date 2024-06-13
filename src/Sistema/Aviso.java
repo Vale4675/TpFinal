@@ -22,10 +22,6 @@ public class Aviso implements Serializable, I_Convertir_JsonObject, I_From_JsonO
     public Aviso() {
     }
 
-    public Aviso(String mensaje) {
-        this.mensaje = mensaje;
-        this.fecha = new Date();
-    }
     //region Getters and Setters
     public Date getFecha() {
         return fecha;
