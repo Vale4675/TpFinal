@@ -21,11 +21,11 @@ public class Main {
     public static void main(String[] args) throws PasswordIncorrecto, AlumnoNoEncontrado, UsuarioIncorrecto, UsuarioYaExiste {
 
         try {
-            sistema = ControladoraDeArchivo.leer("Sistema.dat");
+           // sistema = ControladoraDeArchivo.leer("Sistema.dat");
             System.out.println("Soy sistema" + sistema);
-            gestionAlumno = ControladoraDeArchivo.leer("Alumno.dat");
+          //  gestionAlumno = ControladoraDeArchivo.leer("Alumno.dat");
             System.out.println("Soy Gestion"+ gestionAlumno);
-            gestionAlumno.leerAlumnos();
+          //  gestionAlumno.leerAlumnos();
         } catch (Exception e) {
             System.out.println("Error al leer archivos " + e.getMessage());
         }
@@ -405,8 +405,10 @@ public class Main {
             String nivelString = scanner.next().toUpperCase();
             Nivel nivel = Nivel.valueOf(nivelString);
             gestionAlumno.registrarAlumno(nombre, apellido, mail, nivel);
-            System.out.println("El alumno " + nombre + " ha sido registrado con exito\n");
-            sistema.getProfesor().agregar(new Alumno(nombre, apellido, mail, nivel));
+            Alumno alumno = gestionAlumno.buscarPormail(mail);
+            sistema.getProfesor().agregar(alumno);
+            System.out.println("El alumno " + nombre +"con id" + alumno.getId()+ " ha sido registrado con exito\n");
+
         } catch (UsuarioYaExiste e) {
             System.out.println(e.getMessage());
         } catch (IllegalArgumentException e) {

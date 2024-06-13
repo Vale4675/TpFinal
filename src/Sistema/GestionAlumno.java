@@ -35,7 +35,7 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
      */
     @Override
     public void agregar(Alumno alumno) {
-        alumno.setId(contadorId++);
+
         alumnoHashSet.add(alumno);
     }
 
@@ -55,6 +55,21 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         }
 
     }
+
+    public Alumno buscarPormail(String mail)
+    {
+        boolean encontrado = false;
+        Alumno alumno =null;
+        Iterator<Alumno> iterator = alumnoHashSet.iterator();
+        while (iterator.hasNext() && !encontrado) {
+            alumno = iterator.next();
+            if (alumno.getMail().equals(mail)) {
+                encontrado = true;
+            }
+        }
+        return alumno;
+    }
+
 
     @Override
     public Alumno buscar(int id) throws AlumnoNoEncontrado {
@@ -83,7 +98,7 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
     }
 
     /**
-     * Registra un alumno  lo agrega a la lista y lo guarda en un Json
+     * Registra un alumno  lo agrega a la lista
      * @param nombre
      * @param apellido
      * @param mail
@@ -100,7 +115,8 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         }
         //si no existe crea y agrega al nuevo alumno
         Alumno alumno = new Alumno(nombre, apellido, mail, nivel);
-        agregar(alumno);
+        alumno.setId(contadorId++);
+        alumnoHashSet.add(alumno);
         }
         public void grabarAlumnos()
         {
