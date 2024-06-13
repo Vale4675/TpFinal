@@ -123,7 +123,18 @@ public class Alumno extends Persona implements Comparable<Alumno>, Serializable,
         }else
             System.out.println(" No se encontro la cuota de ese mes");
     }
-
+    public ArrayList<Aviso> verificarCuotas() {
+        ArrayList<Aviso> avisos = new ArrayList<>();
+        for (Map.Entry<Mes, Cuota> entry : cuotaHashMap.entrySet()) {
+            Cuota cuota = entry.getValue();
+            if (cuota.estaVencida()) {
+                Aviso aviso = new Aviso(cuota.getFechaVencimiento().getTime(), "La cuota del mes " + entry.getKey() + " está vencida.");
+                avisos.add(aviso);
+                this.avisoPersoanlizado.add(aviso);
+            }
+        }
+        return avisos;
+    }
 
     //region Getters and Setters
     public int getId() {

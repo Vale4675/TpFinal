@@ -208,7 +208,7 @@ public class Main {
                     mandarNota();
                     break;
                 case 10:
-                    cobrarCuota();
+                    //cobrarCuota();
                     break;
                 case 11:
                     menuRecordatorio();
@@ -237,7 +237,9 @@ public class Main {
             System.out.println(" 2 -> Listar recordatorio");
             System.out.println(" 3 -> Buscar recordatorio");
             System.out.println(" 4 -> Eliminar recordatorio");
-            System.out.println(" 5 -> Volver al Menu anterior");
+            System.out.println(" 5 -> Agregar cuota");
+            System.out.println(" 6 -> Verificar Cuota Vencida");
+            System.out.println(" 7 -> Volver al Menu anterior");
             opcion = scanner.nextInt();
             switch (opcion) {
                 case 1:
@@ -253,12 +255,18 @@ public class Main {
                     eliminarRecordatorioMain();
                     break;
                 case 5:
+                    agregarCuotaMenu();
+                    break;
+                case 6:
+                    verificarCuotasMenu();
+                    break;
+                case 7:
                     System.out.println("Volviendo al menu anterior");
                     break;
                 default:
                     System.out.println("Opcion invalida");
             }
-        } while (opcion != 5);
+        } while (opcion != 7);
     }
 
     private static void listarRecordatorioMenu() {
@@ -272,6 +280,30 @@ public class Main {
         }
 
 
+    }
+    private static void agregarCuotaMenu() {
+        try {
+            System.out.println("Ingrese el ID del alumno:");
+            int id = scanner.nextInt();
+            Alumno alumno = gestionAlumno.buscar(id);
+            System.out.println("Ingrese el mes de la cuota (1-12):");
+            int mesNumero = scanner.nextInt();
+            Mes mes = Mes.values()[mesNumero - 1];
+            System.out.println("Ingrese el importe de la cuota:");
+            double importe = scanner.nextDouble();
+            Calendar fechaVencimiento = Calendar.getInstance();
+            fechaVencimiento.set(Calendar.DAY_OF_MONTH, 10); // Cuota vence el día 10
+            Cuota cuota = new Cuota(importe, fechaVencimiento);
+            alumno.pagarCuota(mes, cuota);
+            System.out.println("Cuota agregada con éxito.");
+        } catch (AlumnoNoEncontrado e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private static void verificarCuotasMenu() {
+        sistema.getProfesor().verificarCuotasAlumnos();
+        System.out.println("Cuotas vencidas verificadas y avisos generados.");
     }
 
 
@@ -559,12 +591,10 @@ public class Main {
         }
 
     }
-
+/*
     private static void cobrarCuota() {
         System.out.println("ingrese el id del alumno");
         int id = scanner.nextInt();
-        System.out.println("Numero de comprobante");
-        int c = scanner.nextInt();
         System.out.println("Ingrese el mes de la cuota Ej ENERO,FEBRERO...");
         String mes = scanner.next();
         Mes m = Mes.valueOf(mes);
@@ -577,7 +607,7 @@ public class Main {
         try {
             if (n == 1) {
                 pagado = true;
-                Cuota cuota = new Cuota(c, monto, pagado);
+                Cuota cuota = new Cuota(monto, pagado);
                 System.out.println("Comprobante de pago Clases de ingles ");
                 System.out.println("Comprobante n°  " + c);
                 System.out.println("Mes " + mes);
@@ -590,7 +620,7 @@ public class Main {
         } catch (AlumnoNoEncontrado e) {
             System.out.println(e.getMessage());
         }
-    }
+    }*/
 
 
     private static void mandarNota() {

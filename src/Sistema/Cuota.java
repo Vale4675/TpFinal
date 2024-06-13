@@ -6,18 +6,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class Cuota implements Serializable, I_Convertir_JsonObject, I_From_JsonObect {
     private int comprobante;
     private static int contadorComprobante = 1;
     private double importe;
     private boolean pagado;
+    private Calendar fechaVencimiento;
 
-    public Cuota(int comprobante, double importe, boolean pagado) {
-        this.comprobante = comprobante;
-        this.importe = importe;
-        this.pagado = pagado;
-    }
     //region Getters and Setters
 
     public int getComprobante() {
@@ -50,16 +49,43 @@ public class Cuota implements Serializable, I_Convertir_JsonObject, I_From_JsonO
 //endregion
 
 
+    public Cuota(double importe, Calendar fechaVencimiento) {
+        this.comprobante = contadorComprobante++;
+        this.importe = importe;
+        this.fechaVencimiento = fechaVencimiento;
+        this.pagado=false;
+    }
+
     public Cuota() {
+    }
+
+    public boolean estaVencida()
+    {
+        Calendar hoy= Calendar.getInstance();
+        return !pagado && hoy.after(fechaVencimiento);
+    }
+
+    public void pagar() {
+        this.pagado = true;
     }
 
     @Override
     public String toString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return "Cuota{" +
                 "comprobante='" + comprobante + '\'' +
                 ", importe=" + importe +
                 ", pagado=" + pagado +
+               " Fecha de Vecimiento: " + sdf.format(fechaVencimiento.getTime())+
                 '}';
+    }
+
+    public static int getContadorComprobante() {
+        return contadorComprobante;
+    }
+
+    public Calendar getFechaVencimiento() {
+        return fechaVencimiento;
     }
 
     /**
@@ -70,21 +96,26 @@ public class Cuota implements Serializable, I_Convertir_JsonObject, I_From_JsonO
 
     @Override
     public JSONObject convertirJsonObject() throws JSONException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("Comprobante", comprobante);
         jsonObject.put("Importe", importe);
         jsonObject.put("Pagado", pagado);
+        jsonObject.put("FechadeVecimiento",sdf.format(fechaVencimiento.getTime()));
         return jsonObject;
     }
 
 
     @Override
     public void fromJsonObject(JSONObject jsonObject) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             this.comprobante= jsonObject.getInt("Comprobante");
             this.importe= jsonObject.getDouble("Importe");
             this.pagado= jsonObject.getBoolean("Pagado");
-        } catch (JSONException e) {
+            this.fechaVencimiento = Calendar.getInstance();
+            this.fechaVencimiento.setTime(sdf.parse(jsonObject.getString("FechadeVecimiento")));
+        } catch (JSONException | ParseException e) {
            e.printStackTrace();
         }
 

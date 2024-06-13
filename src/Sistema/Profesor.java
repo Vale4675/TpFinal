@@ -37,7 +37,12 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
     }
     public Profesor() {
     }
-
+    public void verificarCuotasAlumnos() {
+        for (Alumno alumno : alumnos.alumnoHashSet) {
+            List<Aviso> avisosAlumno = alumno.verificarCuotas();
+            avisosGenerales.addAll(avisosAlumno);
+        }
+    }
 //region Getters and Setters
 
 
