@@ -20,6 +20,7 @@ public class Tarea implements Serializable, I_Convertir_JsonObject, I_From_JsonO
         this.id = id;
         this.fechaEntrega = fechaEntrega;
         this.entregada = entregada;
+        this.descripcion= descripcion;
     }
 
     public Tarea() {

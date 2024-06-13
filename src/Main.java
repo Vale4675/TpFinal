@@ -542,20 +542,6 @@ public class Main {
         int id = scanner.nextInt();
         System.out.println("ingrese la descripcion de la tarea");
         String tareita = scanner.next();
-        /* System.out.println("1 = Fue entregada  ");
-        System.out.println("2 = No fue entregada  ");
-        int n = scanner.nextInt();
-        boolean entrega = false;
-        if(n == 1)
-        {
-            System.out.println("Tarea entregada");
-            entrega = true;
-        }
-        else
-        {
-            System.out.println("La tarea no se entrego");
-        }
-         */
         try {
             System.out.println("Ingrese la fecha");
             String date = scanner.next();
