@@ -73,9 +73,9 @@ public abstract class Persona implements Serializable, I_Convertir_JsonObject,I_
     @Override
     public void fromJsonObject(JSONObject jsonObject) {
         try {
-            String nombre = jsonObject.getString("Nombre");
-            String apellido = jsonObject.getString("Apellido");
-            String mail = jsonObject.getString("mail");
+            this.nombre = jsonObject.getString("Nombre");
+            this.apellido = jsonObject.getString("Apellido");
+            this.mail = jsonObject.getString("mail");
             this.setNombre(nombre);
             this.setApellido(apellido);
             this.setMail(mail);

@@ -16,13 +16,12 @@ public class Recordatorio implements Serializable, I_Convertir_JsonObject, I_Fro
     private Calendar fecha;
     private TipoRecordatorio tipo;
     private String detalle;
-    private int idAlumno;
 
-    public Recordatorio(Calendar fecha, TipoRecordatorio tipo, String detalle, int id) {
+    public Recordatorio(Calendar fecha, TipoRecordatorio tipo, String detalle) {
         this.fecha = fecha;
         this.tipo = tipo;
         this.detalle = detalle;
-        this.idAlumno = id;
+
     }
 
     public Recordatorio() {
@@ -40,10 +39,6 @@ public class Recordatorio implements Serializable, I_Convertir_JsonObject, I_Fro
         return detalle;
     }
 
-    public int getId() {
-        return idAlumno;
-    }
-
 
     @Override
     public String toString() {
@@ -53,30 +48,28 @@ public class Recordatorio implements Serializable, I_Convertir_JsonObject, I_Fro
                 "fecha=" + fechaStr +
                 ", tipo='" + tipo + '\'' +
                 ", detalle='" + detalle + '\'' +
-                ", id=" + idAlumno +
                 '}';
     }
 
     @Override
     public JSONObject convertirJsonObject() throws JSONException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        JSONObject jsonObject= new JSONObject();
+        JSONObject jsonObject = new JSONObject();
         jsonObject.put("Tipo", tipo);
-        jsonObject.put("Detalle",detalle);
-        jsonObject.put("fecha",sdf.format(fecha.getTime()));
-        jsonObject.put("idAlumno",idAlumno);
+        jsonObject.put("Detalle", detalle);
+        jsonObject.put("fecha", sdf.format(fecha.getTime()));
 
         return jsonObject;
     }
 
     @Override
     public void fromJsonObject(JSONObject jsonObject) {
-        try { SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Calendar fecha = Calendar.getInstance();
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            this.fecha = Calendar.getInstance();
             fecha.setTime(sdf.parse(jsonObject.getString("Fecha")));
-            this.idAlumno = jsonObject.getInt("idAlumno");
             this.detalle = jsonObject.getString("Detalle");
-            TipoRecordatorio tipoRecordatorio = TipoRecordatorio.valueOf(jsonObject.getString("Tipo"));
+            this.tipo = TipoRecordatorio.valueOf(jsonObject.getString("Tipo"));
         } catch (JSONException | ParseException e) {
             throw new RuntimeException(e);
         }

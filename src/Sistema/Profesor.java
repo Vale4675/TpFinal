@@ -52,9 +52,9 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
 
 
 
-    public void agregarRecordatorio(Calendar fecha, TipoRecordatorio tipo, String detalle, int id)
+    public void agregarRecordatorio(Calendar fecha, TipoRecordatorio tipo, String detalle)
     {
-        Recordatorio recordatorio = new Recordatorio(fecha,tipo,detalle,id);
+        Recordatorio recordatorio = new Recordatorio(fecha,tipo,detalle);
         recordatorioList.add(recordatorio);
     }
 
@@ -223,13 +223,13 @@ public void listarRecordatorios()throws RecordatorioNoEncontrado
      */
     @Override
     public String toString() {
-        return "Profesor{" + super.toString()+
-                "\npassword='" + password + '\'' +
-                "\nalumnos=" + alumnos +
-                "\navisosGenerales=" + avisosGenerales +
-                "} ";
+        return "Profesor{" + super.toString() +
+                "password='" + password + '\'' +
+                ", alumnos=" + alumnos +
+                ", avisosGenerales=" + avisosGenerales +
+                ", recordatorioList=" + recordatorioList +
+                "} " ;
     }
-
 
     /**
      *
@@ -246,6 +246,15 @@ public void listarRecordatorios()throws RecordatorioNoEncontrado
           jsonArrayAviso.put(a.convertirJsonObject());
         }
         jsonObject.put("AvisosGenerales",jsonArrayAviso);
+
+        JSONArray jsonArrayRecord = new JSONArray();
+        for (Recordatorio r :recordatorioList) {
+            jsonArrayRecord.put(r.convertirJsonObject());
+        }
+        jsonObject.put("Recordatorio",jsonArrayRecord);
+
+
+
         return jsonObject;
     }
 
@@ -269,6 +278,14 @@ public void listarRecordatorios()throws RecordatorioNoEncontrado
                 Aviso aviso = new Aviso();
                 aviso.fromJsonObject(jsonObjectAvisos);
                 this.avisosGenerales.add(aviso);
+            }
+            JSONArray jsonArrayRecord = jsonObject.getJSONArray("Recordatorio");
+            for (int i=0; i<jsonArrayRecord.length();i++)
+            {
+                JSONObject jsonObjectRec = jsonArrayRecord.getJSONObject(i);
+                Recordatorio recordatorio = new Recordatorio();
+                recordatorio.fromJsonObject(jsonObjectRec);
+                this.recordatorioList.add(recordatorio);
             }
 
 
