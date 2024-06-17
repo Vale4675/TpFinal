@@ -69,16 +69,6 @@ public class Cuota implements Serializable, I_Convertir_JsonObject, I_From_JsonO
         Calendar hoy= Calendar.getInstance();
         return !pagado && hoy.after(fechaVencimiento);
     }
-    @Override
-    public String toString() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        return "Cuota{" +
-                "comprobante='" + comprobante + '\'' +
-                ", importe=" + importe +
-                ", pagado=" + pagado +
-               " Fecha de Vecimiento: " + sdf.format(fechaVencimiento.getTime())+
-                '}';
-    }
 
     public static int getContadorComprobante() {
         return contadorComprobante;
@@ -93,6 +83,17 @@ public class Cuota implements Serializable, I_Convertir_JsonObject, I_From_JsonO
      * @return
      * @throws JSONException
      */
+
+    @Override
+    public String toString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return "Cuota{" +
+                "comprobante='" + comprobante + '\'' +
+                ", importe=" + importe +
+                ", pagado=" + pagado +
+                " Fecha de Vecimiento: " + sdf.format(fechaVencimiento.getTime())+
+                '}';
+    }
 
     @Override
     public JSONObject convertirJsonObject() throws JSONException {

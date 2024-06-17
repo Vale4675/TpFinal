@@ -1,7 +1,9 @@
 package Sistema;
 
 import Excepciones.AlumnoNoEncontrado;
+import Excepciones.ColeccionVacia;
 import Excepciones.RecordatorioNoEncontrado;
+import Excepciones.UsuarioYaExiste;
 import Interfaz.I_Convertir_JsonArray;
 import Interfaz.I_Convertir_JsonObject;
 import Interfaz.I_From_JsonObect;
@@ -14,12 +16,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable, I_Convertir_JsonObject, I_From_JsonObect {
+public class Profesor extends Persona implements I_Metodos<Alumno> ,Serializable, I_Convertir_JsonObject, I_From_JsonObect {
 
     private String password;
     private GestionAlumno alumnos;
@@ -55,44 +54,52 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
     // endregion
 
 
-    public void agregarRecordatorio(Calendar fecha, TipoRecordatorio tipo, String detalle) {
-        Recordatorio recordatorio = new Recordatorio(fecha, tipo, detalle);
+    public void agregarRecordatorio(Recordatorio recordatorio) {
         recordatorioList.add(recordatorio);
     }
 
+
     public void eliminarRecordatorio(TipoRecordatorio tipo) throws RecordatorioNoEncontrado {
-        for (Recordatorio r : recordatorioList) {
+        Iterator<Recordatorio> iterator = recordatorioList.iterator();
+        boolean encontrado = false;
+        while (iterator.hasNext()) {
+            Recordatorio r = iterator.next();
             if (r.getTipo().equals(tipo)) {
-                recordatorioList.remove(r);
-                System.out.println("Recordadorio eliminado " + r);
-            } else {
-                System.out.println("recordatorio no encontrado");
+                iterator.remove();
+                encontrado = true;
             }
         }
-        throw new RecordatorioNoEncontrado("No se encontro un recordatorio del tipo especificado");
+
+        if (!encontrado) {
+            throw new RecordatorioNoEncontrado("No se encontraron recordatorios del tipo especificado");
+        }
     }
 
-    /**
-     *
-     * @param tipo
-     * @return
-     * @throws RecordatorioNoEncontrado
-     */
-    public Recordatorio buscarRecordatorio(TipoRecordatorio tipo) throws RecordatorioNoEncontrado {
+    public ArrayList<Recordatorio> buscarRecordatorio(TipoRecordatorio tipo) throws RecordatorioNoEncontrado, ColeccionVacia {
+        ArrayList<Recordatorio> list = new ArrayList<>();
         for (Recordatorio r : recordatorioList) {
             if (r.getTipo().equals(tipo)) {
-                return r;
+                list.add(r);
             }
         }
-        throw new RecordatorioNoEncontrado("No se encontro un recordatorio del tipo especificado");
-    }
-
-    public void listarRecordatorios() throws RecordatorioNoEncontrado {
-        for (Recordatorio r : recordatorioList) {
-            System.out.println(r);
+        if (list.isEmpty()) {
+            throw new ColeccionVacia("No hay recordatorios registrados");
         }
-
+        return list;
     }
+
+    public String listarRecordatorios() throws ColeccionVacia {
+        if (recordatorioList.isEmpty()) {
+            throw new ColeccionVacia("no hay recordatorios ingresados");
+        }
+        Collections.sort(recordatorioList);
+        StringBuilder sb = new StringBuilder();
+        for (Recordatorio r : recordatorioList) {
+            sb.append(r).append("\n");
+        }
+        return sb.toString();
+    }
+
 
     /**
      * recorre el arreglo de alumnos para verificar las cuotas vencidas
@@ -105,12 +112,53 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
         }
     }
 
+    /**
+     * metodos para mandar informacion
+     */
+
+    public void mandarAvisoGenerales(Date fecha, String mensaje)  {
+        Aviso aviso = new Aviso(fecha, mensaje);// creo el aviso
+        for (Alumno alu : alumnos.alumnoHashSet) {// recorro el set de alumnos y envio el aviso
+            alu.recibirAviso(aviso);
+        }
+    }
+
+    public void cobrarCuota(int id, Mes mes, Cuota cuota) throws AlumnoNoEncontrado {
+        Alumno buscado = alumnos.buscar(id);
+        if (buscado != null) {
+            buscado.pagarCuota(mes, cuota);
+        }
+    }
+
+    public void generarComprobantePago(int id, Mes mes) throws AlumnoNoEncontrado {
+        Alumno alumno = alumnos.buscar(id);
+
+        if (alumno != null) {
+            alumno.Comprobante(mes);
+        }
+    }
+
+    public void tomarAsistencia(int id, Date fecha, Boolean asist) throws AlumnoNoEncontrado {
+        Alumno alumno = alumnos.buscar(id);
+        if (alumno != null) {
+            alumno.registrarAsistencia(fecha, asist);
+        }
+    }
 
     /**
-     * Metodos de la interfaz
-     *
-     * @param alumno
+     * @return
      */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        return "Profesor{" + super.toString() +
+                "password='" + password + '\'' +
+                ", alumnos=" + alumnos +
+                ", avisosGenerales=" + avisosGenerales +
+                ", recordatorioList=" + recordatorioList +
+                "} ";
+    }
+
     @Override
     public void agregar(Alumno alumno) {
         alumnos.agregar(alumno);
@@ -139,104 +187,6 @@ public class Profesor extends Persona implements I_Metodos<Alumno>, Serializable
         StringBuilder sb = alumnos.listar();
         return sb;
     }
-
-    /**
-     * Metodos para mandar informacion
-     * @param tarea
-     */
-
-
-    /**
-     * @param tarea
-     */
-    public void mandarTarea(Tarea tarea) {
-        for (Alumno alu : alumnos.alumnoHashSet) {
-            alu.recibirTarea(tarea);
-        }
-    }
-
-
-    /**
-     * @param fecha
-     * @param mensaje
-     */
-    public void mandarAvisoGenerales(Date fecha, String mensaje) {
-        Aviso aviso = new Aviso(fecha, mensaje);// creo el aviso
-        avisosGenerales.add(aviso);             /// lo agrego al array
-        for (Alumno alu : alumnos.alumnoHashSet) {// recorro el set de alumnos y envio el aviso
-            alu.recibirAviso(aviso);
-        }
-    }
-
-
-    /**
-     * @param id
-     * @param fecha
-     * @param mensaje
-     * @throws AlumnoNoEncontrado
-     */
-    public void avisosPersonalisados(int id, Date fecha, String mensaje) throws AlumnoNoEncontrado {
-        Alumno buscado = alumnos.buscar(id);
-        if (buscado != null) {
-            Aviso aviso = new Aviso(fecha, mensaje);
-            buscado.recibirAviso(aviso);
-        }
-    }
-
-
-    public void cobrarCuota(int id, Mes mes, Cuota cuota) throws AlumnoNoEncontrado {
-        Alumno buscado = alumnos.buscar(id);
-        if (buscado != null) {
-            buscado.pagarCuota(mes, cuota);
-        }
-    }
-
-
-    /**
-     * @param id
-     * @param mes
-     * @throws AlumnoNoEncontrado
-     */
-    public void generarComprobantePago(int id, Mes mes) throws AlumnoNoEncontrado {
-        Alumno alumno = alumnos.buscar(id);
-
-        if (alumno != null) {
-            alumno.Comprobante(mes);
-        } else
-            System.out.println(" No se encontro la cuota de ese mes");
-    }
-
-    /**
-     *
-     * @param id
-     * @param fecha
-     * @param asist
-     * @throws AlumnoNoEncontrado
-     */
-    public void tomarAsistencia(int id, Date fecha, Boolean asist) throws AlumnoNoEncontrado {
-        Alumno alumno = alumnos.buscar(id);
-        if (alumno != null) {
-            alumno.registrarAsistencia(fecha, asist);
-
-        } else throw new AlumnoNoEncontrado("no se encontro el alumno");
-
-    }
-
-
-    /**
-     * @return
-     */
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        return "Profesor{" + super.toString() +
-                "password='" + password + '\'' +
-                ", alumnos=" + alumnos +
-                ", avisosGenerales=" + avisosGenerales +
-                ", recordatorioList=" + recordatorioList +
-                "} ";
-    }
-
     /**
      * @return
      * @throws JSONException

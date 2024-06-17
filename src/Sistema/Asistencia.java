@@ -31,6 +31,8 @@ public class Asistencia implements Serializable, I_Convertir_JsonObject, I_From_
         return presente;
     }
 //endregion
+
+
     @Override
     public String toString() {
         return "Asistencia{" +

@@ -17,22 +17,17 @@ import java.util.Iterator;
 
 public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convertir_JsonArray {
 
-    private static int contadorId = 1;
+    private  int contadorId;
     HashSet<Alumno> alumnoHashSet;
 
     public GestionAlumno() {
         this.alumnoHashSet = new HashSet<>();
+        this.contadorId =1;
 
     }
 
-    public HashSet<Alumno> getAlumnoHashSet() {
-        return alumnoHashSet;
-    }
 
-    /**
-     * Metodos de la interfaz
-     * @param alumno
-     */
+    ///metodos de la interfaz
     @Override
     public void agregar(Alumno alumno) {
 
@@ -47,6 +42,10 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
             Alumno alumno = iterator.next();
             if (alumno.getId() == id) {
                 encontrado = true;
+                alumno.eliminarTodosLosRecordatorio();
+                alumno.eliminarTodaLasNota();
+                alumno.eliminarTodosLosAviso();
+                alumno.eliminarTodosLosRecordatorio();
                 iterator.remove();
             }
         }
@@ -56,10 +55,36 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
 
     }
 
-    public Alumno buscarPormail(String mail)
-    {
+    @Override
+    public Alumno buscar(int id) throws AlumnoNoEncontrado {
         boolean encontrado = false;
-        Alumno alumno =null;
+        Alumno alumno = null;
+        Iterator<Alumno> iterator = alumnoHashSet.iterator();
+        while (iterator.hasNext() && !encontrado) {
+            alumno = iterator.next();
+            if (alumno.getId() == id) {
+                encontrado = true;
+                return alumno;
+            }
+        }
+      throw new AlumnoNoEncontrado("Alumno no encontrado");
+
+    }
+
+    @Override
+    public StringBuilder listar() {
+        StringBuilder st = new StringBuilder();
+        Iterator<Alumno> iterator = alumnoHashSet.iterator();
+        while (iterator.hasNext()) {
+            Alumno alumno = iterator.next();
+            st.append(alumno.toString()).append("\n");
+        }
+        return st;
+    }
+
+    public Alumno buscarPormail(String mail) {
+        boolean encontrado = false;
+        Alumno alumno = null;
         Iterator<Alumno> iterator = alumnoHashSet.iterator();
         while (iterator.hasNext() && !encontrado) {
             alumno = iterator.next();
@@ -70,41 +95,6 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
         return alumno;
     }
 
-
-    @Override
-    public Alumno buscar(int id) throws AlumnoNoEncontrado {
-        boolean encontrado = false;
-        Alumno alumno =null;
-        Iterator<Alumno> iterator = alumnoHashSet.iterator();
-        while (iterator.hasNext() && !encontrado) {
-                 alumno = iterator.next();
-            if (alumno.getId() == id) {
-                encontrado = true;
-            }
-        }
-        return alumno;
-    }
-
-    @Override
-    public StringBuilder listar() {
-        StringBuilder st = new StringBuilder();
-        Iterator<Alumno> iterator = alumnoHashSet.iterator();
-        while (iterator.hasNext()) {
-            Alumno alumno = iterator.next();
-            st.append(alumno.toString()).append("\n");
-            System.out.println( "estoy en listar gestion alumnos");
-        }
-        return st;
-    }
-
-    /**
-     * Registra un alumno  lo agrega a la lista
-     * @param nombre
-     * @param apellido
-     * @param mail
-     * @param nivel
-     * @throws UsuarioYaExiste
-     */
     public void registrarAlumno(String nombre, String apellido, String mail, Nivel nivel) throws UsuarioYaExiste {
         Iterator<Alumno> iterator = alumnoHashSet.iterator();
         while (iterator.hasNext()) {
@@ -112,54 +102,50 @@ public class GestionAlumno implements I_Metodos<Alumno>, Serializable, I_Convert
             if (alumno.getMail().equals(mail)) {
                 throw new UsuarioYaExiste("El alumno ya existe");
             }
+            if (alumno.getId()==contadorId)
+            {
+                throw new UsuarioYaExiste("EL ID YA EXISTE");
+            }
         }
-        //si no existe crea y agrega al nuevo alumno
         Alumno alumno = new Alumno(nombre, apellido, mail, nivel);
         alumno.setId(contadorId++);
         alumnoHashSet.add(alumno);
+    }
+
+    public void grabarAlumnos() {
+        try {
+            JSONArray jsonArray = convertirJsonArray();
+            JsonUtiles.grabar(jsonArray, "Alumnos");
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        public void grabarAlumnos()
-        {
-            try {
-                JSONArray jsonArray=convertirJsonArray();
-                JsonUtiles.grabar(jsonArray,"Alumnos");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    public void leerAlumnos()
-    {
+    }
+
+    public void leerAlumnos() {
         String fuente = JsonUtiles.leer("Alumnos");
         System.out.println(fuente);
         try {
             JSONArray jsonArray = new JSONArray(fuente);
-            for(int i=0; i<jsonArray.length();i++)
-            {
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 System.out.println(jsonObject.getString("Nombre"));
 
             }
 
-        }catch (JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-
-    /**
-     *
-     * @return
-     * @throws JSONException
-     */
     @Override
     public JSONArray convertirJsonArray() throws JSONException {
-        JSONArray jsonArrayAlumnos= new JSONArray();
-        for (Alumno a: alumnoHashSet) {
+        JSONArray jsonArrayAlumnos = new JSONArray();
+        for (Alumno a : alumnoHashSet) {
             jsonArrayAlumnos.put(a.convertirJsonObject());
         }
-        return jsonArrayAlumnos ;
+        return jsonArrayAlumnos;
     }
+
     @Override
     public String toString() {
         return "GestionAlumno{" +

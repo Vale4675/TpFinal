@@ -14,6 +14,7 @@ public class Main {
 
 
     private static Scanner scanner = new Scanner(System.in);
+    private static Scanner teclado = new Scanner(System.in);//solo para string
     private static Sistema sistema = new Sistema();
     private static GestionAlumno gestionAlumno = new GestionAlumno();
 
@@ -21,11 +22,10 @@ public class Main {
     public static void main(String[] args) throws PasswordIncorrecto, AlumnoNoEncontrado, UsuarioIncorrecto, UsuarioYaExiste {
 
         try {
-            // sistema = ControladoraDeArchivo.leer("Sistema.dat");
-            System.out.println("Soy sistema" + sistema);
-            //  gestionAlumno = ControladoraDeArchivo.leer("Alumno.dat");
-            System.out.println("Soy Gestion" + gestionAlumno);
-            //  gestionAlumno.leerAlumnos();
+            sistema = ControladoraDeArchivo.leer("Sistema.dat");
+            gestionAlumno = ControladoraDeArchivo.leer("Alumno.dat");
+            //Json
+            gestionAlumno.leerAlumnos();
         } catch (Exception e) {
             System.out.println("Error al leer archivos " + e.getMessage());
         }
@@ -60,7 +60,7 @@ public class Main {
                     recuperarContrasenia();
                     break;
                 case 4:
-                    mostrarInfoProfesor();
+                    System.out.println(sistema.getProfesor().toString());
                     break;
                 case 5:
                     eliminarDatos();
@@ -77,6 +77,8 @@ public class Main {
         try {
             ControladoraDeArchivo.grabar(sistema, "Sistema.dat");
             ControladoraDeArchivo.grabar(gestionAlumno, "Alumno.dat");
+
+            //Json
             gestionAlumno.grabarAlumnos();
 
         } catch (Exception e) {
@@ -86,7 +88,7 @@ public class Main {
 
     }
 
-    //region   Gestion para Usuario
+    //   Gestion para Usuario
     private static void registrarUsuario() {
         System.out.println("Ingrese su Nombre ");
         String nombre = scanner.next();
@@ -98,12 +100,11 @@ public class Main {
         String password = scanner.next();
         try {
             sistema.registrarProfesor(nombre, apellido, mail, password);
-            mostrarInfoProfesor();
-        } catch (UsuarioIncorrecto | AlumnoNoEncontrado e) {
+            System.out.println(nombre);
+        } catch (UsuarioIncorrecto e) {
             System.out.println(e.getMessage());
         }
     }
-
 
     public static Profesor iniciarSesion() throws PasswordIncorrecto, UsuarioIncorrecto, AlumnoNoEncontrado {
         System.out.println("introduce el mail");
@@ -135,16 +136,6 @@ public class Main {
 
     }
 
-    public static void mostrarInfoProfesor() throws AlumnoNoEncontrado {
-        Profesor profesor = sistema.getProfesor();
-        if (profesor != null) {
-            System.out.println(profesor.toString());
-        } else {
-            throw new AlumnoNoEncontrado("Profesor no encontrado");
-        }
-
-    }
-
     public static void eliminarDatos() {
         try {
             System.out.println(" Ingrese el mail");
@@ -160,131 +151,9 @@ public class Main {
         }
     }
 
-    public static void menuProfe(Profesor p) throws UsuarioYaExiste {
 
+///Gestion cuotas
 
-        int opcion;
-        do {
-            System.out.println("------ELIGE UNA OPCION-------");
-            System.out.println(" 1 -> Registrar Alumno");
-            System.out.println(" 2 -> Buscar Alumno");
-            System.out.println(" 3 -> Listar Alumnos");
-            System.out.println(" 4 -> Eliminar Alumno");
-            System.out.println(" 5 -> Tomar asistencia");
-            System.out.println(" 6 -> Mandar aviso personalisado");
-            System.out.println(" 7 -> Mandar aviso general");
-            System.out.println(" 8 -> Mandar Tarea");
-            System.out.println(" 9 -> Mandar nota");
-            System.out.println(" 10 -> Agregar cuota ");
-            System.out.println(" 11 -> Verificar Cuota Vencida");
-            System.out.println(" 12 -> Imprimir comprobante");
-            System.out.println(" 13 -> Agenda ");
-            System.out.println(" 14 -> Menu anterior");
-            opcion = scanner.nextInt();
-            scanner.nextLine();
-            switch (opcion) {
-                case 1:
-                    registrandoAlumno();
-                    break;
-                case 2:
-                    buscarAlumno();
-                    break;
-                case 3:
-                    listarAlumnos();
-                    break;
-                case 4:
-                    eliminarAlumno();
-                    break;
-                case 5:
-                    registrarAsistencia();
-                    break;
-                case 6:
-                    mandarAviso();
-                case 7:
-                    mandarAvisoGeneral();
-                    break;
-                case 8:
-                    mandarTarea();
-                    break;
-                case 9:
-                    mandarNota();
-                    break;
-                case 10:
-                    agregarCuotaMenu();
-                    break;
-                case 11:
-                    verificarCuotasMenu();
-                    break;
-                case 12:
-                    generarComprobanteMenu();
-                    break;
-                case 13:
-                    menuRecordatorio();
-                    break;
-                case 14:
-                    System.out.println("Volviendo al menu anterior");
-                    break;
-
-                default:
-                    System.out.println("Opcion invalida");
-
-            }
-        } while (opcion != 14);
-
-    }
-
-
-//endregion
-///Gestion recordatorio
-
-    private static void menuRecordatorio() {
-        int opcion;
-        do {
-            System.out.println("Gestionar recordatorio");
-            System.out.println(" 1 -> Agregar recordatorio");
-            System.out.println(" 2 -> Listar recordatorio");
-            System.out.println(" 3 -> Buscar recordatorio");
-            System.out.println(" 4 -> Eliminar recordatorio");
-            System.out.println(" 5 -> Volver al Menu anterior");
-            opcion = scanner.nextInt();
-            switch (opcion) {
-                case 1:
-                    agregarRecordatorioMenu();
-                    break;
-                case 2:
-                    listarRecordatorioMenu();
-                    break;
-                case 3:
-                    buscarRecordatorioMain();
-                    break;
-                case 4:
-                    eliminarRecordatorioMain();
-                    break;
-                case 5:
-                    System.out.println("Volviendo al menu anterior");
-                    break;
-                default:
-                    System.out.println("Opcion invalida");
-            }
-        } while (opcion != 5);
-    }
-
-    private static void listarRecordatorioMenu() {
-        try {
-            Profesor profesor = sistema.getProfesor();
-            if (profesor != null) {
-                profesor.listarRecordatorios();
-            }
-        } catch (RecordatorioNoEncontrado e) {
-            System.out.println("Recordatorio no encontrado");
-        }
-
-
-    }
-
-    /**
-     * se cobra la cuota y se agrega al alumno y profesor
-     */
     private static void agregarCuotaMenu() {
         try {
             System.out.println("Ingrese el ID del alumno:");
@@ -300,7 +169,7 @@ public class Main {
             Cuota cuota = new Cuota(importe, fechaVencimiento);
             cuota.setPagado(true);
             alumno.pagarCuota(mes, cuota);
-            sistema.getProfesor().cobrarCuota(id,mes,cuota);
+            sistema.getProfesor().cobrarCuota(id, mes, cuota);
             System.out.println("Cuota agregada con éxito.");
         } catch (AlumnoNoEncontrado e) {
             System.out.println(e.getMessage());
@@ -335,7 +204,7 @@ public class Main {
     }
 
 
-
+    //Gestion recordatorio
 
     private static void agregarRecordatorioMenu() {
         Calendar fecha = agregarRecordatorio();
@@ -343,19 +212,19 @@ public class Main {
         String detalle = obtenerDetalle();
         System.out.println("El recordatorio es para un alumno en particular s/n");
         String rta = scanner.next().toUpperCase();
+        Recordatorio recordatorio = new Recordatorio(fecha, tp, detalle);
         if (rta.equalsIgnoreCase("s")) {
             int id = obtenerIdAlumno();
             try {
                 Alumno alumno = gestionAlumno.buscar(id);
-                Recordatorio recordatorio = new Recordatorio(fecha, tp, detalle);
                 alumno.recibirRecordatorio(recordatorio);
-                sistema.getProfesor().agregarRecordatorio(fecha, tp, detalle);
+                sistema.getProfesor().agregarRecordatorio(recordatorio);
                 System.out.println(" El recordatorio ha sido agregado al alumno  " + alumno.getNombre());
             } catch (AlumnoNoEncontrado e) {
                 System.out.println(e.getMessage());
             }
         } else {
-            sistema.getProfesor().agregarRecordatorio(fecha, tp, detalle);
+            sistema.getProfesor().agregarRecordatorio(recordatorio);
             System.out.println("  El recordatorio General ah sido realizado");
         }
 
@@ -369,14 +238,13 @@ public class Main {
         if (rta.equalsIgnoreCase("s")) {
             usarFecha = true;
         }
-        Calendar fecha = obtenerFechaYHora(usarFecha);
-        System.out.println(" usar fecha " + usarFecha);
+        Calendar fecha = obtenerFecha(usarFecha);
         return fecha;
     }
 
     private static TipoRecordatorio obtenerTipoRecordatorio() {
         try {
-            System.out.println(" Tipo de recordatorio ->  EXAMEN, PAGO_CUOTA, REUNION_PADRE, TAREA, FECHA_LIMITE ");
+            System.out.println(" Tipo de recordatorio ->  EXAMEN, PAGO_DE_CUOTA, REUNION_DE_PADRE, ENTREGAR_TAREA, FECHA_LIMITE_PARA_ENTREGAR ");
             String tipo = scanner.next().toUpperCase();
             return TipoRecordatorio.valueOf(tipo);
         } catch (IllegalArgumentException e) {
@@ -396,28 +264,23 @@ public class Main {
     }
 
 
-    private static Calendar obtenerFechaYHora(Boolean usarFecha) {
-        Calendar fecha = null;
+    private static Calendar obtenerFecha(Boolean usarFecha) {
+        Calendar fecha = Calendar.getInstance();
         if (!usarFecha) {
             System.out.println("Ingrese la fecha  (dd,MM,yyyy):");
             String fechaStr = scanner.next();
-            System.out.println("Ingrese la hora");
-            String horaStr = scanner.next();
             try {
-                //divide la cadena de texto separadas po coma
+                //divide la cadena de texto separadas por  coma
                 String[] fechaC = fechaStr.split(",");
                 int dia = Integer.parseInt(fechaC[0]);
                 int mes = Integer.parseInt(fechaC[1]);
                 int anio = Integer.parseInt(fechaC[2]);
-                String[] horaC = horaStr.split(",");
-                int hora = Integer.parseInt(horaC[0]);
-                int minuto = Integer.parseInt(fechaC[1]);
-                fecha.set(anio, mes, dia, hora, minuto);
+                fecha.set(anio, mes, dia, 0, 0, 0);
             } catch (Exception e) {
                 System.out.println("Formato no valido" + e.getMessage());
+                return null;
             }
         } else {
-            fecha = Calendar.getInstance();
             System.out.println(" Fecha y hora actuales " + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(fecha.getTime()));
         }
 
@@ -425,39 +288,32 @@ public class Main {
     }
 
     private static void eliminarRecordatorioMain() {
-        System.out.println("Tipo de recordatorio ->  EXAMEN , PAGO_CUOTA, REUNION_PADRE, TAREA, FECHA_LIMITE ");
-        String tipo = scanner.next().toUpperCase();
-        TipoRecordatorio tp = TipoRecordatorio.valueOf(tipo);
+        TipoRecordatorio tp = obtenerTipoRecordatorio();
         try {
-            Recordatorio recordatorio = sistema.getProfesor().buscarRecordatorio(tp);
             sistema.getProfesor().eliminarRecordatorio(tp);
-            System.out.println("El recordatorio " + recordatorio + " ha sido eliminado");
+            System.out.println("Los recordatorios han sido eliminados de la lista del profesor");
         } catch (RecordatorioNoEncontrado e) {
-            System.out.println("Recordatorio no encontrado");
+            System.out.println(e.getMessage());
         }
-
-
     }
 
     private static void buscarRecordatorioMain() {
-        System.out.println("Tipo de recordatorio ->  EXAMEN, PAGO_CUOTA, REUNION_PADRE, TAREA, FECHA_LIMITE ");
-        String tipo = scanner.next().toUpperCase();
-        TipoRecordatorio tp = TipoRecordatorio.valueOf(tipo);
+        TipoRecordatorio tp = obtenerTipoRecordatorio();
         try {
-            Recordatorio recordatorio = sistema.getProfesor().buscarRecordatorio(tp);
-            System.out.println("El recordatorio es " + recordatorio);
-        } catch (RecordatorioNoEncontrado e) {
+            ArrayList<Recordatorio> recordatorios = sistema.getProfesor().buscarRecordatorio(tp);
+            System.out.println("El recordatorio es " + recordatorios);
+        } catch (RecordatorioNoEncontrado | ColeccionVacia e) {
             System.out.println("Recordatorio no encontrado");
         }
     }
 
-
+    //Gestion profesor
     private static void registrarAsistencia() {
 
         System.out.println("ingrese id del alumno");
         int id = scanner.nextInt();
         System.out.println("ingrese la fecha dd,mm,yyyy");
-        String fechita = scanner.next();
+        String fechita = teclado.nextLine();
         Date fecha = null;
         try {
             fecha = new SimpleDateFormat("dd,MM,yyyy").parse(fechita);
@@ -491,105 +347,61 @@ public class Main {
 
     }
 
-    private static void mostrarInfoAlumno(Alumno a) throws AlumnoNoEncontrado {
-        if (a != null) {
-            System.out.println(a.toString());
-        } else {
-            throw new AlumnoNoEncontrado("Alumno no encontrado");
-        }
-    }
-
+    /**
+     * manda a todos los alumnos un aviso general y el
+     * Hashset de alumnos lo recibe
+     */
     private static void mandarAvisoGeneral() {
         System.out.println("ingrese el aviso");
-        String aviso = scanner.next();
+        String descp = scanner.next();
         try {
             System.out.println("Ingrese la fecha");
-            String date = scanner.next();
-            Date fecha = null;
-            fecha = new SimpleDateFormat("dd,MM,yyyy").parse(date);
-            Aviso avisito = new Aviso(fecha, aviso);
-            for (Alumno a : gestionAlumno.getAlumnoHashSet()) {
-                a.recibirAviso(avisito);
-            }
-            sistema.getProfesor().mandarAvisoGenerales(fecha, aviso);
-
+            String date = teclado.nextLine();
+            Date fecha = new SimpleDateFormat("dd,MM,yyyy").parse(date);
+            sistema.getProfesor().mandarAvisoGenerales(fecha, descp);
         } catch (ParseException e) {
             System.out.println("formato no valido");
         }
     }
 
-    private static void mandarAviso() {
-        System.out.println("ingrese el id del alumno");
-        int id = scanner.nextInt();
+    private static void mandarAvisoPersonalisado() {
+        int id = obtenerIdAlumno();
         System.out.println("ingrese el aviso");
-        String aviso = scanner.next();
+        String descp = teclado.nextLine();
         try {
             System.out.println("Ingrese la fecha");
-            String date = scanner.next();
-            Date fecha = null;
-            fecha = new SimpleDateFormat("dd,MM,yyyy").parse(date);
-            Aviso avisito = new Aviso(fecha, aviso);
+            String date = teclado.nextLine();
+            Date fecha = new SimpleDateFormat("dd,MM,yyyy").parse(date);
             Alumno alumno = gestionAlumno.buscar(id);
-            alumno.recibirAviso(avisito);
-            sistema.getProfesor().avisosPersonalisados(id, fecha, aviso);
-        } catch (ParseException | AlumnoNoEncontrado e) {
-            System.out.println("formato no valido");
+            Aviso aviso = new Aviso(fecha, descp);
+            alumno.recibirAviso(aviso);
+        } catch (ParseException e) {
+            System.out.println("formato no valido" + e.getMessage());
+        } catch (AlumnoNoEncontrado e) {
+            System.out.println(e.getMessage());
         }
     }
 
     private static void mandarTarea() {
-        System.out.println("ingrese el id del alumno");
-        int id = scanner.nextInt();
+        int id = obtenerIdAlumno();
         System.out.println("ingrese la descripcion de la tarea");
         String tareita = scanner.next();
         try {
             System.out.println("Ingrese la fecha");
-            String date = scanner.next();
+            String date = teclado.nextLine();
             Date fecha = new SimpleDateFormat("dd,MM,yyyy").parse(date);
             Tarea tarea = new Tarea(id, tareita, fecha, false);
             Alumno alumno = gestionAlumno.buscar(id);
             alumno.recibirTarea(tarea);//el alumno recibe la tarea
-            sistema.getProfesor().mandarTarea(tarea); // se guarda la tarea en el profesor
             System.out.println(" Tarea enviada al alumno " + alumno.getNombre());
+
         } catch (ParseException e) {
             System.out.println("formato no valido");
         } catch (AlumnoNoEncontrado e) {
             System.out.println(e.getMessage());
-            ;
         }
 
     }
-/*
-    private static void cobrarCuota() {
-        System.out.println("ingrese el id del alumno");
-        int id = scanner.nextInt();
-        System.out.println("Ingrese el mes de la cuota Ej ENERO,FEBRERO...");
-        String mes = scanner.next();
-        Mes m = Mes.valueOf(mes);
-        System.out.println("ingrese el monto");
-        double monto = scanner.nextDouble();
-        System.out.println("1= Pagado ");
-        System.out.println("2= No Pagado ");
-        int n = scanner.nextInt();
-        boolean pagado = false;
-        try {
-            if (n == 1) {
-                pagado = true;
-                Cuota cuota = new Cuota(monto, pagado);
-                System.out.println("Comprobante de pago Clases de ingles ");
-                System.out.println("Comprobante n°  " + c);
-                System.out.println("Mes " + mes);
-                System.out.println("Monto " + monto);
-                Alumno alumno = gestionAlumno.buscar(id);
-                sistema.getProfesor().cobrarCuota(id, m, cuota);
-                sistema.getProfesor().generarComprobantePago(id, m);
-                alumno.pagarCuota(m, cuota);
-            }
-        } catch (AlumnoNoEncontrado e) {
-            System.out.println(e.getMessage());
-        }
-    }*/
-
 
     private static void mandarNota() {
         System.out.println("escribe el id del alumno");
@@ -597,7 +409,7 @@ public class Main {
         System.out.println("Escribe la calificacion");
         double nota = scanner.nextInt();
         System.out.println("Escribe comentario");
-        String comentario = scanner.next();
+        String comentario = teclado.nextLine();
         try {
             Alumno alumno = gestionAlumno.buscar(id);
             Nota notita = new Nota(nota, comentario);
@@ -611,11 +423,7 @@ public class Main {
 
     }
 
-
-//region   Gestion para alumnos
-
-
-    private static void registrandoAlumno() {
+    private static void registrarAlumnoMenu() {
         try {
             System.out.println("Nombre del alumno");
             String nombre = scanner.next();
@@ -629,7 +437,7 @@ public class Main {
             gestionAlumno.registrarAlumno(nombre, apellido, mail, nivel);
             Alumno alumno = gestionAlumno.buscarPormail(mail);
             sistema.getProfesor().agregar(alumno);
-            System.out.println("El alumno " + nombre + "con id" + alumno.getId() + " ha sido registrado con exito\n");
+            System.out.println("El alumno " + nombre + " con id " + alumno.getId() + " ha sido registrado con exito\n");
 
         } catch (UsuarioYaExiste e) {
             System.out.println(e.getMessage());
@@ -638,39 +446,137 @@ public class Main {
         }
     }
 
-
-    private static void buscarAlumno() {
-        System.out.println("ingrese el id del alumno");
-        int id = scanner.nextInt();
-
+    private static void buscarAlumnoMenu() {
+        int id = obtenerIdAlumno();
         try {
             Alumno alumno = gestionAlumno.buscar(id);
-            mostrarInfoAlumno(alumno);
+            System.out.println(alumno.toString());
         } catch (AlumnoNoEncontrado e) {
             System.out.println(e.getMessage());
         }
 
     }
 
-
-    private static void listarAlumnos() {
-        System.out.println("estoy en listar alumno main");
-        StringBuilder sb = gestionAlumno.listar();
-        System.out.println(sb);
-    }
-
-
     private static void eliminarAlumno() {
-        System.out.println("ingrese el id");
-        int id = scanner.nextInt();
+        int id = obtenerIdAlumno();
         try {
             gestionAlumno.eliminar(id);
             System.out.println("El alumno con el id " + id + " ha sido eliminado\n");
-            sistema.getProfesor().eliminar(id);
         } catch (AlumnoNoEncontrado e) {
             System.out.println(e.getMessage());
         }
 
     }
-    //endregion
+
+    //menu
+    public static void menuProfe(Profesor p) throws UsuarioYaExiste {
+
+
+        int opcion;
+        do {
+            System.out.println("------ELIGE UNA OPCION-------");
+            System.out.println(" 1 -> Registrar Alumno");
+            System.out.println(" 2 -> Buscar Alumno");
+            System.out.println(" 3 -> Listar Alumnos");
+            System.out.println(" 4 -> Eliminar Alumno");
+            System.out.println(" 5 -> Tomar asistencia");
+            System.out.println(" 6 -> Mandar aviso personalisado");
+            System.out.println(" 7 -> Mandar aviso general");
+            System.out.println(" 8 -> Mandar Tarea");
+            System.out.println(" 9 -> Mandar nota");
+            System.out.println(" 10 -> Agregar cuota ");
+            System.out.println(" 11 -> Verificar Cuota Vencida");
+            System.out.println(" 12 -> Imprimir comprobante");
+            System.out.println(" 13 -> Agenda ");
+            System.out.println(" 14 -> Menu anterior");
+            opcion = scanner.nextInt();
+            scanner.nextLine();
+            switch (opcion) {
+                case 1:
+                    registrarAlumnoMenu();
+                    break;
+                case 2:
+                    buscarAlumnoMenu();
+                    break;
+                case 3:
+                    System.out.println(gestionAlumno.listar());
+                    break;
+                case 4:
+                    eliminarAlumno();
+                    break;
+                case 5:
+                    registrarAsistencia();
+                    break;
+                case 6:
+                    mandarAvisoPersonalisado();
+                case 7:
+                    mandarAvisoGeneral();
+                    break;
+                case 8:
+                    mandarTarea();
+                    break;
+                case 9:
+                    mandarNota();
+                    break;
+                case 10:
+                    agregarCuotaMenu();
+                    break;
+                case 11:
+                    verificarCuotasMenu();
+                    break;
+                case 12:
+                    generarComprobanteMenu();
+                    break;
+                case 13:
+                    menuRecordatorio();
+                    break;
+                case 14:
+                    System.out.println("Volviendo al menu anterior");
+                    break;
+
+                default:
+                    System.out.println("Opcion invalida");
+
+            }
+        } while (opcion != 14);
+
+    }
+
+    private static void menuRecordatorio() {
+        int opcion;
+        do {
+            System.out.println("Gestionar recordatorio");
+            System.out.println(" 1 -> Agregar recordatorio");
+            System.out.println(" 2 -> Listar recordatorio");
+            System.out.println(" 3 -> Buscar recordatorio");
+            System.out.println(" 4 -> Eliminar recordatorio");
+            System.out.println(" 5 -> Volver al Menu anterior");
+            opcion = scanner.nextInt();
+            switch (opcion) {
+                case 1:
+                    agregarRecordatorioMenu();
+                    break;
+                case 2:
+                    try {
+                        System.out.println(sistema.getProfesor().listarRecordatorios());
+                    } catch (ColeccionVacia e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 3:
+                    buscarRecordatorioMain();
+                    break;
+                case 4:
+                    eliminarRecordatorioMain();
+                    break;
+                case 5:
+                    System.out.println("Volviendo al menu anterior");
+                    break;
+                default:
+                    System.out.println("Opcion invalida");
+            }
+        } while (opcion != 5);
+    }
+
+
 }

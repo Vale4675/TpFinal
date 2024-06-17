@@ -11,7 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class Recordatorio implements Serializable, I_Convertir_JsonObject, I_From_JsonObect {
+public class Recordatorio implements Comparable<Recordatorio> ,Serializable, I_Convertir_JsonObject, I_From_JsonObect {
 
     private Calendar fecha;
     private TipoRecordatorio tipo;
@@ -21,7 +21,6 @@ public class Recordatorio implements Serializable, I_Convertir_JsonObject, I_Fro
         this.fecha = fecha;
         this.tipo = tipo;
         this.detalle = detalle;
-
     }
 
     public Recordatorio() {
@@ -35,21 +34,6 @@ public class Recordatorio implements Serializable, I_Convertir_JsonObject, I_Fro
         return tipo;
     }
 
-    public String getDetalle() {
-        return detalle;
-    }
-
-    public void setFecha(Calendar fecha) {
-        this.fecha = fecha;
-    }
-
-    public void setTipo(TipoRecordatorio tipo) {
-        this.tipo = tipo;
-    }
-
-    public void setDetalle(String detalle) {
-        this.detalle = detalle;
-    }
 
     @Override
     public String toString() {
@@ -87,4 +71,16 @@ public class Recordatorio implements Serializable, I_Convertir_JsonObject, I_Fro
 
 
     }
+
+    /**
+     * para ordenar los reccordatorios
+     * @param o the object to be compared.
+     * @return
+     */
+    @Override
+    public int compareTo(Recordatorio o) {
+        return this.fecha.compareTo(o.getFecha());
+    }
+
+
 }
